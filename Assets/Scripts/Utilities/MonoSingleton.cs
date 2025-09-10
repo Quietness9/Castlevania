@@ -34,7 +34,6 @@ public class MonoSingleton<T>  : MonoBehaviour where T : MonoBehaviour
         {
             Debug.LogWarning($"重复单例实例{typeof(T).Name},破坏单例.");
             Destroy(gameObject);
-            return;
         }
     }
 

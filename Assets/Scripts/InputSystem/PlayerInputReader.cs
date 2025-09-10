@@ -23,10 +23,14 @@ namespace GameInputSystem
 
         }
 
-        private void OnDestroy()
+        private void OnDisable()
         {
             CloseAllInput();
-            ClearAllEvent();
+        }
+
+        private void OnDestroy()
+        {
+            DisposeAllRes();
         }
 
         /// <summary>
@@ -43,7 +47,26 @@ namespace GameInputSystem
         /// </summary>
         private void CloseAllInput()
         {
-            _gameInput.Player.Disable();
+            if(_gameInput != null)
+            {
+                _gameInput.Player.Disable();
+            }
+            
+        }
+
+        /// <summary>
+        /// 清理资源
+        /// </summary>
+        public void DisposeAllRes()
+        {
+            CloseAllInput();
+            ClearAllEvent();
+
+            if (_gameInput != null)
+            {
+                _gameInput.Dispose();
+                _gameInput = null;
+            }
         }
 
         /// <summary>
@@ -57,7 +80,7 @@ namespace GameInputSystem
 
         public void OnMove(InputAction.CallbackContext context)
         {
-            throw new System.NotImplementedException();
+            
         }
     }
 
