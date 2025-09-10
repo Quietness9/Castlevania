@@ -1,18 +1,34 @@
+using GameInputSystem;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : Character
 {
-    // Start is called before the first frame update
-    void Start()
+    public PlayerInputReader PlayerInput;
+
+    #region ״状态
+
+    public PlayerIdle IdleState { get;private set; }
+
+    public PlayerMove MoveState { get;private set; }
+
+    #endregion
+
+    protected override void Awake()
     {
-        
+        base.Awake();
+        IdleState = new PlayerIdle(this, CharacterStateMachine, "Idle");
+        MoveState = new PlayerMove(this, CharacterStateMachine, "Move");
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        
+        CharacterStateMachine.InitState(IdleState);
+    }
+
+    private void Update()
+    {
+        CharacterStateMachine.CurrentState.Update();
     }
 }
