@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-[CreateAssetMenu(menuName ="PlayerMoveData")]
+[CreateAssetMenu(fileName ="New Move Data",menuName = "PlayerData/MoveData")]
 public class PlayerMoveData : ScriptableObject
 {
     public float MaxSpeed;
