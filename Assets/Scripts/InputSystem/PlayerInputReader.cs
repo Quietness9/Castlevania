@@ -6,10 +6,13 @@ using UnityEngine.InputSystem;
 
 namespace GameInputSystem
 {
-    [CreateAssetMenu(menuName ="PlayerInputData")]
+    [CreateAssetMenu(fileName ="New Input Data",menuName ="PlayerData/InputData")]
     public class PlayerInputReader:ScriptableObject,GameInput.IPlayerActions
     {
         GameInput _gameInput;
+
+        //playerController
+        public event Action<Vector2> MoveEvent=delegate { };
 
         private void OnEnable()
         {
@@ -80,7 +83,7 @@ namespace GameInputSystem
 
         public void OnMove(InputAction.CallbackContext context)
         {
-            
+            MoveEvent.Invoke(context.ReadValue<Vector2>());
         }
     }
 
