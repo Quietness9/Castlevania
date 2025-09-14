@@ -11,11 +11,13 @@ public class PlayerIdle : PlayerState
     public override void Enter()
     {
         base.Enter();
+        
     }
 
     public override void Update()
     {
         base.Update();
+
         if (player.Hor!=0)
         {
             baseStateMachine.ChangeState(player.MoveState);
@@ -26,4 +28,6 @@ public class PlayerIdle : PlayerState
     {
         base.Exit();
     }
+
+    
 }

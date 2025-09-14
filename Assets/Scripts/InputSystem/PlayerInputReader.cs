@@ -13,6 +13,9 @@ namespace GameInputSystem
 
         //playerController
         public event Action<Vector2> MoveEvent=delegate { };
+        public event Action JumpDownEvent=delegate { };
+        public event Action JumpUpEvent=delegate { };
+
 
         private void OnEnable()
         {
@@ -84,6 +87,19 @@ namespace GameInputSystem
         public void OnMove(InputAction.CallbackContext context)
         {
             MoveEvent.Invoke(context.ReadValue<Vector2>());
+        }
+
+        public void OnJump(InputAction.CallbackContext context)
+        {
+            if (context.phase ==InputActionPhase.Started)
+            {
+                JumpDownEvent.Invoke();
+            }
+
+            if (context.phase == InputActionPhase.Canceled)
+            {
+                JumpUpEvent.Invoke();
+            }
         }
     }
 

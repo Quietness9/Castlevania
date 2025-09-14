@@ -1,4 +1,5 @@
 using GameInputSystem;
+using System;
 using UnityEngine;
 
 public class Player : Character
@@ -12,13 +13,22 @@ public class Player : Character
     public float Hor { get;private set; }
     public float Vert { get;private set; }
 
-    public float LastOnGroundTime { get; private set; }
+    //跳跃
+    public bool IsJumpCut { get;set; }
+    public bool IsJumpFalling { get;set; }
+    public bool IsJumping { get;set; }
 
-    #region ״状态
+    //Timer
+    public float LastOnGroundTime { get;set; }
+    public float LastPressedJumpTime { get;set; }
+
+
+    #region 状态
 
     public PlayerIdle IdleState { get; private set; }
 
     public PlayerMove MoveState { get; private set; }
+    public PlayerJumpState JumpState { get; private set; }
 
     #endregion
 
@@ -27,6 +37,7 @@ public class Player : Character
         base.Awake();
         IdleState = new PlayerIdle(this, CharacterStateMachine, "Idle");
         MoveState = new PlayerMove(this, CharacterStateMachine, "Move");
+        JumpState = new PlayerJumpState(this, CharacterStateMachine, "Jump");
     }
 
     private void Start()
@@ -36,9 +47,22 @@ public class Player : Character
 
     private void Update()
     {
-        LastOnGroundTime -= Time.deltaTime;
+        LastOnGroundTime -= Time.deltaTime;      
+        LastPressedJumpTime -= Time.deltaTime;
+
+        if (!IsJumping)
+        {
+            if (base.IsGroundCheck())
+            {
+                LastOnGroundTime = MoveData.coyoteTime;
+            }
+        } 
+
+
         CharacterStateMachine.CurrentState.Update();
     }
+
+    
 
     private void OnDestroy()
     {
@@ -55,21 +79,6 @@ public class Player : Character
 
         CharacterStateMachine.InitState(IdleState);
         PlayerInput.MoveEvent += GetDirectionHandle;
-    }
-
-    /// <summary>
-    /// 重写玩家地面检测
-    /// </summary>
-    /// <returns></returns>
-    public override bool IsGroundCheck()
-    {
-        if (base.IsGroundCheck())
-        {
-            LastOnGroundTime = 0.1f;
-            return true;
-        }
-
-        return false;
     }
 
     #region EventHandle

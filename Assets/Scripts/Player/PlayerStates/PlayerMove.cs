@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PlayerMove : PlayerState
 {
+    PlayerMoveData _moveData;
 
     public PlayerMove(Character character, StateMachine stateMachine, string animationName) : base(character, stateMachine, animationName)
     {
@@ -14,17 +15,17 @@ public class PlayerMove : PlayerState
     public override void Enter()
     {
         base.Enter();
+        _moveData=player.MoveData;
     }
 
     public override void Update()
     {
         base.Update();
-
-        player.IsGroundCheck();
         Move();
 
         if (player.Hor == 0)
         {
+            FrictionPlayer();
             baseStateMachine.ChangeState(player.IdleState);
         }
         
@@ -36,35 +37,59 @@ public class PlayerMove : PlayerState
     }
 
     
-
+    /// <summary>
+    /// 移动
+    /// </summary>
     private void Move()
     {   
 
-        float targetSpeed = player.Hor * player.MoveData.MaxSpeed;
+        float targetSpeed = player.Hor * _moveData.MaxMoveSpeed;
 
         float accelRate;
 
         if (player.LastOnGroundTime > 0)
         {
-            accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? player.MoveData.AccelForce : player.MoveData.DecreForce;
+            accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? _moveData.AccelForce : _moveData.DecreForce;
         }
 
         else
         {
-            accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? player.MoveData.AccelForce * player.MoveData.AccelInAir 
-                : player.MoveData.DecreForce * player.MoveData.DecreInAir;
+            accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? _moveData.AccelForce * _moveData.AccelInAir 
+                : _moveData.DecreForce * _moveData.DecreInAir;
         }
 
-        if(player.MoveData.doConserveMomentum && Mathf.Abs(player.Rb.velocity.x) > Mathf.Abs(targetSpeed) && 
-            Mathf.Sign(player.Rb.velocity.x) == Mathf.Sign(targetSpeed) && Mathf.Abs(targetSpeed) > 0.01f &&player.LastOnGroundTime < 0)
+        //在跳跃的顶点增加加速度和最大速度，使跳跃感觉更有弹性，反应灵敏和自然
+        if ((player.IsJumping||player.IsJumpFalling) && Mathf.Abs(rb.velocity.y) < _moveData.JumpHangTimeThreshold)
+        {
+            accelRate*=_moveData.JumpHangAccelerationMult;
+            targetSpeed*=_moveData.JumpHangMaxSpeedMult;
+        }
+
+        if(_moveData.doConserveMomentum && Mathf.Abs(rb.velocity.x) > Mathf.Abs(targetSpeed) && 
+            Mathf.Sign(rb.velocity.x) == Mathf.Sign(targetSpeed) && Mathf.Abs(targetSpeed) > 0.01f &&player.LastOnGroundTime < 0)
         {
             accelRate = 0;
         }
 
-        float speedDif = targetSpeed - player.Rb.velocity.x;
+        float speedDif = targetSpeed - rb.velocity.x;
         float movement = speedDif * accelRate;
 
-        player.Rb.AddForce(movement * Vector2.right, ForceMode2D.Force);
+        rb.AddForce(movement * Vector2.right, ForceMode2D.Force);
 
+    }
+
+    /// <summary>
+    /// 增加玩家摩擦力
+    /// </summary>
+    private void FrictionPlayer()
+    {
+        if (player.LastOnGroundTime > 0 && Mathf.Abs(player.Hor) < 0.01f)
+        {
+            float force = _moveData.FrictionForce;
+            force *= Mathf.Sign(rb.velocity.x);
+
+            player.Rb.AddForce(Vector2.right * -force, ForceMode2D.Impulse);
+
+        }
     }
 }
