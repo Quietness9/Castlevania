@@ -339,7 +339,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _groundCheckPoint: {fileID: 822811518}
-  _groundCheckSize: {x: 0.49, y: 0.08}
+  _groundCheckSize: {x: 0.5, y: 0.1}
   _groundLayer:
     serializedVersion: 2
     m_Bits: 64

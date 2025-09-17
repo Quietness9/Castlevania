@@ -22,6 +22,8 @@ public class PlayerIdle : PlayerState
         {
             baseStateMachine.ChangeState(player.MoveState);
         }
+
+        
     }
 
     public override void Exit()
