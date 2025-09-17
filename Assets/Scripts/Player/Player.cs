@@ -20,7 +20,6 @@ public class Player : Character
 
     //Timer
     public float LastOnGroundTime { get;set; }
-    public float LastPressedJumpTime { get;set; }
 
 
     #region 状态
@@ -48,7 +47,6 @@ public class Player : Character
     private void Update()
     {
         LastOnGroundTime -= Time.deltaTime;      
-        LastPressedJumpTime -= Time.deltaTime;
 
         if (!IsJumping)
         {

@@ -5,17 +5,19 @@ using UnityEngine;
 public class PlayerJumpState : PlayerState
 {
     PlayerMoveData _moveData;
+    float gravityScale;
 
     public PlayerJumpState(Character character, StateMachine stateMachine, string animationName) : base(character, stateMachine, animationName)
     {
-        player.PlayerInput.JumpDownEvent += JumpDownHandle;
-        player.PlayerInput.JumpUpEvent += JumpUpHandle;
     }
 
     public override void Enter()
     {
         base.Enter();
         _moveData=player.MoveData;
+        gravityScale=rb.gravityScale;
+
+        Jump();
     }
 
     public override void Update()
@@ -23,25 +25,32 @@ public class PlayerJumpState : PlayerState
         base.Update();
         player.Animator_CT.SetFloat("yVelocity", rb.velocity.y);
 
+
         JumpController();
         SelectGravity();
 
-        //if (player.IsGroundCheck())
-        //{
-        //    baseStateMachine.ChangeState(player.IdleState);
-        //}
+        if (!player.IsJumping&&!player.IsJumpFalling)
+        {
+            baseStateMachine.ChangeState(player.IdleState);
+        }
     }
 
   
     public override void Exit()
     {
         base.Exit();
+
+        rb.gravityScale = gravityScale;
+        rb.velocity=new Vector3(rb.velocity.x,0);
+        player.Animator_CT.SetFloat("yVelocity", rb.velocity.y);
     }
 
     private void Jump()
     {
+        player.IsJumping = true;
+        player.IsJumpFalling = false;
+
         //确保不能多次跳跃
-        player.LastPressedJumpTime = 0;
         player.LastOnGroundTime = 0;
 
         //当我们下落时，我们加大所施加的力
@@ -50,6 +59,7 @@ public class PlayerJumpState : PlayerState
         float force = _moveData.JumpForce;
         if (rb.velocity.y < 0)
             force -= rb.velocity.y;
+
 
         rb.AddForce(Vector2.up * force, ForceMode2D.Impulse);
     }
@@ -67,16 +77,7 @@ public class PlayerJumpState : PlayerState
 
         if (player.LastOnGroundTime > 0 && !player.IsJumping)
         {
-            player.IsJumpCut = false;
             player.IsJumpFalling = false;
-        }
-
-        if (CanJump() && player.LastPressedJumpTime > 0)
-        {
-            player.IsJumping = true;
-            player.IsJumpCut = false;
-            player.IsJumpFalling = false;
-            Jump();
         }
     }
 
@@ -92,14 +93,10 @@ public class PlayerJumpState : PlayerState
             //限制最大坠落速度，所以当我们从很远的地方坠落时，我们不会加速到疯狂的高速度
             rb.velocity = new Vector2(rb.velocity.x, Mathf.Min(rb.velocity.y, -_moveData.MaxFastFallSpeed));
         }
-        else if (player.IsJumpCut)
-        {
-            SetGravityScale(_moveData.JumpCutGravityMult);
-            rb.velocity = new Vector2(rb.velocity.x, Mathf.Min(rb.velocity.y, -_moveData.MaxFallSpeed));
-        }
         else if (rb.velocity.y < 0)
         {
             SetGravityScale(_moveData.FallGravityMult);
+            rb.velocity = new Vector2(rb.velocity.x, Mathf.Min(rb.velocity.y, -_moveData.MaxFallSpeed));
         }
         else if ((player.IsJumping || player.IsJumpFalling) && Mathf.Abs(rb.velocity.y) < _moveData.JumpHangTimeThreshold)
         {
@@ -111,24 +108,10 @@ public class PlayerJumpState : PlayerState
         }
     }
 
-    private void SetGravityScale(float mult) => rb.gravityScale = _moveData.GravityScale * mult;
+    private void SetGravityScale(float mult) => rb.gravityScale *= mult;
 
     #region JumpHande
 
-    private void JumpDownHandle()
-    {
-        player.LastPressedJumpTime = _moveData.jumpInputBufferTime;
-    }
-
-    private void JumpUpHandle()
-    {
-        if (CanJumpCut())
-            player.IsJumpCut = true;
-    }
 
     #endregion
-
-    private bool CanJumpCut() => player.IsJumping && rb.velocity.y > 0;
-
-    private bool CanJump() => player.LastOnGroundTime > 0 && !player.IsJumping;
 }

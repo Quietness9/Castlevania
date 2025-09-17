@@ -17,11 +17,13 @@ public class PlayerState : EntityState
     #region 地面状态转换别的状态
     private void ChangeJumpStateHandle()
     {
-        if (player.IsGroundCheck())
+        if (player.LastOnGroundTime > 0 && !player.IsJumping)
         {
             baseStateMachine.ChangeState(player.JumpState);
         }
     }
 
     #endregion
+
+    
 }

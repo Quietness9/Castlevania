@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82a810edd8b21d149ae09a35eb1a072d, type: 3}
   m_Name: MoveData
   m_EditorClassIdentifier: 
-  FallGravityMult: 1.2
-  MaxFallSpeed: 12
-  FastFallGravityMult: 2
-  MaxFastFallSpeed: 15
+  FallGravityMult: 1.1
+  MaxFallSpeed: 5
+  FastFallGravityMult: 1.5
+  MaxFastFallSpeed: 10
   MaxMoveSpeed: 10
   doConserveMomentum: 0
   _accelAmount: 1
@@ -23,12 +23,9 @@ MonoBehaviour:
   _frictionAmount: 0.5
   AccelInAir: 0.08
   DecreInAir: 0.087
-  JumpHeight: 5
-  JumpTimeToApex: 1.5
-  JumpCutGravityMult: 1.2
-  JumpHangGravityMult: 0.8
+  JumpForce: 8
+  JumpHangGravityMult: 0.9
   JumpHangTimeThreshold: 0.5
   JumpHangAccelerationMult: 0.8
   JumpHangMaxSpeedMult: 0.8
   coyoteTime: 0.228
-  jumpInputBufferTime: 0.108
