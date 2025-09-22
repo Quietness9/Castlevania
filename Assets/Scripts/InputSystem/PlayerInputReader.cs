@@ -118,7 +118,10 @@ namespace GameInputSystem
 
         public void OnDash(InputAction.CallbackContext context)
         {
-            
+            if (context.phase == InputActionPhase.Performed)
+            {
+                DashEvent.Invoke();
+            }
         }
 
         #endregion

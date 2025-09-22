@@ -5,8 +5,11 @@ using UnityEngine;
 
 public class Character : MonoBehaviour
 {
+    [Header("攻击检测")]
+    public Transform AttackCheck;
+    public float AttackCheckRadius;
 
-
+    [Header("地面检测")]
     [SerializeField] protected Transform _groundCheckPoint;
     [SerializeField] Vector2 _groundCheckSize = new Vector2(0.49f, 0.03f);
     [SerializeField] LayerMask _groundLayer;
@@ -26,6 +29,11 @@ public class Character : MonoBehaviour
         Rb = GetComponent<Rigidbody2D>();
         CharacterStateMachine = new StateMachine();
     }
+
+    /// <summary>
+    /// 完成动画播放检测
+    /// </summary>
+    public void CurrentAnimationFinish()=>CharacterStateMachine.CurrentState.AnimationFinishTrigger();
 
     /// <summary>
     /// 改变朝向
@@ -51,6 +59,7 @@ public class Character : MonoBehaviour
     /// </summary>
     protected virtual void OnDrawGizmos()
     {
-        Gizmos.DrawCube(_groundCheckPoint.position, _groundCheckSize);
+        Gizmos.DrawWireCube(_groundCheckPoint.position, _groundCheckSize);
+        Gizmos.DrawWireSphere(AttackCheck.position, AttackCheckRadius);
     }
 }

@@ -25,6 +25,7 @@ namespace State.PlayerState
             base.Update();
             Move();
 
+            
             if (player.Hor == 0)
             {
                 FrictionPlayer();
@@ -53,7 +54,6 @@ namespace State.PlayerState
             {
                 accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? _moveData.AccelForce : _moveData.DecreForce;
             }
-
             else
             {
                 accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? _moveData.AccelForce * _moveData.AccelInAir

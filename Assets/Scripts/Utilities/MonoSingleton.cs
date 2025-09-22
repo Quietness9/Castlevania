@@ -8,7 +8,7 @@ public class MonoSingleton<T>  : MonoBehaviour where T : MonoBehaviour
     protected static bool isDontDestroy = false;
 
     static T _instance;
-    static public T instance
+    static public T Instance
     {
         get
         {

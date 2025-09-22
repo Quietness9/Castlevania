@@ -9,8 +9,11 @@ public class Player : Character
     public PlayerInputReader PlayerInput;
     public PlayerMoveData MoveData;
 
+    [Header("攻击")]
+    public Vector2[] AttackMovement;
+
     [Header("移动")]
-    [SerializeField] float _direction;
+    public float Direction;
     public float Hor { get;private set; }
     public float Vert { get;private set; }
 
@@ -18,6 +21,7 @@ public class Player : Character
     public bool IsJumpCut { get;set; }
     public bool IsJumpFalling { get;set; }
     public bool IsJumping { get;set; }
+
 
     //Timer
     public float LastOnGroundTime { get;set; }
@@ -77,7 +81,7 @@ public class Player : Character
     private void InitPlayer()
     {
         IsFacingRight = true;
-        _direction = 1;
+        Direction = 1;
 
         CharacterStateMachine.InitState(IdleState);
         PlayerInput.MoveEvent += GetDirectionHandle;
@@ -91,14 +95,12 @@ public class Player : Character
     /// <param name="direction"></param>
     public void GetDirectionHandle(Vector2 moveDire)
     {
-        
-
         Hor = moveDire.x;
         Vert = moveDire.y;
 
-        if (Hor*_direction<0)
+        if (Hor*Direction<0)
         {
-            _direction *= -1;
+            Direction *= -1;
             TurnDirection();
         }
     }

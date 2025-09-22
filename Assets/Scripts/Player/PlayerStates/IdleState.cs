@@ -20,6 +20,8 @@ namespace State.PlayerState
         {
             base.Update();
 
+            player.Animator_CT.SetFloat("yVelocity", rb.velocity.y);
+
             if (player.Hor != 0)
             {
                 baseStateMachine.ChangeState(player.MoveState);
