@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 
@@ -21,15 +22,12 @@ namespace State.PlayerState
         #region 地面状态转换别的状态
         private void ChangeJumpStateHandle()
         {
+            Debug.Log(player.IsJumping+"  "+ player.LastOnGroundTime);
+
             if (player.LastOnGroundTime > 0 && !player.IsJumping)
             {
                 baseStateMachine.ChangeState(player.JumpState);
             }
-        }
-
-        private void ChangeDashHandle()
-        {
-
         }
 
         #endregion

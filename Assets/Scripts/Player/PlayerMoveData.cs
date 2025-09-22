@@ -39,17 +39,14 @@ public class PlayerMoveData : ScriptableObject
     public float JumpForce;
 
     [Header("最高点重力")]
-    //在接近跳跃顶点（期望的最大高度）时减少重力
-    [Range(0f, 1)] public float JumpHangGravityMult;
-    //速度（接近0），玩家将体验到额外的“跳跃悬挂”。玩家的速度。Y在跳跃顶点最接近0
-    public float JumpHangTimeThreshold;
+    [Range(0f, 1)] public float JumpHangGravityMult;//在接近跳跃顶点（期望的最大高度）时减少重力
+    public float JumpHangTimeThreshold;//速度（接近0），玩家将体验到额外的“跳跃悬挂”。玩家的速度。Y在跳跃顶点最接近0
     [Space(0.5f)]
     public float JumpHangAccelerationMult;
     public float JumpHangMaxSpeedMult;
 
     [Header("Assists")]
-    //落下地面后依然可以跳跃的时间
-    [Range(0.01f, 0.5f)] public float coyoteTime;
+    [Range(0.01f, 0.5f)] public float coyoteTime;//落下地面后依然可以跳跃的时间
 
 
     private void OnValidate()

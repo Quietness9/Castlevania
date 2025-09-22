@@ -18,6 +18,7 @@ namespace State.PlayerState
             base.Enter();
             _moveData = player.MoveData;
             gravityScale = rb.gravityScale;
+           
 
             Jump();
         }
@@ -44,6 +45,9 @@ namespace State.PlayerState
 
             rb.gravityScale = gravityScale;
             rb.velocity = new Vector3(rb.velocity.x, 0);
+
+            player.IsJumping = false;
+
             player.Animator_CT.SetFloat("yVelocity", rb.velocity.y);
         }
 

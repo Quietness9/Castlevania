@@ -13,11 +13,17 @@ namespace State.PlayerState
         public override void Enter()
         {
             base.Enter();
+
         }
 
         public override void Update()
         {
             base.Update();
+
+            if (triggerFinish)
+            {
+                player.CharacterStateMachine.ChangeState(player.IdleState);
+            }
         }
 
         public override void Exit()

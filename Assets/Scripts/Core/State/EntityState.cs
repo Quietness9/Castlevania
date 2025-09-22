@@ -13,6 +13,8 @@ public class EntityState
     protected StateMachine baseStateMachine;
     protected string baseAnimationName;
 
+
+
     public EntityState(Character character,StateMachine stateMachine,string animationName)
     {
         baseCharacter = character;
@@ -24,6 +26,7 @@ public class EntityState
     public virtual void Enter()
     {
         baseCharacter.Animator_CT.SetBool(baseAnimationName, true);
+        triggerFinish=false;
     }
 
     public virtual void Update()
@@ -36,4 +39,8 @@ public class EntityState
         baseCharacter.Animator_CT.SetBool(baseAnimationName, false);
     }
 
+    public virtual void AnimationFinishTrigger()
+    {
+        triggerFinish = true;
+    }
 }
