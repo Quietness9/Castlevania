@@ -6,15 +6,19 @@ using UnityEngine.InputSystem;
 
 namespace GameInputSystem
 {
-    [CreateAssetMenu(fileName ="New Input Data",menuName ="PlayerData/InputData")]
-    public class PlayerInputReader:ScriptableObject,GameInput.IPlayerActions
+    [CreateAssetMenu(fileName ="New Input Data",menuName ="GameData/InputData")]
+    public class PlayerInputReader:ScriptableObject,GameInput.IPlayerActions,GameInput.ISkillActions
     {
         GameInput _gameInput;
 
         //playerController
         public event Action<Vector2> MoveEvent=delegate { };
-        public event Action JumpDownEvent=delegate { };
         public event Action JumpUpEvent=delegate { };
+
+
+        //SkillController
+        public event Action DashEvent=delegate { };
+
 
 
         private void OnEnable()
@@ -23,6 +27,7 @@ namespace GameInputSystem
             {
                 _gameInput = new GameInput();
                 _gameInput.Player.SetCallbacks(this);
+                _gameInput.Skill.SetCallbacks(this);
             }
 
             SetInitInput();
@@ -44,6 +49,9 @@ namespace GameInputSystem
         /// </summary>
         private void ClearAllEvent()
         {
+            MoveEvent = delegate { };
+            JumpUpEvent = delegate { };
+
 
         }
 
@@ -56,6 +64,7 @@ namespace GameInputSystem
             if(_gameInput != null)
             {
                 _gameInput.Player.Disable();
+                _gameInput.Skill.Disable();
             }
             
         }
@@ -81,8 +90,11 @@ namespace GameInputSystem
         private void SetInitInput()
         {
             _gameInput.Player.Enable();
+            _gameInput.Skill.Enable();
         }
 
+
+        #region 玩家控制
 
         public void OnMove(InputAction.CallbackContext context)
         {
@@ -91,16 +103,25 @@ namespace GameInputSystem
 
         public void OnJump(InputAction.CallbackContext context)
         {
-            if (context.phase ==InputActionPhase.Started)
-            {
-                JumpDownEvent.Invoke();
-            }
 
             if (context.phase == InputActionPhase.Canceled)
             {
                 JumpUpEvent.Invoke();
             }
         }
+
+
+
+        #endregion
+
+        #region 技能控制
+
+        public void OnDash(InputAction.CallbackContext context)
+        {
+            
+        }
+
+        #endregion
     }
 
 }

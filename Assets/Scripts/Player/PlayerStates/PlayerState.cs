@@ -2,28 +2,40 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerState : EntityState
+
+namespace State.PlayerState
 {
-    protected Player player;
-    protected Rigidbody2D rb;
-    public PlayerState(Character character, StateMachine stateMachine, string animationName) : base(character, stateMachine, animationName)
+    public class PlayerState : EntityState
     {
-        player = character as Player;
-        rb=character.Rb;
-
-        player.PlayerInput.JumpDownEvent += ChangeJumpStateHandle;
-    }
-
-    #region 地面状态转换别的状态
-    private void ChangeJumpStateHandle()
-    {
-        if (player.LastOnGroundTime > 0 && !player.IsJumping)
+        protected Player player;
+        protected Rigidbody2D rb;
+        public PlayerState(Character character, StateMachine stateMachine, string animationName) : base(character, stateMachine, animationName)
         {
-            baseStateMachine.ChangeState(player.JumpState);
+            player = character as Player;
+            rb = character.Rb;
+
+
+            player.PlayerInput.JumpUpEvent += ChangeJumpStateHandle;
         }
+
+        #region 地面状态转换别的状态
+        private void ChangeJumpStateHandle()
+        {
+            if (player.LastOnGroundTime > 0 && !player.IsJumping)
+            {
+                baseStateMachine.ChangeState(player.JumpState);
+            }
+        }
+
+        private void ChangeDashHandle()
+        {
+
+        }
+
+        #endregion
+
+
     }
-
-    #endregion
-
-    
 }
+
+

@@ -160,6 +160,34 @@ namespace GameInputSystem
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Skill"",
+            ""id"": ""1f0b71f4-2e71-411c-a035-e9676d4fc02a"",
+            ""actions"": [
+                {
+                    ""name"": ""Dash"",
+                    ""type"": ""Button"",
+                    ""id"": ""0b119e3d-d61c-4112-a709-17800342ad13"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""cacd3923-b62a-4149-87ba-e4aa6cb221ad"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -168,11 +196,15 @@ namespace GameInputSystem
             m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
             m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
             m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
+            // Skill
+            m_Skill = asset.FindActionMap("Skill", throwIfNotFound: true);
+            m_Skill_Dash = m_Skill.FindAction("Dash", throwIfNotFound: true);
         }
 
         ~@GameInput()
         {
             UnityEngine.Debug.Assert(!m_Player.enabled, "This will cause a leak and performance issues, GameInput.Player.Disable() has not been called.");
+            UnityEngine.Debug.Assert(!m_Skill.enabled, "This will cause a leak and performance issues, GameInput.Skill.Disable() has not been called.");
         }
 
         public void Dispose()
@@ -284,10 +316,65 @@ namespace GameInputSystem
             }
         }
         public PlayerActions @Player => new PlayerActions(this);
+
+        // Skill
+        private readonly InputActionMap m_Skill;
+        private List<ISkillActions> m_SkillActionsCallbackInterfaces = new List<ISkillActions>();
+        private readonly InputAction m_Skill_Dash;
+        public struct SkillActions
+        {
+            private @GameInput m_Wrapper;
+            public SkillActions(@GameInput wrapper) { m_Wrapper = wrapper; }
+            public InputAction @Dash => m_Wrapper.m_Skill_Dash;
+            public InputActionMap Get() { return m_Wrapper.m_Skill; }
+            public void Enable() { Get().Enable(); }
+            public void Disable() { Get().Disable(); }
+            public bool enabled => Get().enabled;
+            public static implicit operator InputActionMap(SkillActions set) { return set.Get(); }
+            public void AddCallbacks(ISkillActions instance)
+            {
+                if (instance == null || m_Wrapper.m_SkillActionsCallbackInterfaces.Contains(instance)) return;
+                m_Wrapper.m_SkillActionsCallbackInterfaces.Add(instance);
+                @Dash.started += instance.OnDash;
+                @Dash.performed += instance.OnDash;
+                @Dash.canceled += instance.OnDash;
+            }
+
+            private void UnregisterCallbacks(ISkillActions instance)
+            {
+                @Dash.started -= instance.OnDash;
+                @Dash.performed -= instance.OnDash;
+                @Dash.canceled -= instance.OnDash;
+            }
+
+            public void RemoveCallbacks(ISkillActions instance)
+            {
+                if (m_Wrapper.m_SkillActionsCallbackInterfaces.Remove(instance))
+                    UnregisterCallbacks(instance);
+            }
+
+            public void SetCallbacks(ISkillActions instance)
+            {
+                foreach (var item in m_Wrapper.m_SkillActionsCallbackInterfaces)
+                    UnregisterCallbacks(item);
+                m_Wrapper.m_SkillActionsCallbackInterfaces.Clear();
+                AddCallbacks(instance);
+            }
+
+            internal void Enabled()
+            {
+                throw new NotImplementedException();
+            }
+        }
+        public SkillActions @Skill => new SkillActions(this);
         public interface IPlayerActions
         {
             void OnMove(InputAction.CallbackContext context);
             void OnJump(InputAction.CallbackContext context);
+        }
+        public interface ISkillActions
+        {
+            void OnDash(InputAction.CallbackContext context);
         }
     }
 }

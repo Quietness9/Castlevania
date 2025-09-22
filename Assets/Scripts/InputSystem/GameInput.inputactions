@@ -136,6 +136,34 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Skill",
+            "id": "1f0b71f4-2e71-411c-a035-e9676d4fc02a",
+            "actions": [
+                {
+                    "name": "Dash",
+                    "type": "Button",
+                    "id": "0b119e3d-d61c-4112-a709-17800342ad13",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "cacd3923-b62a-4149-87ba-e4aa6cb221ad",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Dash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []
