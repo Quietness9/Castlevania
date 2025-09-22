@@ -1,6 +1,7 @@
 using GameInputSystem;
 using System;
 using UnityEngine;
+using State.PlayerState;
 
 public class Player : Character
 {
@@ -24,19 +25,22 @@ public class Player : Character
 
     #region 状态
 
-    public PlayerIdle IdleState { get; private set; }
-
-    public PlayerMove MoveState { get; private set; }
-    public PlayerJumpState JumpState { get; private set; }
+    public IdleState IdleState { get; private set; }
+    public MoveState MoveState { get; private set; }
+    public JumpState JumpState { get; private set; }
+    public DashState DashState { get;private set; }
 
     #endregion
 
     protected override void Awake()
     {
         base.Awake();
-        IdleState = new PlayerIdle(this, CharacterStateMachine, "Idle");
-        MoveState = new PlayerMove(this, CharacterStateMachine, "Move");
-        JumpState = new PlayerJumpState(this, CharacterStateMachine, "Jump");
+        IdleState = new IdleState(this, CharacterStateMachine, "Idle");
+        MoveState = new MoveState(this, CharacterStateMachine, "Move");
+        JumpState = new JumpState(this, CharacterStateMachine, "Jump");
+        DashState = new DashState(this, CharacterStateMachine, "Dash");
+
+
     }
 
     private void Start()

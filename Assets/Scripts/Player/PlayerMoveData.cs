@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-[CreateAssetMenu(fileName ="New Move Data",menuName = "PlayerData/MoveData")]
+[CreateAssetMenu(fileName ="New Move Data",menuName = "GameData/MoveData")]
 public class PlayerMoveData : ScriptableObject
 {
 
@@ -54,15 +54,6 @@ public class PlayerMoveData : ScriptableObject
 
     private void OnValidate()
     {
-        //跳跃
-        //使用公式计算重力强度（gravity = 2 * jumpHeight / timeToJumpApex^2）
-        //GravityStrength = -(2 * JumpHeight) / (JumpTimeToApex * JumpTimeToApex);
-        ////计算刚体的重力尺度（即：重力强度相对于单位的重力值，参见project settings/Physics2D）
-        //GravityScale = GravityStrength / Physics2D.gravity.y;
-        ////使用公式（initialJumpVelocity = gravity * timeToJumpApex）计算jumpForce
-        //JumpForce = Mathf.Abs(GravityScale) * JumpTimeToApex;
-        
-
 
         //移动
         //使用公式计算运行加速和减速力：amount = （(1 / Time.fixedDeltaTime) *加速度）/ runMaxSpeed

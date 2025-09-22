@@ -28,7 +28,7 @@ public class EntityState
 
     public virtual void Update()
     {
-        timer += Time.deltaTime;
+        timer -= Time.deltaTime;
     }
 
     public virtual void Exit()
