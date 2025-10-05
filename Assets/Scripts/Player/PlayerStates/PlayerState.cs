@@ -4,25 +4,31 @@ using System.Runtime.InteropServices;
 using UnityEngine;
 
 
-namespace State.PlayerState
-{
+
+
     public class PlayerState : EntityState
     {
         protected Player player;
-        protected Rigidbody2D rb;
         public PlayerState(Character character, StateMachine stateMachine, string animationName) : base(character, stateMachine, animationName)
         {
             player = character as Player;
-            rb = character.Rb;
 
+            ChangeStateSubscribe();
+            
+        }
 
+        /// <summary>
+        /// 状态改变订阅（键盘或鼠标）
+        /// </summary>
+        private void ChangeStateSubscribe()
+        {
             player.PlayerInput.JumpUpEvent += ChangeJumpStateHandle;
+            player.PlayerInput.AttackEvent += ChangeAttackStateHandle;
         }
 
         #region 地面状态转换别的状态
         private void ChangeJumpStateHandle()
         {
-            Debug.Log(player.IsJumping+"  "+ player.LastOnGroundTime);
 
             if (player.LastOnGroundTime > 0 && !player.IsJumping)
             {
@@ -30,10 +36,15 @@ namespace State.PlayerState
             }
         }
 
+        private void ChangeAttackStateHandle()
+        {
+            baseStateMachine.ChangeState(player.AttackState);
+        }
+
         #endregion
 
 
     }
-}
+
 
 

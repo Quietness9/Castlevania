@@ -7,12 +7,10 @@ public class EntityState
 {
     protected float timer;
     protected bool triggerFinish;
-
+    protected string baseAnimationName;
 
     protected Character baseCharacter;
     protected StateMachine baseStateMachine;
-    protected string baseAnimationName;
-
 
 
     public EntityState(Character character,StateMachine stateMachine,string animationName)

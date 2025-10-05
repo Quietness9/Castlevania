@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Data;
 using UnityEngine;
 
-namespace State.PlayerState
-{
-    public class MoveState : PlayerState
+
+
+    public class PlayerMoveState : PlayerState
     {
         PlayerMoveData _moveData;
 
-        public MoveState(Character character, StateMachine stateMachine, string animationName) : base(character, stateMachine, animationName)
+        public PlayerMoveState(Character character, StateMachine stateMachine, string animationName) : base(character, stateMachine, animationName)
         {
 
         }
@@ -61,22 +61,22 @@ namespace State.PlayerState
             }
 
             //在跳跃的顶点增加加速度和最大速度，使跳跃感觉更有弹性，反应灵敏和自然
-            if ((player.IsJumping || player.IsJumpFalling) && Mathf.Abs(rb.velocity.y) < _moveData.JumpHangTimeThreshold)
+            if ((player.IsJumping || player.IsJumpFalling) && Mathf.Abs(player.Rb.velocity.y) < _moveData.JumpHangTimeThreshold)
             {
                 accelRate *= _moveData.JumpHangAccelerationMult;
                 targetSpeed *= _moveData.JumpHangMaxSpeedMult;
             }
 
-            if (_moveData.doConserveMomentum && Mathf.Abs(rb.velocity.x) > Mathf.Abs(targetSpeed) &&
-                Mathf.Sign(rb.velocity.x) == Mathf.Sign(targetSpeed) && Mathf.Abs(targetSpeed) > 0.01f && player.LastOnGroundTime < 0)
+            if (_moveData.doConserveMomentum && Mathf.Abs(player.Rb.velocity.x) > Mathf.Abs(targetSpeed) &&
+                Mathf.Sign(player.Rb.velocity.x) == Mathf.Sign(targetSpeed) && Mathf.Abs(targetSpeed) > 0.01f && player.LastOnGroundTime < 0)
             {
                 accelRate = 0;
             }
 
-            float speedDif = targetSpeed - rb.velocity.x;
+            float speedDif = targetSpeed - player.Rb.velocity.x;
             float movement = speedDif * accelRate;
 
-            rb.AddForce(movement * Vector2.right, ForceMode2D.Force);
+            player.Rb.AddForce(movement * Vector2.right, ForceMode2D.Force);
 
         }
 
@@ -88,13 +88,13 @@ namespace State.PlayerState
             if (player.LastOnGroundTime > 0 && Mathf.Abs(player.Hor) < 0.01f)
             {
                 float force = _moveData.FrictionForce;
-                force *= Mathf.Sign(rb.velocity.x);
+                force *= Mathf.Sign(player.Rb.velocity.x);
 
                 player.Rb.AddForce(Vector2.right * -force, ForceMode2D.Impulse);
 
             }
         }
     }
-}
+
 
 

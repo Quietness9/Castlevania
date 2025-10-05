@@ -15,15 +15,15 @@ MonoBehaviour:
   FallGravityMult: 1.1
   MaxFallSpeed: 5
   FastFallGravityMult: 1.5
-  MaxFastFallSpeed: 10
-  MaxMoveSpeed: 10
+  MaxFastFallSpeed: 8
+  MaxMoveSpeed: 8
   doConserveMomentum: 0
   _accelAmount: 1
   _derceAmount: 1
   _frictionAmount: 0.5
   AccelInAir: 0.08
   DecreInAir: 0.087
-  JumpForce: 8
+  JumpForce: 6
   JumpHangGravityMult: 0.9
   JumpHangTimeThreshold: 0.5
   JumpHangAccelerationMult: 0.8
