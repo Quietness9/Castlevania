@@ -1,7 +1,6 @@
 using GameInputSystem;
 using System;
 using UnityEngine;
-using State.PlayerState;
 
 public class Player : Character
 {
@@ -9,11 +8,12 @@ public class Player : Character
     public PlayerInputReader PlayerInput;
     public PlayerMoveData MoveData;
 
+    [Header("动画配置")]
+    public float AnimationSpeed;
+
     [Header("攻击")]
     public Vector2[] AttackMovement;
 
-    [Header("移动")]
-    public float Direction;
     public float Hor { get;private set; }
     public float Vert { get;private set; }
 
@@ -29,21 +29,22 @@ public class Player : Character
 
     #region 状态
 
-    public IdleState IdleState { get; private set; }
-    public MoveState MoveState { get; private set; }
-    public JumpState JumpState { get; private set; }
-    public DashState DashState { get;private set; }
+    public PlayerIdleState IdleState { get; private set; }
+    public PlayerMoveState MoveState { get; private set; }
+    public PlayerJumpState JumpState { get; private set; }
+    public PlayerDashState DashState { get;private set; }
+    public PlayerAttackState AttackState { get; private set; }
 
     #endregion
 
     protected override void Awake()
     {
         base.Awake();
-        IdleState = new IdleState(this, CharacterStateMachine, "Idle");
-        MoveState = new MoveState(this, CharacterStateMachine, "Move");
-        JumpState = new JumpState(this, CharacterStateMachine, "Jump");
-        DashState = new DashState(this, CharacterStateMachine, "Dash");
-
+        IdleState = new PlayerIdleState(this, CharacterStateMachine, "Idle");
+        MoveState = new PlayerMoveState(this, CharacterStateMachine, "Move");
+        JumpState = new PlayerJumpState(this, CharacterStateMachine, "Jump");
+        DashState = new PlayerDashState(this, CharacterStateMachine, "Dash");
+        AttackState = new PlayerAttackState(this, CharacterStateMachine, "Attack");
 
     }
 
@@ -100,7 +101,6 @@ public class Player : Character
 
         if (Hor*Direction<0)
         {
-            Direction *= -1;
             TurnDirection();
         }
     }

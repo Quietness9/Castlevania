@@ -14,7 +14,7 @@ namespace GameInputSystem
         //playerController
         public event Action<Vector2> MoveEvent=delegate { };
         public event Action JumpUpEvent=delegate { };
-
+        public event Action AttackEvent=delegate { };
 
         //SkillController
         public event Action DashEvent=delegate { };
@@ -111,6 +111,13 @@ namespace GameInputSystem
         }
 
 
+        public void OnAttack(InputAction.CallbackContext context)
+        {
+            if(context.phase == InputActionPhase.Performed)
+            {
+                AttackEvent.Invoke();
+            }
+        }
 
         #endregion
 

@@ -10,9 +10,16 @@ public class Character : MonoBehaviour
     public float AttackCheckRadius;
 
     [Header("µÿ√ÊºÏ≤‚")]
-    [SerializeField] protected Transform _groundCheckPoint;
-    [SerializeField] Vector2 _groundCheckSize = new Vector2(0.49f, 0.03f);
-    [SerializeField] LayerMask _groundLayer;
+    [SerializeField] protected Transform groundCheckPoint;
+    [SerializeField] protected Vector2 groundCheckSize = new Vector2(0.49f, 0.03f);
+    [SerializeField] protected LayerMask groundLayer;
+
+    [Header("«Ω√ÊºÏ≤‚")]
+    [SerializeField] protected Transform wallCheckPoint;
+    [SerializeField] protected float wallCheckSize = 1f;
+    [SerializeField] protected LayerMask wallLayer;
+
+    public float Direction=1f;
 
     public bool IsFacingRight { get;set; }
     public StateMachine CharacterStateMachine { get; private set; }
@@ -40,26 +47,36 @@ public class Character : MonoBehaviour
     /// </summary>
     public virtual void TurnDirection()
     {
-        Vector3 scale=transform.localScale;
+        transform.Rotate(0, 180, 0);
 
-        scale.x *= -1;
-        transform.localScale = scale;
-
-        IsFacingRight=!IsFacingRight;
+        Direction *= -1;
+        IsFacingRight =!IsFacingRight;
     }
 
     /// <summary>
     /// µÿ√ÊºÏ≤‚ƒ¨»œ∑µªÿtrue
     /// </summary>
     /// <returns></returns>
-    public virtual bool IsGroundCheck() => Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer);
+    public bool IsGroundCheck() => Physics2D.OverlapBox(groundCheckPoint.position, groundCheckSize, 0, groundLayer);
+
+    /// <summary>
+    /// «ΩºÏ≤‚
+    /// </summary>
+    /// <returns></returns>
+    public bool IsWallCheck() => Physics2D.Raycast(wallCheckPoint.position, (Vector2.right * Direction).normalized, wallCheckSize, wallLayer);
+
+    /// <summary>
+    /// Õ£÷πΩ«…´
+    /// </summary>
+    public void SetVelocityZero()=>Rb.velocity = Vector3.zero;
 
     /// <summary>
     /// ªÊ÷∆ºÏ≤‚œﬂ
     /// </summary>
     protected virtual void OnDrawGizmos()
     {
-        Gizmos.DrawWireCube(_groundCheckPoint.position, _groundCheckSize);
+        Gizmos.DrawWireCube(groundCheckPoint.position, groundCheckSize);
         Gizmos.DrawWireSphere(AttackCheck.position, AttackCheckRadius);
+        Gizmos.DrawLine(wallCheckPoint.position, new Vector3(wallCheckPoint.position.x + wallCheckSize * Direction, wallCheckPoint.position.y));
     }
 }

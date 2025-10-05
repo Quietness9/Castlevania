@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace State.PlayerState
-{
-    public class IdleState : PlayerState
+
+
+    public class PlayerDashState : PlayerState
     {
-        public IdleState(Character character, StateMachine stateMachine, string animationName) : base(character, stateMachine, animationName)
+        public PlayerDashState(Character character, StateMachine stateMachine, string animationName) : base(character, stateMachine, animationName)
         {
         }
 
@@ -20,23 +20,17 @@ namespace State.PlayerState
         {
             base.Update();
 
-            player.Animator_CT.SetFloat("yVelocity", rb.velocity.y);
-
-            if (player.Hor != 0)
+            if (triggerFinish)
             {
-                baseStateMachine.ChangeState(player.MoveState);
+                player.CharacterStateMachine.ChangeState(player.IdleState);
             }
-
-
         }
 
         public override void Exit()
         {
             base.Exit();
         }
-
-
     }
 
-}
+
 

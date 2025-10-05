@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace State.PlayerState
-{
-    public class JumpState : PlayerState
+
+
+    public class PlayerJumpState : PlayerState
     {
         PlayerMoveData _moveData;
         float gravityScale;
 
-        public JumpState(Character character, StateMachine stateMachine, string animationName) : base(character, stateMachine, animationName)
+        public PlayerJumpState(Character character, StateMachine stateMachine, string animationName) : base(character, stateMachine, animationName)
         {
         }
 
@@ -17,7 +17,7 @@ namespace State.PlayerState
         {
             base.Enter();
             _moveData = player.MoveData;
-            gravityScale = rb.gravityScale;
+            gravityScale = player.Rb.gravityScale;
            
 
             Jump();
@@ -26,7 +26,7 @@ namespace State.PlayerState
         public override void Update()
         {
             base.Update();
-            player.Animator_CT.SetFloat("yVelocity", rb.velocity.y);
+            player.Animator_CT.SetFloat("yVelocity", player.Rb.velocity.y);
 
 
             JumpController();
@@ -43,12 +43,12 @@ namespace State.PlayerState
         {
             base.Exit();
 
-            rb.gravityScale = gravityScale;
-            rb.velocity = new Vector3(rb.velocity.x, 0);
+            player.Rb.gravityScale = gravityScale;
+            player.Rb.velocity = new Vector3(player.Rb.velocity.x, 0);
 
             player.IsJumping = false;
 
-            player.Animator_CT.SetFloat("yVelocity", rb.velocity.y);
+            player.Animator_CT.SetFloat("yVelocity", player.Rb.velocity.y);
         }
 
         private void Jump()
@@ -63,11 +63,11 @@ namespace State.PlayerState
             //这意味着我们总是觉得我们跳了相同的量
             //（事先将玩家的Y轴速度设置为0可能会产生相同的效果，但我发现这更优雅：D）
             float force = _moveData.JumpForce;
-            if (rb.velocity.y < 0)
-                force -= rb.velocity.y;
+            if (player.Rb.velocity.y < 0)
+                force -= player.Rb.velocity.y;
 
 
-            rb.AddForce(Vector2.up * force, ForceMode2D.Impulse);
+            player.Rb.AddForce(Vector2.up * force, ForceMode2D.Impulse);
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace State.PlayerState
         /// </summary>
         private void JumpController()
         {
-            if (player.IsJumping && rb.velocity.y < 0)
+            if (player.IsJumping && player.Rb.velocity.y < 0)
             {
                 player.IsJumping = false;
                 player.IsJumpFalling = true;
@@ -92,19 +92,19 @@ namespace State.PlayerState
         /// </summary>
         private void SelectGravity()
         {
-            if (rb.velocity.y < 0 && player.Vert < 0)
+            if (player.Rb.velocity.y < 0 && player.Vert < 0)
             {
                 //增加重力
                 SetGravityScale(_moveData.FastFallGravityMult);
                 //限制最大坠落速度，所以当我们从很远的地方坠落时，我们不会加速到疯狂的高速度
-                rb.velocity = new Vector2(rb.velocity.x, Mathf.Min(rb.velocity.y, -_moveData.MaxFastFallSpeed));
+                player.Rb.velocity = new Vector2(player.Rb.velocity.x, Mathf.Min(player.Rb.velocity.y, -_moveData.MaxFastFallSpeed));
             }
-            else if (rb.velocity.y < 0)
+            else if (player.Rb.velocity.y < 0)
             {
                 SetGravityScale(_moveData.FallGravityMult);
-                rb.velocity = new Vector2(rb.velocity.x, Mathf.Min(rb.velocity.y, -_moveData.MaxFallSpeed));
+                player.Rb.velocity = new Vector2(player.Rb.velocity.x, Mathf.Min(player.Rb.velocity.y, -_moveData.MaxFallSpeed));
             }
-            else if ((player.IsJumping || player.IsJumpFalling) && Mathf.Abs(rb.velocity.y) < _moveData.JumpHangTimeThreshold)
+            else if ((player.IsJumping || player.IsJumpFalling) && Mathf.Abs(player.Rb.velocity.y) < _moveData.JumpHangTimeThreshold)
             {
                 SetGravityScale(_moveData.JumpHangGravityMult);
             }
@@ -114,8 +114,8 @@ namespace State.PlayerState
             }
         }
 
-        private void SetGravityScale(float mult) => rb.gravityScale *= mult;
+        private void SetGravityScale(float mult) => player.Rb.gravityScale *= mult;
     }
-}
+
 
 
