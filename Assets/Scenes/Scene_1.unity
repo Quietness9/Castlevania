@@ -292,8 +292,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1271605423
+  m_SortingLayer: 4
   m_SortingOrder: -1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0.9924528, g: 0, b: 0, a: 0.7411765}
@@ -354,7 +354,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &260387362
 Transform:
   m_ObjectHideFlags: 0
@@ -2317,8 +2317,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a45a85670cbcfd34dbe6ce3df34de0ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Cooldown: 0
-  _ClonePrefab: {fileID: 0}
+  Cooldown: 1
+  _colorDisappearSpeed: 1.5
+  _cloneDuration: 2
 --- !u!1 &1016995538
 GameObject:
   m_ObjectHideFlags: 0
@@ -2462,6 +2463,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GamePlayer: {fileID: 303722900}
+  _editorPrefab:
+  - {fileID: 5075708589687889542, guid: f2ea1efe2347aa9489d4f06c1ecf6993, type: 3}
 --- !u!1 &1101593073
 GameObject:
   m_ObjectHideFlags: 0

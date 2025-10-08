@@ -1,34 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
-public class PlayerAnimationTrigger : MonoBehaviour
+public class CloneAnimationTrigger : MonoBehaviour
 {
-    Player _player=>GetComponentInParent<Player>();
 
-    /// <summary>
-    /// 动画完成回调
-    /// </summary>
-    private void AnimationFinish()
-    {
-        _player.CurrentAnimationFinish();
-    }
+    [SerializeField] Transform _attackCheck;
+    [SerializeField] float _attackCheckRadius;
 
     /// <summary>
     /// 攻击动画完成回调
     /// </summary>
     private void AttackAnimationFinish()
     {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(_player.AttackCheck.position, _player.AttackCheckRadius);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(_attackCheck.position, _attackCheckRadius);
 
-        foreach(Collider2D hit in colliders)
+        foreach (Collider2D hit in colliders)
         {
             Enemy enemy = hit.GetComponent<Enemy>();
-            if (enemy!=null)
+            if (enemy != null)
             {
 
-                enemy.Damage(_player);
+                enemy.Damage(GlobalReferencesManager.Instance.GamePlayer);
                 //EnemyStat _target = hit.GetComponent<EnemyStat>();
                 //if (_target != null)
                 //{
@@ -42,8 +36,5 @@ public class PlayerAnimationTrigger : MonoBehaviour
                 //}
             }
         }
-
-        _player.CurrentAnimationFinish();
     }
-
 }
