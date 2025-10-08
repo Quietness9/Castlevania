@@ -32,6 +32,8 @@ public class Player : Character
     public float LastOnGroundTime { get;set; }
 
 
+    public SkillManager PlayerSkill { get; private set; }
+
     #region 状态
 
     public PlayerIdleState IdleState { get; private set; }
@@ -47,8 +49,6 @@ public class Player : Character
     {
         base.Awake();
 
-        GlobalReferencesManager.Instance.GamePlayer = this;
-
         IdleState = new PlayerIdleState(this, CharacterStateMachine, "Idle");
         MoveState = new PlayerMoveState(this, CharacterStateMachine, "Move");
         JumpState = new PlayerJumpState(this, CharacterStateMachine, "Jump");
@@ -60,6 +60,9 @@ public class Player : Character
 
     private void Start()
     {
+        GlobalReferencesManager.Instance.GamePlayer = this;
+        PlayerSkill = SkillManager.Instance;
+
         InitPlayer();
     }
 

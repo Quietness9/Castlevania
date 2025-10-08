@@ -13,7 +13,7 @@ using UnityEngine;
         public override void Enter()
         {
             base.Enter();
-
+            player.PlayerSkill.CloneSkill.CreateClonePlayer();
         }
 
         public override void Update()
