@@ -13,6 +13,11 @@ public class Player : Character
 
     [Header("攻击")]
     public Vector2[] AttackMovement;
+    public float CounterAttackDuration;
+
+    [Header("EnemyStunned")]
+    public Vector2 StunnedForce;
+    public float StunnedDuration;
 
     public float Hor { get;private set; }
     public float Vert { get;private set; }
@@ -34,17 +39,22 @@ public class Player : Character
     public PlayerJumpState JumpState { get; private set; }
     public PlayerDashState DashState { get;private set; }
     public PlayerAttackState AttackState { get; private set; }
+    public PlayerCounterAttackState CounterAttackState { get; private set; }
 
     #endregion
 
     protected override void Awake()
     {
         base.Awake();
+
+        GlobalReferencesManager.Instance.GamePlayer = this;
+
         IdleState = new PlayerIdleState(this, CharacterStateMachine, "Idle");
         MoveState = new PlayerMoveState(this, CharacterStateMachine, "Move");
         JumpState = new PlayerJumpState(this, CharacterStateMachine, "Jump");
         DashState = new PlayerDashState(this, CharacterStateMachine, "Dash");
         AttackState = new PlayerAttackState(this, CharacterStateMachine, "Attack");
+        CounterAttackState = new PlayerCounterAttackState(this, CharacterStateMachine, "CounterAttack");
 
     }
 

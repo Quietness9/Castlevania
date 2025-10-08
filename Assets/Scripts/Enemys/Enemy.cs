@@ -19,11 +19,49 @@ public class Enemy : Character
     [Header("BattleState")]
     public float BattleTime;
 
-    [Header("AttackInfo")]
+    [Header("AttackState")]
     public float IgnoreDistance=2f;
     public float AttackLastTime;
     public Vector2 AttackCooldownOffset;
     public float AttackCooldown { get; set; }
+
+    [Header("StunnedState")]
+    public float StunnedMult;
+    [SerializeField] protected GameObject counterImage;
+    protected bool canStunned;
+
+    /// <summary>
+    /// 是可以转换反击状态
+    /// </summary>
+    /// <returns></returns>
+    public virtual bool IsSetStunnedState()
+    {
+        if (canStunned)
+        {
+            CloseCounterAttackWindow();
+            return true;
+        }
+        
+        return false;
+    }
+
+    /// <summary>
+    /// 开启反击窗口
+    /// </summary>
+    public virtual void OpenCounterAttackWindow()
+    {
+        canStunned=true;
+        counterImage.SetActive(true);
+    }
+
+    /// <summary>
+    /// 关闭反击窗口
+    /// </summary>
+    public virtual void CloseCounterAttackWindow()
+    {
+        canStunned = false;
+        counterImage.SetActive(false);
+    }
 
     /// <summary>
     /// 设置移动速度
@@ -32,6 +70,9 @@ public class Enemy : Character
     /// <param name="yVelocity"></param>
     public void SetVelocity(float xVelocity, float yVelocity)
     {
+        if (isKnock)
+            return;
+
         if (xVelocity * Direction < 0)
         {
             TurnDirection();

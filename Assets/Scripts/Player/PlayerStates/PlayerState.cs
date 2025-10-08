@@ -24,9 +24,14 @@ using UnityEngine;
         {
             player.PlayerInput.JumpUpEvent += ChangeJumpStateHandle;
             player.PlayerInput.AttackEvent += ChangeAttackStateHandle;
+            player.PlayerInput.CounterAttackEvent += ChangeCounterAttackStateHandle;
         }
 
         #region µØÃæ×´Ì¬×ª»»±ðµÄ×´Ì¬
+
+        /// <summary>
+        /// ×ª»»µ½ÌøÔ¾×´Ì¬
+        /// </summary>
         private void ChangeJumpStateHandle()
         {
 
@@ -36,11 +41,18 @@ using UnityEngine;
             }
         }
 
+        /// <summary>
+        /// ×ª»»¹¥»÷×´Ì¬
+        /// </summary>
         private void ChangeAttackStateHandle()
         {
             baseStateMachine.ChangeState(player.AttackState);
         }
 
+        private void ChangeCounterAttackStateHandle()
+    {
+        baseStateMachine.ChangeState(player.CounterAttackState);
+    }
         #endregion
 
 

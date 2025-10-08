@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public class EntityState
@@ -13,18 +10,18 @@ public class EntityState
     protected StateMachine baseStateMachine;
 
 
-    public EntityState(Character character,StateMachine stateMachine,string animationName)
+    public EntityState(Character character, StateMachine stateMachine, string animationName)
     {
         baseCharacter = character;
         baseStateMachine = stateMachine;
         baseAnimationName = animationName;
     }
 
-    
+
     public virtual void Enter()
     {
         baseCharacter.Animator_CT.SetBool(baseAnimationName, true);
-        triggerFinish=false;
+        triggerFinish = false;
     }
 
     public virtual void Update()

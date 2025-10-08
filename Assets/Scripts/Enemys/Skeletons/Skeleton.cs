@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class Skeleton : Enemy
 {
 
@@ -10,6 +6,7 @@ public class Skeleton : Enemy
     public SkeletonMoveState MoveState { get; private set; }
     public SkeletonBattleState BattleState { get; private set; }
     public SkeletonAttackState AttackState { get; private set; }
+    public SkeletonStunnedState StunnedState { get; private set; }
 
     #endregion
 
@@ -17,10 +14,11 @@ public class Skeleton : Enemy
     {
         base.Awake();
 
-        IdleState=new SkeletonIdleState(this,this,CharacterStateMachine,"Idle");
+        IdleState = new SkeletonIdleState(this, this, CharacterStateMachine, "Idle");
         MoveState = new SkeletonMoveState(this, this, CharacterStateMachine, "Move");
         BattleState = new SkeletonBattleState(this, this, CharacterStateMachine, "Move");
         AttackState = new SkeletonAttackState(this, this, CharacterStateMachine, "Attack");
+        StunnedState = new SkeletonStunnedState(this, this, CharacterStateMachine, "Stunned");
     }
 
     private void Start()
@@ -35,10 +33,23 @@ public class Skeleton : Enemy
 
     private void InitSkeleton()
     {
-        IsFacingRight=true;
+        IsFacingRight = true;
 
         CharacterStateMachine.InitState(IdleState);
     }
 
+    /// <summary>
+    /// 判断是否可以切换Stunned状态
+    /// </summary>
+    /// <returns></returns>
+    public override bool IsSetStunnedState()
+    {
+        if (base.IsSetStunnedState())
+        {
+            CharacterStateMachine.ChangeState(StunnedState);
+            return true;
+        }
 
+        return false;
+    }
 }

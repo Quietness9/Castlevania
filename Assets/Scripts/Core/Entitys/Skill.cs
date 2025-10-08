@@ -4,33 +4,37 @@ using UnityEngine;
 
 public class Skill : MonoBehaviour
 {
-    public float CoolTime;
+    public float Cooldown;
+
 
     protected Player player;
-    protected float coolTimer;
+    protected float cooldownTimer;
 
-    protected virtual void Awake() 
+    protected virtual void Awake() { }
+
+
+    protected virtual void Start() 
     {
-        player = GetComponent<Player>();
+        player = GlobalReferencesManager.Instance.GamePlayer;
     }
-
-
-    protected virtual void Start() { }
 
 
     protected virtual void Update()
     {
-        coolTimer-= Time.deltaTime;
+        cooldownTimer -= Time.deltaTime;
     }
 
     protected virtual void OnDestroy() { }
     
-
+    /// <summary>
+    /// 判断是否可以使用技能
+    /// </summary>
+    /// <returns></returns>
     public virtual bool CanUseSkill()
     {
-        if (coolTimer < 0.01f)
+        if (cooldownTimer < 0.01f)
         {
-            coolTimer = CoolTime;
+            cooldownTimer = Cooldown;
             return true;
         }
 

@@ -193,6 +193,15 @@ namespace GameInputSystem
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CounterAttack"",
+                    ""type"": ""Button"",
+                    ""id"": ""3e12be3f-f19e-43c6-8983-5a6d7059ece2"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -204,6 +213,17 @@ namespace GameInputSystem
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1466a677-e8b4-4072-9e30-1534ef3961f6"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CounterAttack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -220,6 +240,7 @@ namespace GameInputSystem
             // Skill
             m_Skill = asset.FindActionMap("Skill", throwIfNotFound: true);
             m_Skill_Dash = m_Skill.FindAction("Dash", throwIfNotFound: true);
+            m_Skill_CounterAttack = m_Skill.FindAction("CounterAttack", throwIfNotFound: true);
         }
 
         ~@GameInput()
@@ -350,11 +371,13 @@ namespace GameInputSystem
         private readonly InputActionMap m_Skill;
         private List<ISkillActions> m_SkillActionsCallbackInterfaces = new List<ISkillActions>();
         private readonly InputAction m_Skill_Dash;
+        private readonly InputAction m_Skill_CounterAttack;
         public struct SkillActions
         {
             private @GameInput m_Wrapper;
             public SkillActions(@GameInput wrapper) { m_Wrapper = wrapper; }
             public InputAction @Dash => m_Wrapper.m_Skill_Dash;
+            public InputAction @CounterAttack => m_Wrapper.m_Skill_CounterAttack;
             public InputActionMap Get() { return m_Wrapper.m_Skill; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -367,6 +390,9 @@ namespace GameInputSystem
                 @Dash.started += instance.OnDash;
                 @Dash.performed += instance.OnDash;
                 @Dash.canceled += instance.OnDash;
+                @CounterAttack.started += instance.OnCounterAttack;
+                @CounterAttack.performed += instance.OnCounterAttack;
+                @CounterAttack.canceled += instance.OnCounterAttack;
             }
 
             private void UnregisterCallbacks(ISkillActions instance)
@@ -374,6 +400,9 @@ namespace GameInputSystem
                 @Dash.started -= instance.OnDash;
                 @Dash.performed -= instance.OnDash;
                 @Dash.canceled -= instance.OnDash;
+                @CounterAttack.started -= instance.OnCounterAttack;
+                @CounterAttack.performed -= instance.OnCounterAttack;
+                @CounterAttack.canceled -= instance.OnCounterAttack;
             }
 
             public void RemoveCallbacks(ISkillActions instance)
@@ -400,6 +429,7 @@ namespace GameInputSystem
         public interface ISkillActions
         {
             void OnDash(InputAction.CallbackContext context);
+            void OnCounterAttack(InputAction.CallbackContext context);
         }
     }
 }
