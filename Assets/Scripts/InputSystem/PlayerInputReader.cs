@@ -18,7 +18,7 @@ namespace GameInputSystem
 
         //SkillController
         public event Action DashEvent=delegate { };
-
+        public event Action CounterAttackEvent=delegate { };
 
 
         private void OnEnable()
@@ -128,6 +128,14 @@ namespace GameInputSystem
             if (context.phase == InputActionPhase.Performed)
             {
                 DashEvent.Invoke();
+            }
+        }
+
+        public void OnCounterAttack(InputAction.CallbackContext context)
+        {
+            if (context.phase == InputActionPhase.Performed)
+            {
+                CounterAttackEvent.Invoke();
             }
         }
 

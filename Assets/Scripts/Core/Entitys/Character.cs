@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using TreeEditor;
 using UnityEngine;
 
 public class Character : MonoBehaviour
@@ -19,39 +17,78 @@ public class Character : MonoBehaviour
     [SerializeField] protected float wallCheckSize = 1f;
     [SerializeField] protected LayerMask wallLayer;
 
-    public float Direction=1f;
+    [Header("击退")]
+    [SerializeField] public Vector2 KnockbackForce;
+    [SerializeField] public float KnockDuration;
+    protected bool isKnock;
 
-    public bool IsFacingRight { get;set; }
+    public float Direction = 1f;
+
+    public bool IsFacingRight { get; set; }
     public StateMachine CharacterStateMachine { get; private set; }
 
     #region 组件
-    public Animator Animator_CT { get;set; }
-    public Rigidbody2D Rb { get;set; }
+    public Animator Animator_CT { get; set; }
+    public Rigidbody2D Rb { get; set; }
+    public EntityFX Fx { get; set; }
 
     #endregion
 
     protected virtual void Awake()
     {
+        Fx = GetComponentInChildren<EntityFX>();
         Animator_CT = GetComponentInChildren<Animator>();
         Rb = GetComponent<Rigidbody2D>();
         CharacterStateMachine = new StateMachine();
     }
 
+
+    /// <summary>
+    /// 造成伤害
+    /// </summary>
+    public virtual void Damage(Character character)
+    {
+        Fx.StartCoroutine("FlashFX");
+        StartCoroutine(HitKnockback(character.KnockbackForce, character.KnockDuration, character.Direction));
+    }
+
+    /// <summary>
+    /// 击退效果
+    /// </summary>
+    /// <param name="xForce"></param>
+    /// <param name="yForce"></param>
+    /// <returns></returns>
+    private IEnumerator HitKnockback(Vector2 hitForce, float hitDuration, float direction, float mult = 1)
+    {
+        isKnock = true;
+
+        Rb.AddForce(new Vector2(hitForce.x * direction * mult, hitForce.y * mult), ForceMode2D.Impulse);
+
+        yield return new WaitForSeconds(hitDuration);
+
+        isKnock = false;
+    }
+
     /// <summary>
     /// 完成动画播放检测
     /// </summary>
-    public void CurrentAnimationFinish()=>CharacterStateMachine.CurrentState.AnimationFinishTrigger();
+    public void CurrentAnimationFinish() => CharacterStateMachine.CurrentState.AnimationFinishTrigger();
 
     /// <summary>
     /// 改变朝向
     /// </summary>
     public virtual void TurnDirection()
     {
+        if (isKnock)
+            return;
+
         transform.Rotate(0, 180, 0);
 
         Direction *= -1;
-        IsFacingRight =!IsFacingRight;
+        IsFacingRight = !IsFacingRight;
     }
+
+    #region 射线碰撞检测
 
     /// <summary>
     /// 地面检测默认返回true
@@ -68,7 +105,7 @@ public class Character : MonoBehaviour
     /// <summary>
     /// 停止角色
     /// </summary>
-    public void SetVelocityZero()=>Rb.velocity = Vector3.zero;
+    public void SetVelocityZero() => Rb.velocity = Vector3.zero;
 
     /// <summary>
     /// 绘制检测线
@@ -79,4 +116,6 @@ public class Character : MonoBehaviour
         Gizmos.DrawWireSphere(AttackCheck.position, AttackCheckRadius);
         Gizmos.DrawLine(wallCheckPoint.position, new Vector3(wallCheckPoint.position.x + wallCheckSize * Direction, wallCheckPoint.position.y));
     }
+
+    #endregion
 }

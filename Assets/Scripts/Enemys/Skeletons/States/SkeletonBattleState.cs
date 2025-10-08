@@ -62,7 +62,7 @@ public class SkeletonBattleState : EntityState
             _moveDir *= -1;
         }
 
-        if (Vector2.Distance(_playerTransform.position, _skeleton.transform.position) > 0.8)
+        if (Vector2.Distance(_playerTransform.position, _skeleton.transform.position) > 0.5)
         {
             _skeleton.SetVelocity(_moveDir* _skeleton.MoveSpeed, _skeleton.Rb.velocity.y);
         }
@@ -73,6 +73,10 @@ public class SkeletonBattleState : EntityState
         base.Exit();
     }
 
+    /// <summary>
+    /// ÅÐ¶ÏÊÇ·ñ¿ÉÒÔ¹¥»÷
+    /// </summary>
+    /// <returns></returns>
     private bool CanAttack()
     {
         if(Time.time > _skeleton.AttackLastTime + _skeleton.AttackCooldown)
