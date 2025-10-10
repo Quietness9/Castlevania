@@ -354,7 +354,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &260387362
 Transform:
   m_ObjectHideFlags: 0
@@ -541,6 +541,7 @@ Transform:
   - {fileID: 822811518}
   - {fileID: 1763172738}
   - {fileID: 735747738}
+  - {fileID: 1719501397}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &303722898
@@ -2257,6 +2258,7 @@ GameObject:
   - component: {fileID: 971561228}
   - component: {fileID: 971561229}
   - component: {fileID: 971561230}
+  - component: {fileID: 971561231}
   m_Layer: 0
   m_Name: SkillManager
   m_TagString: Untagged
@@ -2320,6 +2322,25 @@ MonoBehaviour:
   Cooldown: 1
   _colorDisappearSpeed: 1.5
   _cloneDuration: 2
+--- !u!114 &971561231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 971561226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15c554bac44d0324c9eeeeb112ffa637, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Cooldown: 0
+  _swordForce: {x: 10, y: 8}
+  _swordGravity: 1
+  _offset: {x: 0.5, y: 0.5, z: 0}
+  _dotsCount: 0
+  _spaceBetweenDots: 0
+  _dotsParent: {fileID: 0}
 --- !u!1 &1016995538
 GameObject:
   m_ObjectHideFlags: 0
@@ -2465,6 +2486,8 @@ MonoBehaviour:
   GamePlayer: {fileID: 303722900}
   _editorPrefab:
   - {fileID: 5075708589687889542, guid: f2ea1efe2347aa9489d4f06c1ecf6993, type: 3}
+  - {fileID: 6495687286295062784, guid: 3105cf23c34bd544d884a95cf6bf83ad, type: 3}
+  - {fileID: 5262832279712151814, guid: 3fb7b688bf1047646a9aa1088dc63fcf, type: 3}
 --- !u!1 &1101593073
 GameObject:
   m_ObjectHideFlags: 0
@@ -3022,6 +3045,37 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 337030834}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1719501396
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1719501397}
+  m_Layer: 7
+  m_Name: AimDotsParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1719501397
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1719501396}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 303722897}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1763172737
 GameObject:

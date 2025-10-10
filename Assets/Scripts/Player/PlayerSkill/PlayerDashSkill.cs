@@ -1,7 +1,7 @@
 using UnityEngine;
 
 
-public class Dash : Skill
+public class PlayerDashSkill : Skill
 {
     public float DashForce;
 

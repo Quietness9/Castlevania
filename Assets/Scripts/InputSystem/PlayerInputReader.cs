@@ -19,6 +19,8 @@ namespace GameInputSystem
         //SkillController
         public event Action DashEvent=delegate { };
         public event Action CounterAttackEvent=delegate { };
+        public event Action AimSwordEvent=delegate { };
+        public event Action IdleEvent=delegate { };
 
 
         private void OnEnable()
@@ -136,6 +138,19 @@ namespace GameInputSystem
             if (context.phase == InputActionPhase.Performed)
             {
                 CounterAttackEvent.Invoke();
+            }
+        }
+
+        public void OnAimSword(InputAction.CallbackContext context)
+        {
+            if(context.phase== InputActionPhase.Performed)
+            {
+                AimSwordEvent.Invoke();
+            }
+
+            if(context.phase== InputActionPhase.Canceled)
+            {
+                IdleEvent.Invoke();
             }
         }
 

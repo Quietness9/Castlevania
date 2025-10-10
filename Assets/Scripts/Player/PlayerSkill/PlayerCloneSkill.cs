@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class ClonePlayer : Skill
+public class PlayerCloneSkill : Skill
 {
     
 
@@ -32,7 +32,7 @@ public class ClonePlayer : Skill
         _clonePlayer.transform.localScale = scale;
         _spriteRenderer = _clonePlayer.GetComponentInChildren<SpriteRenderer>();
 
-        int index = Random.Range(0, 3);
+        int index = Random.Range(1, 4);
         _clonePlayer.GetComponentInChildren<Animator>().SetInteger("AttackNumber",index);
         
         _isDisappear =true;

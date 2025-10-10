@@ -42,6 +42,8 @@ public class Player : Character
     public PlayerDashState DashState { get;private set; }
     public PlayerAttackState AttackState { get; private set; }
     public PlayerCounterAttackState CounterAttackState { get; private set; }
+    public PlayerAimSwordState AimSwordState { get; private set; }
+    public PlayerCatchSwordState CatchSwordState { get; private set; }
 
     #endregion
 
@@ -55,6 +57,8 @@ public class Player : Character
         DashState = new PlayerDashState(this, CharacterStateMachine, "Dash");
         AttackState = new PlayerAttackState(this, CharacterStateMachine, "Attack");
         CounterAttackState = new PlayerCounterAttackState(this, CharacterStateMachine, "CounterAttack");
+        AimSwordState = new PlayerAimSwordState(this, CharacterStateMachine, "AimSword");
+        CatchSwordState = new PlayerCatchSwordState(this, CharacterStateMachine, "CatchSword");
 
     }
 
@@ -64,6 +68,7 @@ public class Player : Character
         PlayerSkill = SkillManager.Instance;
 
         InitPlayer();
+        ChangeStateSubscribe();
     }
 
     private void Update()
@@ -101,6 +106,18 @@ public class Player : Character
         PlayerInput.MoveEvent += GetDirectionHandle;
     }
 
+    /// <summary>
+    /// 状态改变订阅（键盘或鼠标）
+    /// </summary>
+    private void ChangeStateSubscribe()
+    {
+        PlayerInput.JumpUpEvent += ChangeJumpStateHandle;
+        PlayerInput.AttackEvent += ChangeAttackStateHandle;
+        PlayerInput.CounterAttackEvent += ChangeCounterAttackStateHandle;
+        PlayerInput.AimSwordEvent += ChangeAimSwordStateHandle;
+        PlayerInput.IdleEvent += ChangeIdleState;
+    }
+
     #region EventHandle
 
     /// <summary>
@@ -117,6 +134,54 @@ public class Player : Character
             TurnDirection();
         }
     }
+
+    #region 地面状态转换别的状态
+
+    /// <summary>
+    /// 转换到跳跃状态
+    /// </summary>
+    private void ChangeJumpStateHandle()
+    {
+
+        if (LastOnGroundTime > 0 && !IsJumping)
+        {
+            CharacterStateMachine.ChangeState(JumpState);
+        }
+    }
+
+    /// <summary>
+    /// 转换攻击状态
+    /// </summary>
+    private void ChangeAttackStateHandle()
+    {
+        CharacterStateMachine.ChangeState(AttackState);
+    }
+
+    /// <summary>
+    /// 转换为连击状态
+    /// </summary>
+    private void ChangeCounterAttackStateHandle()
+    {
+        CharacterStateMachine.ChangeState(CounterAttackState);
+    }
+
+    /// <summary>
+    /// 转换为剑的瞄准状态
+    /// </summary>
+    private void ChangeAimSwordStateHandle()
+    {
+        CharacterStateMachine.ChangeState(AimSwordState);
+    }
+
+    /// <summary>
+    /// 转变为空闲状态
+    /// </summary>
+    private void ChangeIdleState()
+    {
+        CharacterStateMachine.ChangeState(IdleState);
+    }
+
+    #endregion
 
     #endregion
 }
