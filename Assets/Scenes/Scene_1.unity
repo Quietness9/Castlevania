@@ -542,6 +542,7 @@ Transform:
   - {fileID: 1763172738}
   - {fileID: 735747738}
   - {fileID: 1719501397}
+  - {fileID: 582373358}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &303722898
@@ -1763,6 +1764,37 @@ MonoBehaviour:
   m_PointerBehavior: 0
   m_CursorLockBehavior: 0
   m_ScrollDeltaPerTick: 6
+--- !u!1 &582373357
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 582373358}
+  m_Layer: 0
+  m_Name: Dots
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &582373358
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 582373357}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 303722897}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &702246277
 GameObject:
   m_ObjectHideFlags: 0
@@ -2335,12 +2367,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Cooldown: 0
-  _swordForce: {x: 10, y: 8}
+  _swordForce: {x: 8, y: 10}
   _swordGravity: 1
-  _offset: {x: 0.5, y: 0.5, z: 0}
-  _dotsCount: 0
-  _spaceBetweenDots: 0
-  _dotsParent: {fileID: 0}
+  _offset: {x: 1, y: 1, z: 0}
+  _dotsCount: 15
+  _spaceBetweenDots: 0.2
+  _dotsParent: {fileID: 582373358}
 --- !u!1 &1016995538
 GameObject:
   m_ObjectHideFlags: 0

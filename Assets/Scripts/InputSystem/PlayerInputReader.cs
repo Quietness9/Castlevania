@@ -20,8 +20,7 @@ namespace GameInputSystem
         public event Action DashEvent=delegate { };
         public event Action CounterAttackEvent=delegate { };
         public event Action AimSwordEvent=delegate { };
-        public event Action IdleEvent=delegate { };
-
+        public event Action CancelSwordEvent = delegate { };
 
         private void OnEnable()
         {
@@ -150,7 +149,7 @@ namespace GameInputSystem
 
             if(context.phase== InputActionPhase.Canceled)
             {
-                IdleEvent.Invoke();
+                CancelSwordEvent.Invoke();
             }
         }
 
