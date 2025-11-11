@@ -15,25 +15,73 @@ public class PlayerSwordSkill : Skill
     [SerializeField] Transform _dotsParent;
 
     GameObject[] _dots;
+    Vector2 _finalDir;
+
+    protected override void Start()
+    {
+        base.Start();
+        CreateDots();
+    }
 
 
+    protected override void Update()
+    {
+        base.Update();
+        if (Input.GetKeyUp(KeyCode.Mouse1))
+        {
+            _finalDir = GetAimDirection().normalized;
+        }
+
+        if (Input.GetKey(KeyCode.Mouse1))
+        {
+            for (int i = 0; i < _dots.Length; ++i)
+            {
+                _dots[i].transform.position = GetDotsPosition((i+1) * _spaceBetweenDots);
+            }
+        }
+
+    }
+
+    /// <summary>
+    /// 创建剑
+    /// </summary>
     public void CreateSword()
     {
 
-
         GameObject swordObj = Instantiate(GlobalReferencesManager.Instance.GetPrefab("PlayerSword"), player.transform.position+_offset, Quaternion.identity);
-        SwordController newSword= swordObj.GetComponent<SwordController>();
 
-        newSword.SetSword(_swordForce*GetAimDirection().normalized, _swordGravity);
+        if(!swordObj)
+        {
+            Debug.Log("swordObj is Null");
+            return;
+        }
+        SwordController newSword = swordObj.GetComponent<SwordController>();
+        newSword.SetSword(_swordForce *_finalDir , _swordGravity);
+        SetDotsActive(false);
 
+    }
+
+    /// <summary>
+    /// 激活瞄准点
+    /// </summary>
+    public void ActiveDots()
+    {
         SetDotsActive(true);
+    }
+
+    /// <summary>
+    /// 隐藏瞄准点
+    /// </summary>
+    public void HideDots()
+    {
+        SetDotsActive(false);
     }
 
     /// <summary>
     /// 控制瞄准点显示
     /// </summary>
     /// <param name="isActive"></param>
-    public void SetDotsActive(bool isActive)
+    private void SetDotsActive(bool isActive)
     {
         foreach(var item in _dots)
         {
@@ -47,11 +95,18 @@ public class PlayerSwordSkill : Skill
     private void CreateDots()
     {
         GameObject dotPrefab = GlobalReferencesManager.Instance.GetPrefab("SwordDot");
+
+        if (!dotPrefab)
+        {
+            Debug.Log("dotPrefab is NULL");
+            return;
+        }
+
         _dots = new GameObject[_dotsCount];
 
         for(int i = 0; i < _dotsCount; i++)
         {
-            _dots[i]=Instantiate(dotPrefab,player.transform.position+_offset, Quaternion.identity,_dotsParent);
+            _dots[i]=Instantiate(dotPrefab,player.transform.position, Quaternion.identity,_dotsParent);
             _dots[i].SetActive(false);
         }
     }
@@ -77,7 +132,9 @@ public class PlayerSwordSkill : Skill
     /// <returns></returns>
     private Vector2 GetDotsPosition(float time)
     {
-        Vector2 position=(Vector2)(player.transform.position +_offset)+_swordForce*GetAimDirection().normalized*time
+        Vector2 position=(Vector2)player.transform.position +new Vector2(
+            GetAimDirection().normalized.x*_swordForce.x,
+            GetAimDirection().normalized.y*_swordForce.y)*time
             +0.5f*(Physics2D.gravity*_swordGravity)*(time*time);
 
         return position;

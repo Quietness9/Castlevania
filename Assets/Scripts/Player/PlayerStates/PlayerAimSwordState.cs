@@ -11,12 +11,13 @@ public class PlayerAimSwordState : PlayerState
     public override void Enter()
     {
         base.Enter();
-        SkillManager.Instance.SwordSkill.SetDotsActive(true);
+        SkillManager.Instance.SwordSkill.ActiveDots();
     }
 
     public override void Exit()
     {
         base.Exit();
+        SkillManager.Instance.SwordSkill.HideDots();
     }
 
     public override void Update()

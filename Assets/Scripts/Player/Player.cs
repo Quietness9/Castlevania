@@ -115,7 +115,7 @@ public class Player : Character
         PlayerInput.AttackEvent += ChangeAttackStateHandle;
         PlayerInput.CounterAttackEvent += ChangeCounterAttackStateHandle;
         PlayerInput.AimSwordEvent += ChangeAimSwordStateHandle;
-        PlayerInput.IdleEvent += ChangeIdleState;
+        PlayerInput.CancelSwordEvent += ChangeIdleStateHandle;
     }
 
     #region EventHandle
@@ -176,7 +176,7 @@ public class Player : Character
     /// <summary>
     /// 转变为空闲状态
     /// </summary>
-    private void ChangeIdleState()
+    private void ChangeIdleStateHandle()
     {
         CharacterStateMachine.ChangeState(IdleState);
     }
