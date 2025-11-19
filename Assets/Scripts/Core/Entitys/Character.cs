@@ -18,8 +18,8 @@ public class Character : MonoBehaviour
     [SerializeField] protected LayerMask wallLayer;
 
     [Header("击退")]
-    [SerializeField] public Vector2 KnockbackForce;
-    [SerializeField] public float KnockDuration;
+    public Vector2 KnockbackForce;
+    public float KnockDuration;
     protected bool isKnock;
 
     public float Direction = 1f;
@@ -88,7 +88,7 @@ public class Character : MonoBehaviour
         IsFacingRight = !IsFacingRight;
     }
 
-    #region 射线碰撞检测
+    #region 通用射线碰撞检测
 
     /// <summary>
     /// 地面检测默认返回true

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,7 +13,7 @@ public class SwordController : MonoBehaviour
     [Header("弹跳剑")]
     int _bounceAmount;
     int _enemyIndex;
-    List<Transform> _enemyTarget=new(); //设为私有后unity不在自动创建其空间
+    List<Transform> _enemyTarget = new(); //设为私有后unity不在自动创建其空间
 
     [Header("穿透剑")]
     int _pierceAmount;
@@ -22,9 +21,11 @@ public class SwordController : MonoBehaviour
     [Header("旋转剑")]
     float _spinTimer;
     float _hitTimer;
+    float _spinDirection;
     bool _isStopSpin;
 
-    bool _canRotation=true;
+
+    bool _canRotation = true;
     bool _isSwordReturning;
     bool _isAdvanceReturn;
     SwordType _swordType;
@@ -53,9 +54,9 @@ public class SwordController : MonoBehaviour
             }
         }
 
-        if (_swordType == SwordType.Spin)
+        if (Vector2.Distance(transform.position,_player.transform.position)>_swordData.MaxMoveDistance)
         {
-
+            Destroy(this.gameObject);
         }
 
         BounceLogic();
@@ -68,16 +69,18 @@ public class SwordController : MonoBehaviour
     /// </summary>
     /// <param name="force"></param>
     /// <param name="gravity"></param>
-    public void SetSword(Vector2 force,SwordData swordData,SwordType swordType,Player player)
+    public void SetSword(Vector2 force, SwordData swordData, SwordType swordType, Player player)
     {
         _player = player;
         _swordType = swordType;
         _swordData = swordData;
         _bounceAmount = swordData.BounceAmount;
-        _pierceAmount=swordData.PierceAmount;
+        _pierceAmount = swordData.PierceAmount;
         _rb.gravityScale = swordData.getSwordGravity(swordType);
-        _rb.AddForce(force,ForceMode2D.Impulse);
-        
+        _rb.AddForce(force, ForceMode2D.Impulse);
+
+        _spinDirection = Mathf.Clamp(_rb.velocity.x, -1, 1);
+
 
         if (swordType != SwordType.Pierce)
         {
@@ -101,17 +104,11 @@ public class SwordController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-
         if (_isSwordReturning)
             return;
 
-        if(collision.TryGetComponent(out Enemy enemy))
-        {
-            enemy.Damage(_player);
-        }
-
         SwordTypeManager(collision);
-        
+
     }
 
     /// <summary>
@@ -119,16 +116,22 @@ public class SwordController : MonoBehaviour
     /// </summary>
     private void SwordTypeManager(Collider2D collision)
     {
+
         _isAdvanceReturn = false;
 
         switch (_swordType)
         {
-            case SwordType.Bounce:SwordBounceTriggerEnter(collision); break;
-            case SwordType.Pierce:SwordPierceTriggerEnter(collision); break;
-            case SwordType.Spin:SwordSpinTriggerEnter(collision);break;
+            case SwordType.Bounce: SwordBounceTriggerEnter(collision); break;
+            case SwordType.Pierce: SwordPierceTriggerEnter(collision); break;
+            case SwordType.Spin: SwordSpinTriggerEnter(collision); break;
             case SwordType.Ordinary: break;
             default: Debug.Log("没有此类型的剑"); break;
 
+        }
+
+        if (collision.TryGetComponent(out Enemy enemy))
+        {
+            SwordSkillDamage(enemy);
         }
 
         if (_isAdvanceReturn)
@@ -138,6 +141,16 @@ public class SwordController : MonoBehaviour
 
         transform.parent = collision.transform;
         _animator.SetBool("Flip", false);
+    }
+
+    /// <summary>
+    /// 剑造成的伤害和效果
+    /// </summary>
+    /// <param name="collision"></param>
+    private void SwordSkillDamage(Enemy enemy)
+    {
+        enemy.StartCoroutine("IsFreezeSelfCo", _swordData.FreezeTime);
+        enemy.Damage(_player);
     }
 
     /// <summary>
@@ -157,17 +170,16 @@ public class SwordController : MonoBehaviour
     /// </summary>
     private void SwordPierceTriggerEnter(Collider2D collision)
     {
-        //if (collision.TryGetComponent(out Enemy enemy))
-        //{
-            
-        //}
-
-        if (_pierceAmount > 0)
+        if (collision.TryGetComponent(out Enemy enemy))
         {
-            //enemy.Damage(_player);
-            _pierceAmount--;
-            _isAdvanceReturn = true;
+            enemy.Damage(_player);
+            if (_pierceAmount > 0)
+            {
+                _pierceAmount--;
+                _isAdvanceReturn = true;
+            }
         }
+
     }
 
     #region Spin
@@ -177,6 +189,7 @@ public class SwordController : MonoBehaviour
     /// </summary>
     private void SwordSpinTriggerEnter(Collider2D collision)
     {
+        StopSpinSword();
         _isAdvanceReturn = true;
     }
 
@@ -187,17 +200,16 @@ public class SwordController : MonoBehaviour
     {
         if (_swordType == SwordType.Spin)
         {
-            if (Vector2.Distance(_player.transform.position, transform.position) >= _swordData.MaxTravelDistance&&!_isStopSpin)
+            if (Vector2.Distance(_player.transform.position, transform.position) >= _swordData.MaxTravelDistance && !_isStopSpin)
             {
-                _isStopSpin = true;
-                _rb.constraints = RigidbodyConstraints2D.FreezeAll;
-                _spinTimer = _swordData.SpinDuration;
-
+                StopSpinSword();
             }
 
             if (_isStopSpin)
             {
                 _spinTimer -= Time.deltaTime;
+                transform.position = Vector2.MoveTowards(transform.position,
+                    new Vector2(transform.position.x + _spinDirection, transform.position.y), _swordData.SpinMoveSpeed * Time.deltaTime);
 
                 if (_spinTimer < 0)
                 {
@@ -206,12 +218,31 @@ public class SwordController : MonoBehaviour
                 }
             }
 
-            _hitTimer-= Time.deltaTime;
+            _hitTimer -= Time.deltaTime;
             if (_hitTimer < 0)
             {
-                _hitTimer = _swordData.HitCooldown;
+                _hitTimer = _swordData.SpinHitCooldown;
+                Collider2D[] collider2D = Physics2D.OverlapCircleAll(transform.position, _swordData.SpinDetectionRadius);
+
+                foreach (var collider in collider2D)
+                {
+                    if (collider.TryGetComponent(out Enemy enemy))
+                    {
+                        SwordSkillDamage(enemy);
+                    }
+                }
             }
         }
+    }
+
+    /// <summary>
+    /// 停止旋转剑的位置
+    /// </summary>
+    private void StopSpinSword()
+    {
+        _isStopSpin = true;
+        _rb.constraints = RigidbodyConstraints2D.FreezeAll;
+        _spinTimer = _swordData.SpinDuration;
     }
 
     #endregion
@@ -223,12 +254,12 @@ public class SwordController : MonoBehaviour
     private void SwordBounceTriggerEnter(Collider2D collision)
     {
 
-        if (collision.GetComponent<Enemy>() != null)
+        if (collision.TryGetComponent(out Enemy collisionEnemy))
         {
+
             if (_enemyTarget.Count <= 0)
             {
-
-                Collider2D[] collider2D=Physics2D.OverlapCircleAll(transform.position, 10);
+                Collider2D[] collider2D = Physics2D.OverlapCircleAll(transform.position, _swordData.BounceDetectionRadius);
 
                 foreach (var collider in collider2D)
                 {
@@ -237,11 +268,13 @@ public class SwordController : MonoBehaviour
                         _enemyTarget.Add(enemy.transform);
                     }
                 }
+
+                SortEnemyPosition(collisionEnemy.transform);
             }
 
             if (_enemyTarget.Count > 1)
             {
-                _isAdvanceReturn=true;
+                _isAdvanceReturn = true;
                 HitObject(collision);
             }
         }
@@ -257,10 +290,13 @@ public class SwordController : MonoBehaviour
             transform.position = Vector2.MoveTowards(transform.position, _enemyTarget[_enemyIndex].position, _swordData.BounceSpeed * Time.deltaTime);
             if (Vector2.Distance(transform.position, _enemyTarget[_enemyIndex].position) < 0.5)
             {
+
+                SwordSkillDamage(_enemyTarget[_enemyIndex].GetComponent<Enemy>());
+
                 _bounceAmount--;
                 _enemyIndex++;
 
-                if(_enemyIndex >= _enemyTarget.Count)
+                if (_enemyIndex >= _enemyTarget.Count)
                 {
                     _enemyIndex = 0;
                 }
@@ -272,6 +308,26 @@ public class SwordController : MonoBehaviour
                 }
             }
         }
+    }
+
+    /// <summary>
+    /// 排序检测到的敌人距离
+    /// </summary>
+    private void SortEnemyPosition(Transform firstTransform)
+    {
+        if (_enemyTarget == null || _enemyTarget.Count == 0 || firstTransform == null)
+            return;
+
+        _enemyTarget.Sort((enemy1, enemy2) =>
+        {
+            if (enemy1 == null && enemy2 == null) return 0;
+            if (enemy1 == null) return 1;
+            if (enemy2 == null) return -1;
+
+            float distance1 = Vector2.Distance(firstTransform.position, enemy1.position);
+            float distance2 = Vector2.Distance(firstTransform.position, enemy2.position);
+            return distance1.CompareTo(distance2);
+        });
     }
 
     #endregion

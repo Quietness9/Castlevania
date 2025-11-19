@@ -7,13 +7,17 @@ public class SwordData : ScriptableObject
 {
     [Header("基础剑")]
     public Vector2 SwordForce;
-    public float SwordGravity;
     public Vector3 Offset;
+    public float SwordGravity;
+    public float FreezeTime;
+    public float ReturnSpeed;
+    public float MaxMoveDistance;
 
     [Header("弹跳剑")]
     public float BounceGravity;
     public float BounceSpeed;
     public int BounceAmount;
+    public float BounceDetectionRadius;
 
     [Header("穿透剑")]
     public float PierceGravity;
@@ -23,13 +27,16 @@ public class SwordData : ScriptableObject
     public float SpinGravity;
     public float MaxTravelDistance;
     public float SpinDuration;
-    public float HitCooldown;
+    public float SpinHitCooldown;
+    public float SpinDetectionRadius;
+    public float SpinMoveSpeed;
 
     [Header("瞄准点设置")]
     public int DotsCount;
     public float SpaceBetweenDots;
 
-    public float ReturnSpeed = 12f;
+    
+    
 
     /// <summary>
     /// 获得不同类型的剑的重力

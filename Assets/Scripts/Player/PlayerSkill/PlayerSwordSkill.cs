@@ -57,7 +57,6 @@ public class PlayerSwordSkill : Skill
             newSword.SetSword(PlayerSwordData.SwordForce * _finalDir,PlayerSwordData,SwordType, player);
             player.GetNewSword(swordObj);
         }
-        //SwordController newSword = swordObj.GetComponent<SwordController>();
 
         SetDotsActive(false);
     }

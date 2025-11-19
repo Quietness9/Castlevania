@@ -9,26 +9,69 @@ public class Enemy : Character
     [SerializeField] float _checkPlayerDistance=50f;
     [SerializeField] LayerMask _playerLayer;
 
-    [Header("IdleState")]
+    [Header("闲置状态")]
     public float IdleTime;
 
-    [Header("MoveState")]
+    [Header("移动状态")]
     public float MoveSpeed;
     public float MoveTime;
+    float _defaultMoveSpeed;
 
-    [Header("BattleState")]
+    [Header("危险状态")]
     public float BattleTime;
 
-    [Header("AttackState")]
+    [Header("攻击状态")]
     public float IgnoreDistance=2f;
     public float AttackLastTime;
     public Vector2 AttackCooldownOffset;
     public float AttackCooldown { get; set; }
 
-    [Header("StunnedState")]
+    [Header("眩晕状态")]
     public float StunnedMult;
     [SerializeField] protected GameObject counterImage;
     protected bool canStunned;
+
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        _defaultMoveSpeed=MoveSpeed;
+    }
+
+    /// <summary>
+    /// 是否冻结自身
+    /// </summary>
+    /// <returns></returns>
+    public virtual void IsFreezeSelf(bool isFreeze)
+    {
+        if (isFreeze)
+        {
+            MoveSpeed = 0;
+            Animator_CT.speed = 0;
+        }
+        else
+        {
+            MoveSpeed = _defaultMoveSpeed;
+            Animator_CT.speed = 1;
+        }
+    }
+
+    /// <summary>
+    /// 控制冻结自身
+    /// </summary>
+    /// <param name="freezeTimer"></param>
+    /// <returns></returns>
+
+    protected virtual IEnumerator IsFreezeSelfCo(float freezeTimer)
+    {
+        IsFreezeSelf(true);
+
+        yield return new WaitForSeconds(freezeTimer);
+
+        IsFreezeSelf(false);
+    }
+
 
     /// <summary>
     /// 是可以转换反击状态
@@ -44,6 +87,8 @@ public class Enemy : Character
         
         return false;
     }
+
+    #region 反击窗口
 
     /// <summary>
     /// 开启反击窗口
@@ -62,6 +107,8 @@ public class Enemy : Character
         canStunned = false;
         counterImage.SetActive(false);
     }
+
+    #endregion
 
     /// <summary>
     /// 设置移动速度
