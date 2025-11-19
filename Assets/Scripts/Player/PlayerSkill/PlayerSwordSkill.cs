@@ -4,18 +4,14 @@ using UnityEngine;
 
 public class PlayerSwordSkill : Skill
 {
-    [Header("SwordInfo")]
-    [SerializeField] Vector2 _swordForce;
-    [SerializeField] float _swordGravity;
-    [SerializeField] Vector3 _offset;
-
-    [Header("Aim Dots Info")]
-    [SerializeField] int _dotsCount;
-    [SerializeField] float _spaceBetweenDots;
+    
     [SerializeField] Transform _dotsParent;
 
     GameObject[] _dots;
     Vector2 _finalDir;
+
+    public SwordData PlayerSwordData;
+    public SwordType SwordType=SwordType.Ordinary;
 
     protected override void Start()
     {
@@ -36,7 +32,7 @@ public class PlayerSwordSkill : Skill
         {
             for (int i = 0; i < _dots.Length; ++i)
             {
-                _dots[i].transform.position = GetDotsPosition((i+1) * _spaceBetweenDots);
+                _dots[i].transform.position = GetDotsPosition((i+1) * PlayerSwordData.SpaceBetweenDots);
             }
         }
 
@@ -48,18 +44,39 @@ public class PlayerSwordSkill : Skill
     public void CreateSword()
     {
 
-        GameObject swordObj = Instantiate(GlobalReferencesManager.Instance.GetPrefab("PlayerSword"), player.transform.position+_offset, Quaternion.identity);
+        GameObject swordObj = Instantiate(GlobalReferencesManager.Instance.GetPrefab("PlayerSword"), player.transform.position+PlayerSwordData.Offset, Quaternion.identity);
 
-        if(!swordObj)
+        if(swordObj==null)
         {
             Debug.Log("swordObj is Null");
             return;
         }
-        SwordController newSword = swordObj.GetComponent<SwordController>();
-        newSword.SetSword(_swordForce *_finalDir , _swordGravity);
-        SetDotsActive(false);
 
+        if(swordObj.TryGetComponent(out SwordController newSword))
+        {
+            newSword.SetSword(PlayerSwordData.SwordForce * _finalDir,PlayerSwordData,SwordType, player);
+            player.GetNewSword(swordObj);
+        }
+        //SwordController newSword = swordObj.GetComponent<SwordController>();
+
+        SetDotsActive(false);
     }
+
+    /// <summary>
+    /// 获得瞄准方向
+    /// </summary>
+    /// <returns></returns>
+    private Vector2 GetAimDirection()
+    {
+        Vector2 playerPosition=player.transform.position;
+        Vector2 mousePosition=Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+        Vector2 direction=mousePosition - playerPosition;
+
+        return direction;
+    }
+
+    #region 瞄准点功能
 
     /// <summary>
     /// 激活瞄准点
@@ -83,7 +100,7 @@ public class PlayerSwordSkill : Skill
     /// <param name="isActive"></param>
     private void SetDotsActive(bool isActive)
     {
-        foreach(var item in _dots)
+        foreach (var item in _dots)
         {
             item.SetActive(isActive);
         }
@@ -102,27 +119,13 @@ public class PlayerSwordSkill : Skill
             return;
         }
 
-        _dots = new GameObject[_dotsCount];
+        _dots = new GameObject[PlayerSwordData.DotsCount];
 
-        for(int i = 0; i < _dotsCount; i++)
+        for (int i = 0; i < PlayerSwordData.DotsCount; i++)
         {
-            _dots[i]=Instantiate(dotPrefab,player.transform.position, Quaternion.identity,_dotsParent);
+            _dots[i] = Instantiate(dotPrefab, player.transform.position, Quaternion.identity, _dotsParent);
             _dots[i].SetActive(false);
         }
-    }
-
-    /// <summary>
-    /// 获得瞄准方向
-    /// </summary>
-    /// <returns></returns>
-    private Vector2 GetAimDirection()
-    {
-        Vector2 playerPosition=player.transform.position;
-        Vector2 mousePosition=Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-        Vector2 direction=mousePosition - playerPosition;
-
-        return direction;
     }
 
     /// <summary>
@@ -133,10 +136,12 @@ public class PlayerSwordSkill : Skill
     private Vector2 GetDotsPosition(float time)
     {
         Vector2 position=(Vector2)player.transform.position +new Vector2(
-            GetAimDirection().normalized.x*_swordForce.x,
-            GetAimDirection().normalized.y*_swordForce.y)*time
-            +0.5f*(Physics2D.gravity*_swordGravity)*(time*time);
+            GetAimDirection().normalized.x*PlayerSwordData.SwordForce.x,
+            GetAimDirection().normalized.y*PlayerSwordData.SwordForce.y)*time
+            +0.5f*(Physics2D.gravity* PlayerSwordData.getSwordGravity(SwordType)) *(time*time);
 
         return position;
     }
+
+    #endregion
 }

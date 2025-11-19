@@ -77,7 +77,7 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0.71428573
-    functionName: AnimationTrigger
+    functionName: AnimationFinish
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

@@ -21,7 +21,8 @@ public class PlayerCloneSkill : Skill
     /// </summary>
     public void CreateClonePlayer()
     {
-
+        if (!CanUseSkill())
+            return;
 
         _cloneTimer =_cloneDuration;
         _clonePlayer = Instantiate(GlobalReferencesManager.Instance.GetPrefab("PlayerClone"), player.transform.position,Quaternion.identity);

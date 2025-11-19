@@ -28,9 +28,9 @@ public class Character : MonoBehaviour
     public StateMachine CharacterStateMachine { get; private set; }
 
     #region ×é¼þ
-    public Animator Animator_CT { get; set; }
-    public Rigidbody2D Rb { get; set; }
-    public EntityFX Fx { get; set; }
+    public Animator Animator_CT { get;private set; }
+    public Rigidbody2D Rb { get;private set; }
+    public EntityFX Fx { get;private set; }
 
     #endregion
 

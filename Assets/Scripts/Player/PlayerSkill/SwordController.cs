@@ -4,9 +4,31 @@ using UnityEngine;
 
 public class SwordController : MonoBehaviour
 {
-    Rigidbody2D _rb;
+
+    Player _player;
     Animator _animator;
+    Rigidbody2D _rb;
     CircleCollider2D _circleCollider;
+
+
+    [Header("弹跳剑")]
+    int _bounceAmount;
+    int _enemyIndex;
+    List<Transform> _enemyTarget=new(); //设为私有后unity不在自动创建其空间
+
+    [Header("穿透剑")]
+    int _pierceAmount;
+
+    [Header("旋转剑")]
+    float _spinTimer;
+    float _hitTimer;
+    bool _isStopSpin;
+
+    bool _canRotation=true;
+    bool _isSwordReturning;
+    bool _isAdvanceReturn;
+    SwordType _swordType;
+    SwordData _swordData;
 
     private void Awake()
     {
@@ -15,10 +37,242 @@ public class SwordController : MonoBehaviour
         _animator = GetComponentInChildren<Animator>();
     }
 
-
-    public void SetSword(Vector2 force,float gravity)
+    private void Update()
     {
-        _rb.gravityScale = gravity;
-        _rb.AddForce(force,ForceMode2D.Impulse);
+        if (_canRotation)
+        {
+            transform.right = _rb.velocity;
+        }
+
+        if (_isSwordReturning)
+        {
+            transform.position = Vector2.MoveTowards(transform.position, _player.transform.position, _swordData.ReturnSpeed * Time.deltaTime);
+            if (Vector2.Distance(transform.position, _player.transform.position) < 1)
+            {
+                _player.CatchSword();
+            }
+        }
+
+        if (_swordType == SwordType.Spin)
+        {
+
+        }
+
+        BounceLogic();
+        SpinLogic();
+
     }
+
+    /// <summary>
+    /// 设置剑的重力和作用力
+    /// </summary>
+    /// <param name="force"></param>
+    /// <param name="gravity"></param>
+    public void SetSword(Vector2 force,SwordData swordData,SwordType swordType,Player player)
+    {
+        _player = player;
+        _swordType = swordType;
+        _swordData = swordData;
+        _bounceAmount = swordData.BounceAmount;
+        _pierceAmount=swordData.PierceAmount;
+        _rb.gravityScale = swordData.getSwordGravity(swordType);
+        _rb.AddForce(force,ForceMode2D.Impulse);
+        
+
+        if (swordType != SwordType.Pierce)
+        {
+            _animator.SetBool("Flip", true);
+        }
+
+        _enemyTarget.Clear();
+        _enemyIndex = 0;
+    }
+
+    /// <summary>
+    /// 返回剑
+    /// </summary>
+    public void ReturnSword()
+    {
+        //_rb.isKinematic = false;
+        _rb.constraints = RigidbodyConstraints2D.FreezeAll;
+        transform.parent = null;
+        _isSwordReturning = true;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+
+        if (_isSwordReturning)
+            return;
+
+        if(collision.TryGetComponent(out Enemy enemy))
+        {
+            enemy.Damage(_player);
+        }
+
+        SwordTypeManager(collision);
+        
+    }
+
+    /// <summary>
+    /// 对不同类型剑的处理
+    /// </summary>
+    private void SwordTypeManager(Collider2D collision)
+    {
+        _isAdvanceReturn = false;
+
+        switch (_swordType)
+        {
+            case SwordType.Bounce:SwordBounceTriggerEnter(collision); break;
+            case SwordType.Pierce:SwordPierceTriggerEnter(collision); break;
+            case SwordType.Spin:SwordSpinTriggerEnter(collision);break;
+            case SwordType.Ordinary: break;
+            default: Debug.Log("没有此类型的剑"); break;
+
+        }
+
+        if (_isAdvanceReturn)
+            return;
+
+        HitObject(collision);
+
+        transform.parent = collision.transform;
+        _animator.SetBool("Flip", false);
+    }
+
+    /// <summary>
+    /// 剑击中对象处理
+    /// </summary>
+    /// <param name="collision"></param>
+    private void HitObject(Collider2D collision)
+    {
+        _circleCollider.enabled = false;
+        _canRotation = false;
+        _rb.isKinematic = true;
+        _rb.constraints = RigidbodyConstraints2D.FreezeAll;
+    }
+
+    /// <summary>
+    /// 穿透剑处理逻辑
+    /// </summary>
+    private void SwordPierceTriggerEnter(Collider2D collision)
+    {
+        //if (collision.TryGetComponent(out Enemy enemy))
+        //{
+            
+        //}
+
+        if (_pierceAmount > 0)
+        {
+            //enemy.Damage(_player);
+            _pierceAmount--;
+            _isAdvanceReturn = true;
+        }
+    }
+
+    #region Spin
+
+    /// <summary>
+    /// 旋转剑触碰处理逻辑
+    /// </summary>
+    private void SwordSpinTriggerEnter(Collider2D collision)
+    {
+        _isAdvanceReturn = true;
+    }
+
+    /// <summary>
+    /// 旋转剑处理逻辑
+    /// </summary>
+    private void SpinLogic()
+    {
+        if (_swordType == SwordType.Spin)
+        {
+            if (Vector2.Distance(_player.transform.position, transform.position) >= _swordData.MaxTravelDistance&&!_isStopSpin)
+            {
+                _isStopSpin = true;
+                _rb.constraints = RigidbodyConstraints2D.FreezeAll;
+                _spinTimer = _swordData.SpinDuration;
+
+            }
+
+            if (_isStopSpin)
+            {
+                _spinTimer -= Time.deltaTime;
+
+                if (_spinTimer < 0)
+                {
+                    _isSwordReturning = true;
+                    _isStopSpin = false;
+                }
+            }
+
+            _hitTimer-= Time.deltaTime;
+            if (_hitTimer < 0)
+            {
+                _hitTimer = _swordData.HitCooldown;
+            }
+        }
+    }
+
+    #endregion
+
+    #region Bounce
+    /// <summary>
+    /// 弹跳剑碰撞处理
+    /// </summary>
+    private void SwordBounceTriggerEnter(Collider2D collision)
+    {
+
+        if (collision.GetComponent<Enemy>() != null)
+        {
+            if (_enemyTarget.Count <= 0)
+            {
+
+                Collider2D[] collider2D=Physics2D.OverlapCircleAll(transform.position, 10);
+
+                foreach (var collider in collider2D)
+                {
+                    if (collider.TryGetComponent(out Enemy enemy))
+                    {
+                        _enemyTarget.Add(enemy.transform);
+                    }
+                }
+            }
+
+            if (_enemyTarget.Count > 1)
+            {
+                _isAdvanceReturn=true;
+                HitObject(collision);
+            }
+        }
+    }
+
+    /// <summary>
+    /// 弹跳剑效果逻辑
+    /// </summary>
+    private void BounceLogic()
+    {
+        if (_swordType == SwordType.Bounce && _enemyTarget.Count > 0)
+        {
+            transform.position = Vector2.MoveTowards(transform.position, _enemyTarget[_enemyIndex].position, _swordData.BounceSpeed * Time.deltaTime);
+            if (Vector2.Distance(transform.position, _enemyTarget[_enemyIndex].position) < 0.5)
+            {
+                _bounceAmount--;
+                _enemyIndex++;
+
+                if(_enemyIndex >= _enemyTarget.Count)
+                {
+                    _enemyIndex = 0;
+                }
+
+                if (_bounceAmount == 0)
+                {
+                    _isSwordReturning = true;
+
+                }
+            }
+        }
+    }
+
+    #endregion
 }

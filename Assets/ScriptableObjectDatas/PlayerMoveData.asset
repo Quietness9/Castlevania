@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 82a810edd8b21d149ae09a35eb1a072d, type: 3}
-  m_Name: MoveData
+  m_Name: PlayerMoveData
   m_EditorClassIdentifier: 
   FallGravityMult: 1.1
   MaxFallSpeed: 5

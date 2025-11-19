@@ -14,6 +14,7 @@ public class Player : Character
     [Header("攻击")]
     public Vector2[] AttackMovement;
     public float CounterAttackDuration;
+    public float SwordReturnForce;
 
     [Header("EnemyStunned")]
     public Vector2 StunnedForce;
@@ -21,6 +22,8 @@ public class Player : Character
 
     public float Hor { get;private set; }
     public float Vert { get;private set; }
+    public SkillManager PlayerSkill { get; private set; }
+    public GameObject SwordObj { get;private set; }
 
     //跳跃
     public bool IsJumpCut { get;set; }
@@ -31,8 +34,6 @@ public class Player : Character
     //Timer
     public float LastOnGroundTime { get;set; }
 
-
-    public SkillManager PlayerSkill { get; private set; }
 
     #region 状态
 
@@ -86,12 +87,30 @@ public class Player : Character
 
         CharacterStateMachine.CurrentState.Update();
     }
-
-    
-
     private void OnDestroy()
     {
         PlayerInput.MoveEvent -= GetDirectionHandle;
+    }
+
+    /// <summary>
+    /// 获得新剑
+    /// </summary>
+    public void GetNewSword(GameObject newSword)
+    {
+        SwordObj = newSword;
+    }
+
+    /// <summary>
+    /// 抓住扔出的的剑
+    /// </summary>
+    public void CatchSword()
+    {
+        CharacterStateMachine.ChangeState(CatchSwordState);
+
+        if (SwordObj)
+        {
+            Destroy(SwordObj);
+        }
     }
 
     /// <summary>
@@ -170,7 +189,15 @@ public class Player : Character
     /// </summary>
     private void ChangeAimSwordStateHandle()
     {
-        CharacterStateMachine.ChangeState(AimSwordState);
+        if (!SwordObj)
+        {
+            CharacterStateMachine.ChangeState(AimSwordState);
+        }
+        else
+        {
+            SwordObj.GetComponent<SwordController>().ReturnSword();
+        }
+        
     }
 
     /// <summary>

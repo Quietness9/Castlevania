@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PlayerAimSwordState : PlayerState
 {
+
+    Vector2 _mousePosition;
+
     public PlayerAimSwordState(Character character, StateMachine stateMachine, string animationName) : base(character, stateMachine, animationName)
     {
     }
@@ -12,6 +15,7 @@ public class PlayerAimSwordState : PlayerState
     {
         base.Enter();
         SkillManager.Instance.SwordSkill.ActiveDots();
+        player.SetVelocityZero();
     }
 
     public override void Exit()
@@ -23,5 +27,16 @@ public class PlayerAimSwordState : PlayerState
     public override void Update()
     {
         base.Update();
+        
+        _mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+        if (player.transform.position.x > _mousePosition.x && player.IsFacingRight)
+        {
+            player.TurnDirection();
+        }else if (player.transform.position.x < _mousePosition.x && !player.IsFacingRight)
+        {
+            player.TurnDirection();
+        }
+
     }
 }
