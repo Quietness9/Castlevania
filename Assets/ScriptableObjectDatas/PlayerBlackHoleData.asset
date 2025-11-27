@@ -12,5 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e51fb615a13984340a4320e875174b59, type: 3}
   m_Name: PlayerBlackHoleData
   m_EditorClassIdentifier: 
-  MaxSize: 10
-  GrowSpeed: 1
+  <KeyOffset>k__BackingField: {x: 0, y: 2, z: 0}
+  <CloneOffset>k__BackingField: {x: 1, y: 0, z: 0}
+  <BlackHoleDuration>k__BackingField: 5
+  <FlyTime>k__BackingField: 0.5
+  <FlySpeed>k__BackingField: 8
+  <LandSpeed>k__BackingField: 5
+  <MaxSize>k__BackingField: 12
+  <GrowSpeed>k__BackingField: 2
+  <ShrinkSpeed>k__BackingField: 4
+  <BlackHoleFreezeTime>k__BackingField: 10
+  <CloneAttackCooldown>k__BackingField: 1
+  <CloneAttackAmount>k__BackingField: 1
+  <KeyCodeList>k__BackingField: 65000000740000006600000067000000

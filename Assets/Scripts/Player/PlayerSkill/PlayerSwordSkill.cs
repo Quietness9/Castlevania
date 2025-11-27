@@ -44,7 +44,8 @@ public class PlayerSwordSkill : Skill
     public void CreateSword()
     {
 
-        GameObject swordObj = Instantiate(GlobalReferencesManager.Instance.GetPrefab("PlayerSword"), player.transform.position+PlayerSwordData.Offset, Quaternion.identity);
+        GameObject swordObj = Instantiate(GlobalReferencesManager.Instance.GetPrefab("PlayerSword"), 
+            player.transform.position, Quaternion.identity);
 
         if(swordObj==null)
         {

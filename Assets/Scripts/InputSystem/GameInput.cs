@@ -275,6 +275,15 @@ namespace GameInputSystem
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""BlackHole"",
+                    ""type"": ""Button"",
+                    ""id"": ""770a276c-b6f9-40aa-97b1-5446f5572e09"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -310,6 +319,17 @@ namespace GameInputSystem
                     ""action"": ""AimSword"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1360cedf-bbd7-48e7-819a-9accdc702b63"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""BlackHole"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -326,6 +346,7 @@ namespace GameInputSystem
             m_Skill_Dash = m_Skill.FindAction("Dash", throwIfNotFound: true);
             m_Skill_CounterAttack = m_Skill.FindAction("CounterAttack", throwIfNotFound: true);
             m_Skill_AimSword = m_Skill.FindAction("AimSword", throwIfNotFound: true);
+            m_Skill_BlackHole = m_Skill.FindAction("BlackHole", throwIfNotFound: true);
         }
 
         ~@GameInput()
@@ -528,6 +549,7 @@ namespace GameInputSystem
         private readonly InputAction m_Skill_Dash;
         private readonly InputAction m_Skill_CounterAttack;
         private readonly InputAction m_Skill_AimSword;
+        private readonly InputAction m_Skill_BlackHole;
         /// <summary>
         /// Provides access to input actions defined in input action map "Skill".
         /// </summary>
@@ -551,6 +573,10 @@ namespace GameInputSystem
             /// Provides access to the underlying input action "Skill/AimSword".
             /// </summary>
             public InputAction @AimSword => m_Wrapper.m_Skill_AimSword;
+            /// <summary>
+            /// Provides access to the underlying input action "Skill/BlackHole".
+            /// </summary>
+            public InputAction @BlackHole => m_Wrapper.m_Skill_BlackHole;
             /// <summary>
             /// Provides access to the underlying input action map instance.
             /// </summary>
@@ -586,6 +612,9 @@ namespace GameInputSystem
                 @AimSword.started += instance.OnAimSword;
                 @AimSword.performed += instance.OnAimSword;
                 @AimSword.canceled += instance.OnAimSword;
+                @BlackHole.started += instance.OnBlackHole;
+                @BlackHole.performed += instance.OnBlackHole;
+                @BlackHole.canceled += instance.OnBlackHole;
             }
 
             /// <summary>
@@ -606,6 +635,9 @@ namespace GameInputSystem
                 @AimSword.started -= instance.OnAimSword;
                 @AimSword.performed -= instance.OnAimSword;
                 @AimSword.canceled -= instance.OnAimSword;
+                @BlackHole.started -= instance.OnBlackHole;
+                @BlackHole.performed -= instance.OnBlackHole;
+                @BlackHole.canceled -= instance.OnBlackHole;
             }
 
             /// <summary>
@@ -696,6 +728,13 @@ namespace GameInputSystem
             /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
             void OnAimSword(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "BlackHole" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnBlackHole(InputAction.CallbackContext context);
         }
     }
 }

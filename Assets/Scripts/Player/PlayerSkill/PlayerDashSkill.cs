@@ -5,26 +5,34 @@ public class PlayerDashSkill : Skill
 {
     public float DashForce;
 
-
     protected override void Start()
     {
         base.Start();
-        player.PlayerInput.DashEvent += DashHandle;
+        if (player.PlayerInput != null)
+        {
+            player.PlayerInput.DashEvent += DashSkillHandle;
+        }
     }
 
     protected override void OnDestroy()
     {
         base.OnDestroy();
-        player.PlayerInput.DashEvent -= DashHandle;
+        if (player.PlayerInput != null)
+        {
+            player.PlayerInput.DashEvent -= DashSkillHandle;
+        }
+        
     }
 
-
-    private void DashHandle()
+    /// <summary>
+    /// 冲刺技能回调
+    /// </summary>
+    private void DashSkillHandle()
     {
         if (CanUseSkill())
         {
-            player.Rb.AddForce(Vector2.right * player.Direction * DashForce, ForceMode2D.Impulse);
             player.CharacterStateMachine.ChangeState(player.DashState);
+            player.Rb.AddForce(Vector2.right * player.Direction * DashForce, ForceMode2D.Impulse);
         }
     }
 }

@@ -12,23 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e93a6943cdb878344bb8b0b68b604334, type: 3}
   m_Name: PlayerSwordData
   m_EditorClassIdentifier: 
-  SwordForce: {x: 15, y: 8}
-  Offset: {x: 1, y: 1, z: 0}
-  SwordGravity: 1
-  FreezeTime: 1
-  ReturnSpeed: 15
-  MaxMoveDistance: 15
-  BounceGravity: 1
-  BounceSpeed: 15
-  BounceAmount: 5
-  BounceDetectionRadius: 10
-  PierceGravity: 0
-  PierceAmount: 2
-  SpinGravity: 1
-  MaxTravelDistance: 7
-  SpinDuration: 2
-  SpinHitCooldown: 0.5
-  SpinDetectionRadius: 1
-  SpinMoveSpeed: 1.5
-  DotsCount: 15
-  SpaceBetweenDots: 0.15
+  <SwordForce>k__BackingField: {x: 15, y: 8}
+  <SwordGravity>k__BackingField: 1
+  <FreezeTime>k__BackingField: 1
+  <ReturnSpeed>k__BackingField: 10
+  <MaxMoveTime>k__BackingField: 8
+  <BounceGravity>k__BackingField: 1
+  <BounceSpeed>k__BackingField: 15
+  <BounceAmount>k__BackingField: 5
+  <BounceDetectionRadius>k__BackingField: 10
+  <PierceGravity>k__BackingField: 0
+  <PierceAmount>k__BackingField: 2
+  <SpinGravity>k__BackingField: 1
+  <MaxTravelDistance>k__BackingField: 7
+  <SpinDuration>k__BackingField: 2
+  <SpinHitCooldown>k__BackingField: 0.5
+  <SpinDetectionRadius>k__BackingField: 1
+  <SpinMoveSpeed>k__BackingField: 1.5
+  <DotsCount>k__BackingField: 15
+  <SpaceBetweenDots>k__BackingField: 0.15

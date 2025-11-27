@@ -14,7 +14,6 @@ public class SkeletonAttackState : EntityState
     public override void Enter()
     {
         base.Enter();
-
     }
 
     public override void Update()

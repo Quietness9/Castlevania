@@ -9,6 +9,49 @@ public class CloneAnimationTrigger : MonoBehaviour
     [SerializeField] Transform _attackCheck;
     [SerializeField] float _attackCheckRadius;
 
+    bool _isDisappear;
+    SpriteRenderer _spriteRenderer;
+    float _cloneTimer;
+    float _colorDisappearSpeed;
+
+    private void Start()
+    {
+         _spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
+
+    private void Update()
+    {
+
+        if (!_isDisappear)
+            return;
+
+        _cloneTimer -= Time.deltaTime;
+
+        if (_cloneTimer > 0.01f)
+        {
+            _spriteRenderer.color = new Color(1, 1, 1, _spriteRenderer.color.a - (Time.deltaTime * _colorDisappearSpeed));
+        }
+
+        if (_cloneTimer < 0)
+        {
+            _isDisappear = false;
+            Destroy(transform.parent.gameObject);
+        }
+    }
+
+    /// <summary>
+    /// 设置克隆体参数
+    /// </summary>
+    /// <param name="cloneDuration"></param>
+    /// <param name="isDisappear"></param>
+    public void SetPlayerClone(float cloneDuration,float colorDisappearSpeed, bool isDisappear=true)
+    {
+        _cloneTimer = cloneDuration;
+        _colorDisappearSpeed = colorDisappearSpeed;
+        _isDisappear = isDisappear;
+    }
+
     /// <summary>
     /// 攻击动画完成回调
     /// </summary>
@@ -37,4 +80,5 @@ public class CloneAnimationTrigger : MonoBehaviour
             }
         }
     }
+
 }

@@ -18,11 +18,23 @@ using UnityEngine;
             base.Enter();
             _moveData = player.MoveData;
             gravityScale = player.Rb.gravityScale;
-           
 
             Jump();
         }
 
+
+
+        public override void Exit()
+        {
+            base.Exit();
+
+            player.Rb.gravityScale = gravityScale;
+            player.Rb.velocity = new Vector3(player.Rb.velocity.x, 0);
+
+            player.IsJumping = false;
+
+            player.Animator_CT.SetFloat("yVelocity", player.Rb.velocity.y);
+        }
         public override void Update()
         {
             base.Update();
@@ -36,19 +48,6 @@ using UnityEngine;
             {
                 baseStateMachine.ChangeState(player.IdleState);
             }
-        }
-
-
-        public override void Exit()
-        {
-            base.Exit();
-
-            player.Rb.gravityScale = gravityScale;
-            player.Rb.velocity = new Vector3(player.Rb.velocity.x, 0);
-
-            player.IsJumping = false;
-
-            player.Animator_CT.SetFloat("yVelocity", player.Rb.velocity.y);
         }
 
         private void Jump()

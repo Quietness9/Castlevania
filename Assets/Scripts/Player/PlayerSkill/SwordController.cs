@@ -24,7 +24,7 @@ public class SwordController : MonoBehaviour
     float _spinDirection;
     bool _isStopSpin;
 
-
+    float _swordMoveTimer;
     bool _canRotation = true;
     bool _isSwordReturning;
     bool _isAdvanceReturn;
@@ -40,6 +40,8 @@ public class SwordController : MonoBehaviour
 
     private void Update()
     {
+        _swordMoveTimer -= Time.deltaTime;
+
         if (_canRotation)
         {
             transform.right = _rb.velocity;
@@ -54,7 +56,7 @@ public class SwordController : MonoBehaviour
             }
         }
 
-        if (Vector2.Distance(transform.position,_player.transform.position)>_swordData.MaxMoveDistance)
+        if (_swordMoveTimer <= 0)
         {
             Destroy(this.gameObject);
         }
@@ -78,7 +80,7 @@ public class SwordController : MonoBehaviour
         _pierceAmount = swordData.PierceAmount;
         _rb.gravityScale = swordData.getSwordGravity(swordType);
         _rb.AddForce(force, ForceMode2D.Impulse);
-
+        _swordMoveTimer = swordData.MaxMoveTime;
         _spinDirection = Mathf.Clamp(_rb.velocity.x, -1, 1);
 
 
@@ -89,6 +91,7 @@ public class SwordController : MonoBehaviour
 
         _enemyTarget.Clear();
         _enemyIndex = 0;
+        
     }
 
     /// <summary>
@@ -285,7 +288,7 @@ public class SwordController : MonoBehaviour
     /// </summary>
     private void BounceLogic()
     {
-        if (_swordType == SwordType.Bounce && _enemyTarget.Count > 0)
+        if (_swordType == SwordType.Bounce && _enemyTarget.Count > 0&&_bounceAmount>0)
         {
             transform.position = Vector2.MoveTowards(transform.position, _enemyTarget[_enemyIndex].position, _swordData.BounceSpeed * Time.deltaTime);
             if (Vector2.Distance(transform.position, _enemyTarget[_enemyIndex].position) < 0.5)
@@ -301,7 +304,7 @@ public class SwordController : MonoBehaviour
                     _enemyIndex = 0;
                 }
 
-                if (_bounceAmount == 0)
+                if (_bounceAmount <= 0)
                 {
                     _isSwordReturning = true;
 

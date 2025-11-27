@@ -32,6 +32,15 @@ using UnityEngine;
             player.Animator_CT.speed = player.AnimationSpeed;
         }
 
+        public override void Exit()
+        {
+            base.Exit();
+            player.Animator_CT.speed = 1f;
+            _comboCounter++;
+
+            _attackLastTime= Time.time;
+        }
+
         public override void Update()
         {
             base.Update();
@@ -43,15 +52,6 @@ using UnityEngine;
             }
 
 
-        }
-
-        public override void Exit()
-        {
-            base.Exit();
-            player.Animator_CT.speed = 1f;
-            _comboCounter++;
-
-            _attackLastTime= Time.time;
         }
     }
 

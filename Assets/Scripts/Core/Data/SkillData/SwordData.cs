@@ -5,38 +5,37 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Sword Data", menuName = "GameData/Skill/SwordData")]
 public class SwordData : ScriptableObject
 {
-    [Header("基础剑")]
-    public Vector2 SwordForce;
-    public Vector3 Offset;
-    public float SwordGravity;
-    public float FreezeTime;
-    public float ReturnSpeed;
-    public float MaxMoveDistance;
+    [field: Header("基础剑")]
+    [field: SerializeField] public Vector2 SwordForce { get; private set; }
+    [field: SerializeField] public float SwordGravity { get; private set; }
+    [field: SerializeField] public float FreezeTime { get; private set; }
+    [field: SerializeField] public float ReturnSpeed { get; private set; }
+    [field: SerializeField] public float MaxMoveTime { get; private set; }
 
-    [Header("弹跳剑")]
-    public float BounceGravity;
-    public float BounceSpeed;
-    public int BounceAmount;
-    public float BounceDetectionRadius;
+    [field: Header("弹跳剑")]
+    [field: SerializeField] public float BounceGravity { get; private set; }
+    [field: SerializeField] public float BounceSpeed { get; private set; }
+    [field: SerializeField] public int BounceAmount { get; private set; }
+    [field: SerializeField] public float BounceDetectionRadius { get; private set; }
 
-    [Header("穿透剑")]
-    public float PierceGravity;
-    public int PierceAmount;
+    [field: Header("穿透剑")]
+    [field: SerializeField] public float PierceGravity { get; private set; }
+    [field: SerializeField] public int PierceAmount { get; private set; }
 
-    [Header("旋转剑")]
-    public float SpinGravity;
-    public float MaxTravelDistance;
-    public float SpinDuration;
-    public float SpinHitCooldown;
-    public float SpinDetectionRadius;
-    public float SpinMoveSpeed;
+    [field: Header("旋转剑")]
+    [field: SerializeField] public float SpinGravity { get; private set; }
+    [field: SerializeField] public float MaxTravelDistance { get; private set; }
+    [field: SerializeField] public float SpinDuration { get; private set; }
+    [field: SerializeField] public float SpinHitCooldown { get; private set; }
+    [field: SerializeField] public float SpinDetectionRadius { get; private set; }
+    [field: SerializeField] public float SpinMoveSpeed { get; private set; }
 
-    [Header("瞄准点设置")]
-    public int DotsCount;
-    public float SpaceBetweenDots;
+    [field: Header("瞄准点设置")]
+    [field: SerializeField] public int DotsCount { get; private set; }
+    [field: SerializeField] public float SpaceBetweenDots { get; private set; }
 
-    
-    
+
+
 
     /// <summary>
     /// 获得不同类型的剑的重力

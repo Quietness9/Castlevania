@@ -1,36 +1,30 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-
-
-    public class PlayerDashState : PlayerState
+public class PlayerDashState : PlayerState
+{
+    public PlayerDashState(Character character, StateMachine stateMachine, string animationName) : base(character, stateMachine, animationName)
     {
-        public PlayerDashState(Character character, StateMachine stateMachine, string animationName) : base(character, stateMachine, animationName)
-        {
-        }
+    }
 
-        public override void Enter()
-        {
-            base.Enter();
-            player.PlayerSkill.CloneSkill.CreateClonePlayer();
-        }
+    public override void Enter()
+    {
+        base.Enter();
+        SkillManager.Instance.CloneSkill.CreateClonePlayer();
+    }
 
-        public override void Update()
-        {
-            base.Update();
+    public override void Exit()
+    {
+        base.Exit();
+    }
 
-            if (triggerFinish)
-            {
-                player.CharacterStateMachine.ChangeState(player.IdleState);
-            }
-        }
+    public override void Update()
+    {
+        base.Update();
 
-        public override void Exit()
+        if (triggerFinish)
         {
-            base.Exit();
+            player.CharacterStateMachine.ChangeState(player.IdleState);
         }
     }
+}
 
 
 

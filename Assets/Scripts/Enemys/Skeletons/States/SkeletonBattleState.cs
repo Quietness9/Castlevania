@@ -30,8 +30,6 @@ public class SkeletonBattleState : EntityState
     {
         base.Update();
 
-        
-
         if (_skeleton.IsPlayerDetected())
         {
             timer=_skeleton.BattleTime;

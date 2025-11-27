@@ -20,6 +20,11 @@ using UnityEngine;
             _moveData = player.MoveData;
         }
 
+        public override void Exit()
+        {
+            base.Exit();
+        }
+
         public override void Update()
         {
             base.Update();
@@ -34,10 +39,6 @@ using UnityEngine;
 
         }
 
-        public override void Exit()
-        {
-            base.Exit();
-        }
 
 
         /// <summary>

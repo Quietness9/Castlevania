@@ -32,12 +32,15 @@ public class Character : MonoBehaviour
     public Rigidbody2D Rb { get;private set; }
     public EntityFX Fx { get;private set; }
 
+    SpriteRenderer _sr;
+
     #endregion
 
     protected virtual void Awake()
     {
         Fx = GetComponentInChildren<EntityFX>();
         Animator_CT = GetComponentInChildren<Animator>();
+        _sr = GetComponentInChildren<SpriteRenderer>();
         Rb = GetComponent<Rigidbody2D>();
         CharacterStateMachine = new StateMachine();
     }
@@ -86,6 +89,22 @@ public class Character : MonoBehaviour
 
         Direction *= -1;
         IsFacingRight = !IsFacingRight;
+    }
+
+    /// <summary>
+    /// 使用角色透明
+    /// </summary>
+    /// <param name="isTransparent"></param>
+    public void CharacterTransparent(bool isTransparent)
+    {
+        if (isTransparent)
+        {
+            _sr.color = Color.clear;
+        }
+        else
+        {
+            _sr.color = Color.white;
+        }
     }
 
     #region 通用射线碰撞检测

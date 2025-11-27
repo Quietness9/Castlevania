@@ -16,13 +16,12 @@ public class Player : Character
     public float CounterAttackDuration;
     public float SwordReturnForce;
 
-    [Header("EnemyStunned")]
+    [Header("敌人眩晕")]
     public Vector2 StunnedForce;
     public float StunnedDuration;
 
     public float Hor { get;private set; }
     public float Vert { get;private set; }
-    public SkillManager PlayerSkill { get; private set; }
     public GameObject SwordObj { get;private set; }
 
     //跳跃
@@ -45,6 +44,7 @@ public class Player : Character
     public PlayerCounterAttackState CounterAttackState { get; private set; }
     public PlayerAimSwordState AimSwordState { get; private set; }
     public PlayerCatchSwordState CatchSwordState { get; private set; }
+    public PlayerBlackHoleState BlackHoleState { get; private set; }
 
     #endregion
 
@@ -60,16 +60,16 @@ public class Player : Character
         CounterAttackState = new PlayerCounterAttackState(this, CharacterStateMachine, "CounterAttack");
         AimSwordState = new PlayerAimSwordState(this, CharacterStateMachine, "AimSword");
         CatchSwordState = new PlayerCatchSwordState(this, CharacterStateMachine, "CatchSword");
+        BlackHoleState = new PlayerBlackHoleState(this, CharacterStateMachine, "Jump");
 
     }
 
     private void Start()
     {
         GlobalReferencesManager.Instance.GamePlayer = this;
-        PlayerSkill = SkillManager.Instance;
 
         InitPlayer();
-        ChangeStateSubscribe();
+        EventSubscribe();
     }
 
     private void Update()
@@ -89,7 +89,7 @@ public class Player : Character
     }
     private void OnDestroy()
     {
-        PlayerInput.MoveEvent -= GetDirectionHandle;
+        EventUnsubscribe();
     }
 
     /// <summary>
@@ -122,19 +122,47 @@ public class Player : Character
         Direction = 1;
 
         CharacterStateMachine.InitState(IdleState);
-        PlayerInput.MoveEvent += GetDirectionHandle;
+        
     }
 
     /// <summary>
-    /// 状态改变订阅（键盘或鼠标）
+    /// 事件订阅（键盘或鼠标）
     /// </summary>
-    private void ChangeStateSubscribe()
+    private void EventSubscribe()
     {
+        if (PlayerInput == null)
+        {
+            Debug.LogWarning("PlayerInput is null");
+            return;
+        }
+
+        PlayerInput.MoveEvent += GetDirectionHandle;
+
         PlayerInput.JumpUpEvent += ChangeJumpStateHandle;
         PlayerInput.AttackEvent += ChangeAttackStateHandle;
         PlayerInput.CounterAttackEvent += ChangeCounterAttackStateHandle;
         PlayerInput.AimSwordEvent += ChangeAimSwordStateHandle;
         PlayerInput.CancelSwordEvent += ChangeIdleStateHandle;
+    }
+
+    /// <summary>
+    /// 取消事件订阅
+    /// </summary>
+    private void EventUnsubscribe()
+    {
+        if (PlayerInput == null)
+        {
+            Debug.LogWarning("PlayerInput is null");
+            return;
+        }
+
+        PlayerInput.MoveEvent -= GetDirectionHandle;
+
+        PlayerInput.JumpUpEvent -= ChangeJumpStateHandle;
+        PlayerInput.AttackEvent -= ChangeAttackStateHandle;
+        PlayerInput.CounterAttackEvent -= ChangeCounterAttackStateHandle;
+        PlayerInput.AimSwordEvent -= ChangeAimSwordStateHandle;
+        PlayerInput.CancelSwordEvent -= ChangeIdleStateHandle;
     }
 
     #region EventHandle
@@ -143,7 +171,7 @@ public class Player : Character
     /// 改变方向订阅
     /// </summary>
     /// <param name="direction"></param>
-    public void GetDirectionHandle(Vector2 moveDire)
+    private void GetDirectionHandle(Vector2 moveDire)
     {
         Hor = moveDire.x;
         Vert = moveDire.y;

@@ -21,6 +21,7 @@ namespace GameInputSystem
         public event Action CounterAttackEvent=delegate { };
         public event Action AimSwordEvent=delegate { };
         public event Action CancelSwordEvent = delegate { };
+        public event Action BlackHoleEvent=delegate { };
 
         private void OnEnable()
         {
@@ -150,6 +151,15 @@ namespace GameInputSystem
             if(context.phase== InputActionPhase.Canceled)
             {
                 CancelSwordEvent.Invoke();
+            }
+        }
+
+
+        public void OnBlackHole(InputAction.CallbackContext context)
+        {
+            if( context.phase == InputActionPhase.Performed)
+            {
+                BlackHoleEvent.Invoke();
             }
         }
 

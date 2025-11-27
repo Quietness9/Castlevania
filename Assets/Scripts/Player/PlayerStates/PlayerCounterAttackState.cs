@@ -17,6 +17,11 @@ public class PlayerCounterAttackState : PlayerState
         player.Animator_CT.SetBool("SuccessfulCounterAttack", false);
     }
 
+    public override void Exit()
+    {
+        base.Exit();
+    }
+
     public override void Update()
     {
         base.Update();
@@ -38,10 +43,7 @@ public class PlayerCounterAttackState : PlayerState
         }
     }
 
-    public override void Exit()
-    {
-        base.Exit();
-    }
+    
 
 
 }
