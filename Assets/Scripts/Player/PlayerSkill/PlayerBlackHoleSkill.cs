@@ -14,7 +14,7 @@ public class PlayerBlackHoleSkill : Skill
         base.Start();
         if (player.PlayerInput != null)
         {
-            player.PlayerInput.BlackHoleEvent += BlackHoleSkillHandle;
+            player.PlayerInput.BlackHoleEvent += UseSkill;
         }
     }
 
@@ -23,7 +23,7 @@ public class PlayerBlackHoleSkill : Skill
         base.OnDestroy();
         if(player.PlayerInput != null)
         {
-            player.PlayerInput.BlackHoleEvent -= BlackHoleSkillHandle;
+            player.PlayerInput.BlackHoleEvent -= UseSkill;
         }
     }
 
@@ -32,8 +32,12 @@ public class PlayerBlackHoleSkill : Skill
     /// </summary>
     public void CreateBlackHole()
     {
-        GameObject blackHoleObj = Instantiate(GlobalReferencesManager.Instance.GetPrefab("BlackHole"),
-            player.transform.position,Quaternion.identity);
+
+        GameObject blackHolePre = GlobalReferencesManager.Instance.GetPrefab("BlackHole");
+        if (blackHolePre == null)
+            return;
+
+        GameObject blackHoleObj = Instantiate(blackHolePre,player.transform.position,Quaternion.identity);
 
         blackHoleObj.GetComponent<BlackHoleController>().SetBlackHoleData(PlayerBlackHoleData);
     }
@@ -49,15 +53,16 @@ public class PlayerBlackHoleSkill : Skill
         IsEnd=isEnd;
     }
 
-    /// <summary>
-    /// 黑洞技能回调
-    /// </summary>
-    private void BlackHoleSkillHandle()
+    public override void UseSkill()
     {
         if (CanUseSkill())
         {
-            SetBlackHoleState(true,false);
+            SetBlackHoleState(true, false);
             player.CharacterStateMachine.ChangeState(player.BlackHoleState);
+        }
+        else
+        {
+            Debug.Log("技能在冷却");
         }
     }
 }

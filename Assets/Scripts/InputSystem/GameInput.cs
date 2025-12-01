@@ -284,6 +284,15 @@ namespace GameInputSystem
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Crystal"",
+                    ""type"": ""Button"",
+                    ""id"": ""db925c9a-36aa-4311-8321-b4c39bb43f00"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -330,6 +339,17 @@ namespace GameInputSystem
                     ""action"": ""BlackHole"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""58a1a4e3-a1e4-4f02-8eef-e269b3a35888"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Crystal"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -347,6 +367,7 @@ namespace GameInputSystem
             m_Skill_CounterAttack = m_Skill.FindAction("CounterAttack", throwIfNotFound: true);
             m_Skill_AimSword = m_Skill.FindAction("AimSword", throwIfNotFound: true);
             m_Skill_BlackHole = m_Skill.FindAction("BlackHole", throwIfNotFound: true);
+            m_Skill_Crystal = m_Skill.FindAction("Crystal", throwIfNotFound: true);
         }
 
         ~@GameInput()
@@ -550,6 +571,7 @@ namespace GameInputSystem
         private readonly InputAction m_Skill_CounterAttack;
         private readonly InputAction m_Skill_AimSword;
         private readonly InputAction m_Skill_BlackHole;
+        private readonly InputAction m_Skill_Crystal;
         /// <summary>
         /// Provides access to input actions defined in input action map "Skill".
         /// </summary>
@@ -577,6 +599,10 @@ namespace GameInputSystem
             /// Provides access to the underlying input action "Skill/BlackHole".
             /// </summary>
             public InputAction @BlackHole => m_Wrapper.m_Skill_BlackHole;
+            /// <summary>
+            /// Provides access to the underlying input action "Skill/Crystal".
+            /// </summary>
+            public InputAction @Crystal => m_Wrapper.m_Skill_Crystal;
             /// <summary>
             /// Provides access to the underlying input action map instance.
             /// </summary>
@@ -615,6 +641,9 @@ namespace GameInputSystem
                 @BlackHole.started += instance.OnBlackHole;
                 @BlackHole.performed += instance.OnBlackHole;
                 @BlackHole.canceled += instance.OnBlackHole;
+                @Crystal.started += instance.OnCrystal;
+                @Crystal.performed += instance.OnCrystal;
+                @Crystal.canceled += instance.OnCrystal;
             }
 
             /// <summary>
@@ -638,6 +667,9 @@ namespace GameInputSystem
                 @BlackHole.started -= instance.OnBlackHole;
                 @BlackHole.performed -= instance.OnBlackHole;
                 @BlackHole.canceled -= instance.OnBlackHole;
+                @Crystal.started -= instance.OnCrystal;
+                @Crystal.performed -= instance.OnCrystal;
+                @Crystal.canceled -= instance.OnCrystal;
             }
 
             /// <summary>
@@ -735,6 +767,13 @@ namespace GameInputSystem
             /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
             void OnBlackHole(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "Crystal" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnCrystal(InputAction.CallbackContext context);
         }
     }
 }

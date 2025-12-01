@@ -41,4 +41,38 @@ public class Skill : MonoBehaviour
         return false;
     }
 
+    /// <summary>
+    /// 使用技能
+    /// </summary>
+    public virtual void UseSkill() { }
+
+    /// <summary>
+    /// 获得最近距离的敌人位置
+    /// </summary>
+    public virtual Transform GetClosestEnemy(Transform checkTransform,float checkRadius)
+    {
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(checkTransform.position, checkRadius);
+
+        Transform resultEnemy = null;
+
+        float enemyDistance=Mathf.Infinity;
+
+        foreach(var collider in colliders)
+        {
+            if(collider.TryGetComponent(out Enemy enemy))
+            {
+                float distanceToEnemy=Vector2.Distance(checkTransform.position,enemy.transform.position);
+
+                if(distanceToEnemy < enemyDistance)
+                {
+                    enemyDistance = distanceToEnemy;
+                    resultEnemy = enemy.transform;
+                }
+            }
+        }
+
+        return resultEnemy;
+    }
+
+
 }

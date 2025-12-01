@@ -43,9 +43,11 @@ public class PlayerSwordSkill : Skill
     /// </summary>
     public void CreateSword()
     {
+        GameObject swordPre = GlobalReferencesManager.Instance.GetPrefab("PlayerSword");
+        if (swordPre == null)
+            return;
 
-        GameObject swordObj = Instantiate(GlobalReferencesManager.Instance.GetPrefab("PlayerSword"), 
-            player.transform.position, Quaternion.identity);
+        GameObject swordObj = Instantiate(swordPre, player.transform.position, Quaternion.identity);
 
         if(swordObj==null)
         {
@@ -55,7 +57,7 @@ public class PlayerSwordSkill : Skill
 
         if(swordObj.TryGetComponent(out SwordController newSword))
         {
-            newSword.SetSword(PlayerSwordData.SwordForce * _finalDir,PlayerSwordData,SwordType, player);
+            newSword.SetSwordData(PlayerSwordData.SwordForce * _finalDir,PlayerSwordData,SwordType, player);
             player.GetNewSword(swordObj);
         }
 
@@ -113,11 +115,8 @@ public class PlayerSwordSkill : Skill
     {
         GameObject dotPrefab = GlobalReferencesManager.Instance.GetPrefab("SwordDot");
 
-        if (!dotPrefab)
-        {
-            Debug.Log("dotPrefab is NULL");
+        if (dotPrefab==null)
             return;
-        }
 
         _dots = new GameObject[PlayerSwordData.DotsCount];
 

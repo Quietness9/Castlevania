@@ -2315,6 +2315,7 @@ GameObject:
   - component: {fileID: 971561230}
   - component: {fileID: 971561231}
   - component: {fileID: 971561232}
+  - component: {fileID: 971561233}
   m_Layer: 0
   m_Name: SkillManager
   m_TagString: Untagged
@@ -2408,6 +2409,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Cooldown: 10
   PlayerBlackHoleData: {fileID: 11400000, guid: 10c66cd64bb5f1541a32c3c11f3bc19b, type: 2}
+--- !u!114 &971561233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 971561226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdebed08fb8d90945ad84fe45491d134, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Cooldown: 10
+  PlayerCrystalData: {fileID: 11400000, guid: 4482caba2c4eb024c9e8915dcc9945b2, type: 2}
+  _isCanExplode: 0
+  _isSwapPositions: 0
+  _isCanMove: 0
+  _isUseMultCrystal: 1
+  _crystalObj: []
 --- !u!1 &984022565
 GameObject:
   m_ObjectHideFlags: 0
@@ -2687,6 +2707,7 @@ MonoBehaviour:
   - {fileID: 5262832279712151814, guid: 3fb7b688bf1047646a9aa1088dc63fcf, type: 3}
   - {fileID: 6564238351677858423, guid: 23579e93ee1c01b42906c5a7bb32cb89, type: 3}
   - {fileID: 4862358024444629088, guid: 8198e1b15fb4770438fed0c51b348618, type: 3}
+  - {fileID: 8181377720894926885, guid: 43950a95317534443bd9e159d3ed99eb, type: 3}
 --- !u!1 &1101593073
 GameObject:
   m_ObjectHideFlags: 0

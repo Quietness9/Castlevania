@@ -22,6 +22,7 @@ namespace GameInputSystem
         public event Action AimSwordEvent=delegate { };
         public event Action CancelSwordEvent = delegate { };
         public event Action BlackHoleEvent=delegate { };
+        public event Action CrystalEvent=delegate { };
 
         private void OnEnable()
         {
@@ -160,6 +161,14 @@ namespace GameInputSystem
             if( context.phase == InputActionPhase.Performed)
             {
                 BlackHoleEvent.Invoke();
+            }
+        }
+
+        public void OnCrystal(InputAction.CallbackContext context)
+        {
+            if (context.phase == InputActionPhase.Performed)
+            {
+                CrystalEvent.Invoke();
             }
         }
 

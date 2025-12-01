@@ -11,36 +11,49 @@ public class PlayerCloneSkill : Skill
     GameObject _clonePlayer;
 
     /// <summary>
-    /// 创建并攻击克隆体
+    /// 创建克隆体
     /// </summary>
     public void CreateClonePlayer(Transform transform=null,Vector3 offset= default)
     {
         if (!CanUseSkill())
             return;
 
-        Transform createTransform=transform;
+        GameObject clonePre = GlobalReferencesManager.Instance.GetPrefab("PlayerClone");
+        if (clonePre == null)
+            return;
 
-        if(createTransform == null)
+        Transform createTransform = transform;
+
+        if (createTransform == null)
         {
-            createTransform=player.transform;
+            createTransform = player.transform;
         }
 
-        _clonePlayer = Instantiate(GlobalReferencesManager.Instance.GetPrefab("PlayerClone"), createTransform.transform.position+offset,Quaternion.identity);
-        _clonePlayer.GetComponentInChildren<CloneAnimationTrigger>().SetPlayerClone(_cloneDuration,_colorDisappearSpeed);
+        _clonePlayer = Instantiate(clonePre, createTransform.transform.position + offset, Quaternion.identity);
+        _clonePlayer.GetComponentInChildren<CloneAnimationTrigger>().SetPlayerClone(_cloneDuration, _colorDisappearSpeed);
 
-        Vector3 scale=_clonePlayer.transform.localScale;
-        scale.x *= player.Direction;
+        CloneAttack();
 
-        _clonePlayer.transform.localScale = scale;
-
-        int index = Random.Range(1, 4);
-        _clonePlayer.GetComponentInChildren<Animator>().SetInteger("AttackNumber",index);
-
-        
     }
+
 
     protected override void Update()
     {
         base.Update();
     }
+
+    /// <summary>
+    /// 克隆体攻击
+    /// </summary>
+    private void CloneAttack()
+    {
+        Vector3 scale = _clonePlayer.transform.localScale;
+        scale.x *= player.Direction;
+
+        _clonePlayer.transform.localScale = scale;
+
+        int index = Random.Range(1, 4);
+        _clonePlayer.GetComponentInChildren<Animator>().SetInteger("AttackNumber", index);
+    }
+
 }

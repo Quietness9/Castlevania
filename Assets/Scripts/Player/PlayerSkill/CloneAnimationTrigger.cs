@@ -6,16 +6,18 @@ using static UnityEditor.Experimental.GraphView.GraphView;
 public class CloneAnimationTrigger : MonoBehaviour
 {
 
-    [SerializeField] Transform _attackCheck;
+    
     [SerializeField] float _attackCheckRadius;
 
-    bool _isDisappear;
+    Transform _attackCheck;
     SpriteRenderer _spriteRenderer;
+    bool _isDisappear;
     float _cloneTimer;
     float _colorDisappearSpeed;
 
     private void Start()
     {
+        _attackCheck=GetComponentInParent<Transform>();
          _spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
@@ -61,8 +63,8 @@ public class CloneAnimationTrigger : MonoBehaviour
 
         foreach (Collider2D hit in colliders)
         {
-            Enemy enemy = hit.GetComponent<Enemy>();
-            if (enemy != null)
+            
+            if (hit.TryGetComponent(out Enemy enemy))
             {
 
                 enemy.Damage(GlobalReferencesManager.Instance.GamePlayer);

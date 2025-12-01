@@ -18,6 +18,7 @@ public class GlobalReferencesManager : MonoSingleton<GlobalReferencesManager>
         if (found == null)
         {
             Debug.LogWarning($"未找到名称为 '{name}' 的预制体");
+            return null;
         }
 
         return found;

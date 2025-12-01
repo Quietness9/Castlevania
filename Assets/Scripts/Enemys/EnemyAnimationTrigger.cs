@@ -5,12 +5,17 @@ using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class EnemyAnimationTrigger : MonoBehaviour
 {
-    Enemy _enemy=>GetComponentInParent<Enemy>();
+    Enemy _enemy;
+
+    private void Awake()
+    {
+        _enemy= GetComponentInParent<Enemy>();
+    }
 
     /// <summary>
     /// 动画完成回调
     /// </summary>
-   private void AnimationFinish()
+    private void AnimationFinish()
     {
         _enemy.CurrentAnimationFinish();
     }
@@ -21,8 +26,8 @@ public class EnemyAnimationTrigger : MonoBehaviour
 
         foreach (Collider2D hit in colliders)
         {
-            Player player = hit.GetComponent<Player>();
-            if (player!=null)
+            
+            if (hit.TryGetComponent(out Player player))
             {
                 player.Damage(_enemy);
 

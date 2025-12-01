@@ -10,7 +10,7 @@ public class PlayerDashSkill : Skill
         base.Start();
         if (player.PlayerInput != null)
         {
-            player.PlayerInput.DashEvent += DashSkillHandle;
+            player.PlayerInput.DashEvent += UseSkill;
         }
     }
 
@@ -19,20 +19,21 @@ public class PlayerDashSkill : Skill
         base.OnDestroy();
         if (player.PlayerInput != null)
         {
-            player.PlayerInput.DashEvent -= DashSkillHandle;
+            player.PlayerInput.DashEvent -= UseSkill;
         }
         
     }
 
-    /// <summary>
-    /// 冲刺技能回调
-    /// </summary>
-    private void DashSkillHandle()
+    public override void UseSkill()
     {
         if (CanUseSkill())
         {
             player.CharacterStateMachine.ChangeState(player.DashState);
             player.Rb.AddForce(Vector2.right * player.Direction * DashForce, ForceMode2D.Impulse);
+        }
+        else
+        {
+            Debug.Log("技能冷却中");
         }
     }
 }

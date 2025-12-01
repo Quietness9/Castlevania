@@ -71,7 +71,7 @@ public class SwordController : MonoBehaviour
     /// </summary>
     /// <param name="force"></param>
     /// <param name="gravity"></param>
-    public void SetSword(Vector2 force, SwordData swordData, SwordType swordType, Player player)
+    public void SetSwordData(Vector2 force, SwordData swordData, SwordType swordType, Player player)
     {
         _player = player;
         _swordType = swordType;
@@ -314,7 +314,7 @@ public class SwordController : MonoBehaviour
     }
 
     /// <summary>
-    /// 排序检测到的敌人距离
+    /// 排序检测到的敌人距离从小到大
     /// </summary>
     private void SortEnemyPosition(Transform firstTransform)
     {

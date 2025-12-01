@@ -5,7 +5,12 @@ using static UnityEngine.GraphicsBuffer;
 
 public class PlayerAnimationTrigger : MonoBehaviour
 {
-    Player _player=>GetComponentInParent<Player>();
+    Player _player;
+
+    private void Awake()
+    {
+        _player = GetComponentInParent<Player>();
+    }
 
     /// <summary>
     /// 动画完成回调
@@ -24,8 +29,8 @@ public class PlayerAnimationTrigger : MonoBehaviour
 
         foreach(Collider2D hit in colliders)
         {
-            Enemy enemy = hit.GetComponent<Enemy>();
-            if (enemy!=null)
+            
+            if (hit.TryGetComponent(out Enemy enemy))
             {
 
                 enemy.Damage(_player);
