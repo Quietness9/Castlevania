@@ -57,7 +57,7 @@ public class PlayerSwordSkill : Skill
 
         if(swordObj.TryGetComponent(out SwordController newSword))
         {
-            newSword.SetSwordData(PlayerSwordData.SwordForce * _finalDir,PlayerSwordData,SwordType, player);
+            newSword.SetSwordData(PlayerSwordData.SwordForce * _finalDir,player,this);
             player.GetNewSword(swordObj);
         }
 

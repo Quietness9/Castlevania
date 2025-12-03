@@ -9,6 +9,8 @@ public class PlayerBlackHoleSkill : Skill
     public bool IsStart { get;private set; }
     public bool IsEnd { get;private set; }
 
+    public  bool IsCreateCrystal;
+
     protected override void Start()
     {
         base.Start();
@@ -39,7 +41,7 @@ public class PlayerBlackHoleSkill : Skill
 
         GameObject blackHoleObj = Instantiate(blackHolePre,player.transform.position,Quaternion.identity);
 
-        blackHoleObj.GetComponent<BlackHoleController>().SetBlackHoleData(PlayerBlackHoleData);
+        blackHoleObj.GetComponent<BlackHoleController>().SetBlackHoleData(player,this);
     }
 
     /// <summary>

@@ -64,8 +64,8 @@ using UnityEngine;
             //在跳跃的顶点增加加速度和最大速度，使跳跃感觉更有弹性，反应灵敏和自然
             if ((player.IsJumping || player.IsJumpFalling) && Mathf.Abs(player.Rb.velocity.y) < _moveData.JumpHangTimeThreshold)
             {
-                accelRate *= _moveData.JumpHangAccelerationMult;
-                targetSpeed *= _moveData.JumpHangMaxSpeedMult;
+                accelRate *= _moveData.JumpHangAccelerationMul;
+                targetSpeed *= _moveData.JumpHangMaxSpeedMul;
             }
 
             if (_moveData.doConserveMomentum && Mathf.Abs(player.Rb.velocity.x) > Mathf.Abs(targetSpeed) &&

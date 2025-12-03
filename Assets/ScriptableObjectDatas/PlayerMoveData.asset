@@ -26,6 +26,6 @@ MonoBehaviour:
   JumpForce: 6
   JumpHangGravityMult: 0.9
   JumpHangTimeThreshold: 0.5
-  JumpHangAccelerationMult: 0.8
-  JumpHangMaxSpeedMult: 0.8
+  JumpHangAccelerationMul: 0.2
+  JumpHangMaxSpeedMul: 0.3
   coyoteTime: 0.228

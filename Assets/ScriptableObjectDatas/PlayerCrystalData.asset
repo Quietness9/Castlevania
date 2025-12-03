@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: PlayerCrystalData
   m_EditorClassIdentifier: 
   <MaxSpawnCrystalAmount>k__BackingField: 3
+  <MultCrystalWindowTime>k__BackingField: 10
   <CheckRadius>k__BackingField: 10
   <CrystalMoveSpeed>k__BackingField: 5
   <CrystalDurationTime>k__BackingField: 4

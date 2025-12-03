@@ -52,7 +52,7 @@ public class Character : MonoBehaviour
     public virtual void Damage(Character character)
     {
         Fx.StartCoroutine("FlashFX");
-        StartCoroutine(HitKnockback(character.KnockbackForce, character.KnockDuration, character.Direction));
+        StartCoroutine(HitKnockbackCo(character.KnockbackForce, character.KnockDuration, character.Direction));
     }
 
     /// <summary>
@@ -61,7 +61,7 @@ public class Character : MonoBehaviour
     /// <param name="xForce"></param>
     /// <param name="yForce"></param>
     /// <returns></returns>
-    private IEnumerator HitKnockback(Vector2 hitForce, float hitDuration, float direction, float mult = 1)
+    private IEnumerator HitKnockbackCo(Vector2 hitForce, float hitDuration, float direction, float mult = 1)
     {
         isKnock = true;
 

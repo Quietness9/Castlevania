@@ -7,13 +7,18 @@ public class PlayerCrystalSkill : Skill
 {
     public CrystalData PlayerCrystalData;
 
-    [SerializeField] bool _isCanExplode;
-    [SerializeField] bool _isSwapPositions;
-    [SerializeField] bool _isCanMove;
-    [SerializeField] bool _isUseMultCrystal;
+    //通过技能树解锁
+    public bool IsCanMove;
+    public bool IsCanExplode;
+    public bool IsSwapPosition;
+    public bool IsUseMulCrystal;
+    public bool IsCrystalReplaceClone;
 
-    CrystalController _crystalController;
-    [SerializeField] List<GameObject> _crystalObj = new();
+    public bool ControllerOneCrystal { get; set; }//控制单个水晶
+
+    bool _isOpenWindow;
+
+    List<GameObject> _crystalObj = new();
 
 
     protected override void Start()
@@ -22,7 +27,9 @@ public class PlayerCrystalSkill : Skill
         if (player.PlayerInput != null)
         {
             player.PlayerInput.CrystalEvent += UseSkill;
+            player.PlayerInput.CrystalEvent += MulCrystalLogicHandle;
         }
+
     }
 
     protected override void OnDestroy()
@@ -31,82 +38,96 @@ public class PlayerCrystalSkill : Skill
         if(player.PlayerInput != null)
         {
             player.PlayerInput.CrystalEvent-= UseSkill;
+            player.PlayerInput.CrystalEvent -= MulCrystalLogicHandle;
         }
     }
 
     /// <summary>
     /// 创建水晶
     /// </summary>
-    public void CreateCrystal()
+    public GameObject CreateCrystal(Transform transform,Quaternion quaternion=default)
     {
         GameObject crystalPre = GlobalReferencesManager.Instance.GetPrefab("Crystal");
         if (crystalPre == null)
-            return;
-
-        //创建多个水晶
-        if (_isUseMultCrystal)
         {
-            FillCrystal(crystalPre);
-            return;
+            Debug.LogWarning("预制体为null");
+            return null;
         }
 
-        //创建多个水晶 
-        GameObject crystalObj = Instantiate(crystalPre,player.transform.position,Quaternion.identity);
-        _crystalController = crystalObj.GetComponent<CrystalController>();
+        GameObject crystalObj = Instantiate(crystalPre,transform.position, quaternion);
+        CrystalController crystalController = crystalObj.GetComponent<CrystalController>();
 
-        _crystalController.SetCrystalData(PlayerCrystalData,player);
+        crystalController.SetCrystalData(player,this);
 
-        if (_isCanExplode && _isCanMove)
+        //if (IsCanExplode && IsCanMove)
+        //{
+        //    crystalController.SetClosestEnemy(GetClosestEnemy(player.transform, PlayerCrystalData.CheckRadius));
+        //}
+
+        return crystalObj;
+    }
+
+    /// <summary>
+    /// 创建单个控制水晶
+    /// </summary>
+    public void CreateOneCrystal()
+    {
+        GameObject crystalObj = CreateCrystal(player.transform);
+        if (crystalObj == null)
+            return;
+
+        if(IsCanExplode && IsCanMove)
         {
-            _crystalController.CrystalMoveToEnemy(GetClosestEnemy(_crystalController.transform, PlayerCrystalData.CheckRadius));
+            Transform closestEnemy = GetClosestEnemy(player.transform, PlayerCrystalData.CheckRadius);
+            crystalObj.GetComponent<CrystalController>().SetClosestEnemy(closestEnemy);
         }
     }
 
     public override void UseSkill()
     {
 
-        //单个水晶时触发
-        if (_crystalController != null)
+        if (CanUseSkill())
         {
-            //在此触发按键时执行
-
-            if (_isSwapPositions)
+            
+            //CreateCrystal();
+            if (IsUseMulCrystal)
             {
-                _crystalController.PlayerReturnCrystalPosition();
+                CreateMulCrystal();
             }
-
-            if (_isSwapPositions&&_isCanExplode)
+            else
             {
-                _crystalController.PlayerSwapCrystalPosition();
-                _crystalController.CrystalExplosion();
-            }
-
-            if(_isCanExplode&& _isCanMove)
-            {
-                _crystalController.CrystalExplosion();
+                ControllerOneCrystal = true;
+                CreateOneCrystal();
             }
         }
+    }
 
-        //拥有多个水晶
+    /// <summary>
+    /// 多个水晶控制
+    /// </summary>
+    private void MulCrystalLogicHandle()
+    {
+        
+        if (!_isOpenWindow)
+            return;
+
         if (_crystalObj != null && _crystalObj.Count > 0)
         {
-
-            GameObject crystalObj = GetCanUseCrystal();
-            crystalObj.transform.position=player.transform.position;
-            Transform enemyTransform = GetClosestEnemy(crystalObj.transform, PlayerCrystalData.CheckRadius);
-
-            if(enemyTransform != null)
+            if (_crystalObj.Count == PlayerCrystalData.MaxSpawnCrystalAmount)
             {
+                Invoke("CloseCrystalUse", PlayerCrystalData.MultCrystalWindowTime);
+            }
+            
+            Transform enemyTransform = GetClosestEnemy(player.transform, PlayerCrystalData.CheckRadius);
+
+            if (enemyTransform != null)
+            {
+                GameObject crystalObj = GetCanUseCrystal();
+                crystalObj.transform.position = player.transform.position;
                 crystalObj.SetActive(true);
-                crystalObj.GetComponent<CrystalController>().CrystalMoveToEnemy(enemyTransform);
+                crystalObj.GetComponent<CrystalController>().SetClosestEnemy(enemyTransform);
             }
 
-            
-        }
-
-        if (CanUseSkill()&&_crystalController==null)
-        {
-            CreateCrystal();
         }
     }
 
@@ -119,20 +140,35 @@ public class PlayerCrystalSkill : Skill
         GameObject crystalObj=_crystalObj[_crystalObj.Count-1];
         _crystalObj.Remove(crystalObj);
 
+        if (_crystalObj.Count == 0)
+        {
+            ControllerOneCrystal=false;
+        }
+
         return crystalObj;
     }
 
     /// <summary>
-    /// 填充满水晶
+    /// 创建或填满水晶
     /// </summary>
-    private void FillCrystal(GameObject crystalPre)
+    private void CreateMulCrystal()
     {
-        for(int i = 0; i < PlayerCrystalData.MaxSpawnCrystalAmount; i++)
+        int amount= PlayerCrystalData.MaxSpawnCrystalAmount-_crystalObj.Count;
+        _isOpenWindow = true;
+
+        for (int i = 0; i < amount; i++)
         {
-            GameObject crystalObj = Instantiate(crystalPre);
-            crystalObj.GetComponent<CrystalController>().SetCrystalData(PlayerCrystalData, player);
+            GameObject crystalObj = CreateCrystal(player.transform);
             crystalObj.SetActive(false);
             _crystalObj.Add(crystalObj);
         }
+    }
+
+    /// <summary>
+    /// 关闭水晶使用
+    /// </summary>
+    private void CloseCrystalUse()
+    {
+        _isOpenWindow = false;
     }
 }

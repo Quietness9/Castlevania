@@ -7,12 +7,13 @@ public class PlayerDashState : PlayerState
     public override void Enter()
     {
         base.Enter();
-        SkillManager.Instance.CloneSkill.CreateClonePlayer();
+        SkillManager.Instance.CloneSkill.CreateCloneOnDashStart(player.transform);
     }
 
     public override void Exit()
     {
         base.Exit();
+        SkillManager.Instance.CloneSkill.CreateCloneOnDashEnd(player.transform);
     }
 
     public override void Update()

@@ -7,25 +7,17 @@ public class CrystalController : MonoBehaviour
 {
     Player _player;
     Animator _animator;
-    CrystalData _crystalData;
     Transform _closestEnemy;
+    PlayerCrystalSkill _crystalSkill;
     CircleCollider2D _circleCollider2D;
 
     bool _isGrow;
-    bool _isCanMove;
     float _crystalDurationTimer;
 
     private void Awake()
     {
         _animator = GetComponent<Animator>();
         _circleCollider2D=GetComponent<CircleCollider2D>();
-    }
-
-    public void SetCrystalData(CrystalData crystalData,Player player)
-    {
-        _player=player;
-        _crystalData=crystalData;
-        _crystalDurationTimer = crystalData.CrystalDurationTime;
     }
 
     private void Update()
@@ -38,23 +30,120 @@ public class CrystalController : MonoBehaviour
 
         if (_isGrow)
         {
-            transform.localScale=Vector2.Lerp(transform.localScale,_crystalData.GrowScale, _crystalData.GrowSpeed*Time.deltaTime);
+            transform.localScale=Vector2.Lerp(transform.localScale,_crystalSkill.PlayerCrystalData.GrowScale
+                , _crystalSkill.PlayerCrystalData.GrowSpeed*Time.deltaTime);
         }
 
-        if (_isCanMove)
+        if (_crystalSkill.IsCanMove)
         {
-            transform.position = Vector2.MoveTowards(transform.position, _closestEnemy.position, _crystalData.CrystalMoveSpeed * Time.deltaTime);
-            if (Vector2.Distance(transform.position, _closestEnemy.position) <1.5)
+            if( _closestEnemy != null)
             {
-                CrystalExplosion();
+                transform.position = Vector2.MoveTowards(transform.position, _closestEnemy.position,
+                _crystalSkill.PlayerCrystalData.CrystalMoveSpeed * Time.deltaTime);
+
+                if (Vector2.Distance(transform.position, _closestEnemy.position) < 1.5)
+                {
+                    CrystalExplosion();
+                }
             }
         }
     }
 
+    private void OnDestroy()
+    {
+        if (_player.PlayerInput != null)
+        {
+            _player.PlayerInput.CrystalEvent -= CrystalLogicHandle;
+        }
+    }
+
+    /// <summary>
+    /// 设置水晶数据
+    /// </summary>
+    /// <param name="player"></param>
+    /// <param name="crystalSkill"></param>
+    public void SetCrystalData(Player player, PlayerCrystalSkill crystalSkill)
+    {
+        _player = player;
+        _crystalSkill = crystalSkill;
+        _crystalDurationTimer = crystalSkill.PlayerCrystalData.CrystalDurationTime;
+        
+        player.PlayerInput.CrystalEvent += CrystalLogicHandle;
+    }
+
+    
+
+    /// <summary>
+    /// 对于不同解锁状态下水晶处理逻辑订阅
+    /// </summary>
+    private void CrystalLogicHandle()
+    {
+        if(!_crystalSkill.ControllerOneCrystal)
+            return;
+
+        OneCrystalLogic();
+    }
+
+    /// <summary>
+    /// 单个水晶处理
+    /// </summary>
+    private void OneCrystalLogic()
+    {
+        //在此触发按键时执行
+
+        // 此次添加或修改的逻辑：优先处理组合技能
+        // 执行完高级组合后返回，避免执行基础逻辑
+
+        _crystalSkill.ControllerOneCrystal = false;
+
+        if (_crystalSkill.IsCanMove && _crystalSkill.IsCanExplode)
+        {
+            CrystalExplosion();
+            return;
+        }
+
+        if (_crystalSkill.IsSwapPosition && _crystalSkill.IsCrystalReplaceClone)
+        {
+            PlayerSwapCrystalPosition();
+            ReplaceCrystalToClone();
+            return;
+        }
+
+        if (_crystalSkill.IsSwapPosition && _crystalSkill.IsCanExplode)
+        {
+            PlayerSwapCrystalPosition();
+            CrystalExplosion();
+            return;
+        }
+
+        // 如果没有高级组合，则执行基础逻辑
+        if (_crystalSkill.IsSwapPosition)
+        {
+            PlayerReturnCrystalPosition();
+        }
+        
+    }
+
+    #region 水晶功能函数
+
+    /// <summary>
+    /// 销毁自身
+    /// </summary>
+    public void DestroySelf() => Destroy(gameObject);
+
+    /// <summary>
+    /// 设置最近的敌人
+    /// </summary>
+    public void SetClosestEnemy(Transform EnemyTransform)
+    {
+        _closestEnemy = EnemyTransform;
+    }
+
+
     /// <summary>
     /// 水晶爆炸
     /// </summary>
-    public void CrystalExplosion()
+    private void CrystalExplosion()
     {
         _isGrow=true;
         _animator.SetTrigger("Explode");
@@ -63,7 +152,7 @@ public class CrystalController : MonoBehaviour
     /// <summary>
     /// 交换水晶和玩家位置
     /// </summary>
-    public void PlayerSwapCrystalPosition()
+    private void PlayerSwapCrystalPosition()
     {
         Vector3 position = _player.transform.position;
         PlayerReturnCrystalPosition();
@@ -74,24 +163,21 @@ public class CrystalController : MonoBehaviour
     /// <summary>
     /// 玩家返回到水晶位置
     /// </summary>
-    public void PlayerReturnCrystalPosition()
+    private void PlayerReturnCrystalPosition()
     {
         _player.transform.position = transform.position;
     }
 
     /// <summary>
-    /// 水晶向最近的敌人移动
+    /// 交换位置时将水晶替换为克隆体
     /// </summary>
-    public void CrystalMoveToEnemy(Transform EnemyTransform)
+    private void ReplaceCrystalToClone()
     {
-        _closestEnemy=EnemyTransform;
-        _isCanMove = true;
+        SkillManager.Instance.CloneSkill.CreateClonePlayer(transform);
+        DestroySelf();
     }
 
-    /// <summary>
-    /// 销毁自身
-    /// </summary>
-    public void DestroySelf()=>Destroy(gameObject);
+    #endregion
 
     /// <summary>
     /// 爆炸造成伤害

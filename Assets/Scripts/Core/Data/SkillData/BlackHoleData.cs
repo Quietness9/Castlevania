@@ -17,7 +17,10 @@ public class BlackHoleData : ScriptableObject
     [field: SerializeField] public float ShrinkSpeed { get; private set; }
     [field: SerializeField] public float BlackHoleFreezeTime { get; private set; }
     [field: SerializeField] public float CloneAttackCooldown { get; private set; }
+    [field:SerializeField] public float BlackHoleEndDelay {  get; private set; }
+    [field:SerializeField] public float CreateCrystalDelay {  get; private set; }
     [field: SerializeField] public int CloneAttackAmount { get; private set; }
+    [field:SerializeField] public int CreateCrystalAmount {  get; private set; }
 
     [field: SerializeField] public List<KeyCode> KeyCodeList { get; private set; } = new();
 

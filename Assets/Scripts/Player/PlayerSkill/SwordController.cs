@@ -8,6 +8,7 @@ public class SwordController : MonoBehaviour
     Animator _animator;
     Rigidbody2D _rb;
     CircleCollider2D _circleCollider;
+    PlayerSwordSkill _swordSkill;
 
 
     [Header("µ¯Ìø½£")]
@@ -28,8 +29,8 @@ public class SwordController : MonoBehaviour
     bool _canRotation = true;
     bool _isSwordReturning;
     bool _isAdvanceReturn;
-    SwordType _swordType;
-    SwordData _swordData;
+    //SwordType _swordType;
+    //SwordData _swordData;
 
     private void Awake()
     {
@@ -49,7 +50,9 @@ public class SwordController : MonoBehaviour
 
         if (_isSwordReturning)
         {
-            transform.position = Vector2.MoveTowards(transform.position, _player.transform.position, _swordData.ReturnSpeed * Time.deltaTime);
+            transform.position = Vector2.MoveTowards(transform.position, _player.transform.position,
+                _swordSkill.PlayerSwordData.ReturnSpeed * Time.deltaTime);
+
             if (Vector2.Distance(transform.position, _player.transform.position) < 1)
             {
                 _player.CatchSword();
@@ -71,20 +74,22 @@ public class SwordController : MonoBehaviour
     /// </summary>
     /// <param name="force"></param>
     /// <param name="gravity"></param>
-    public void SetSwordData(Vector2 force, SwordData swordData, SwordType swordType, Player player)
+    public void SetSwordData(Vector2 force,Player player,PlayerSwordSkill swordSkill)
     {
-        _player = player;
-        _swordType = swordType;
-        _swordData = swordData;
-        _bounceAmount = swordData.BounceAmount;
-        _pierceAmount = swordData.PierceAmount;
-        _rb.gravityScale = swordData.getSwordGravity(swordType);
+        _player= player;
+        _swordSkill= swordSkill;
+
+        _bounceAmount = swordSkill.PlayerSwordData.BounceAmount;
+        _pierceAmount = swordSkill.PlayerSwordData.PierceAmount;
+
+        _rb.gravityScale = swordSkill.PlayerSwordData.getSwordGravity(swordSkill.SwordType);
         _rb.AddForce(force, ForceMode2D.Impulse);
-        _swordMoveTimer = swordData.MaxMoveTime;
+
+        _swordMoveTimer = swordSkill.PlayerSwordData.MaxMoveTime;
         _spinDirection = Mathf.Clamp(_rb.velocity.x, -1, 1);
 
 
-        if (swordType != SwordType.Pierce)
+        if (swordSkill.SwordType != SwordType.Pierce)
         {
             _animator.SetBool("Flip", true);
         }
@@ -122,7 +127,7 @@ public class SwordController : MonoBehaviour
 
         _isAdvanceReturn = false;
 
-        switch (_swordType)
+        switch (_swordSkill.SwordType)
         {
             case SwordType.Bounce: SwordBounceTriggerEnter(collision); break;
             case SwordType.Pierce: SwordPierceTriggerEnter(collision); break;
@@ -152,7 +157,7 @@ public class SwordController : MonoBehaviour
     /// <param name="collision"></param>
     private void SwordSkillDamage(Enemy enemy)
     {
-        enemy.StartCoroutine("IsFreezeSelfCo", _swordData.FreezeTime);
+        enemy.StartCoroutine("IsFreezeSelfCo", _swordSkill.PlayerSwordData.FreezeTime);
         enemy.Damage(_player);
     }
 
@@ -201,9 +206,9 @@ public class SwordController : MonoBehaviour
     /// </summary>
     private void SpinLogic()
     {
-        if (_swordType == SwordType.Spin)
+        if (_swordSkill.SwordType == SwordType.Spin)
         {
-            if (Vector2.Distance(_player.transform.position, transform.position) >= _swordData.MaxTravelDistance && !_isStopSpin)
+            if (Vector2.Distance(_player.transform.position, transform.position) >= _swordSkill.PlayerSwordData.MaxTravelDistance && !_isStopSpin)
             {
                 StopSpinSword();
             }
@@ -212,7 +217,7 @@ public class SwordController : MonoBehaviour
             {
                 _spinTimer -= Time.deltaTime;
                 transform.position = Vector2.MoveTowards(transform.position,
-                    new Vector2(transform.position.x + _spinDirection, transform.position.y), _swordData.SpinMoveSpeed * Time.deltaTime);
+                    new Vector2(transform.position.x + _spinDirection, transform.position.y), _swordSkill.PlayerSwordData.SpinMoveSpeed * Time.deltaTime);
 
                 if (_spinTimer < 0)
                 {
@@ -224,8 +229,8 @@ public class SwordController : MonoBehaviour
             _hitTimer -= Time.deltaTime;
             if (_hitTimer < 0)
             {
-                _hitTimer = _swordData.SpinHitCooldown;
-                Collider2D[] collider2D = Physics2D.OverlapCircleAll(transform.position, _swordData.SpinDetectionRadius);
+                _hitTimer = _swordSkill.PlayerSwordData.SpinHitCooldown;
+                Collider2D[] collider2D = Physics2D.OverlapCircleAll(transform.position, _swordSkill.PlayerSwordData.SpinDetectionRadius);
 
                 foreach (var collider in collider2D)
                 {
@@ -245,7 +250,7 @@ public class SwordController : MonoBehaviour
     {
         _isStopSpin = true;
         _rb.constraints = RigidbodyConstraints2D.FreezeAll;
-        _spinTimer = _swordData.SpinDuration;
+        _spinTimer = _swordSkill.PlayerSwordData.SpinDuration;
     }
 
     #endregion
@@ -262,7 +267,7 @@ public class SwordController : MonoBehaviour
 
             if (_enemyTarget.Count <= 0)
             {
-                Collider2D[] collider2D = Physics2D.OverlapCircleAll(transform.position, _swordData.BounceDetectionRadius);
+                Collider2D[] collider2D = Physics2D.OverlapCircleAll(transform.position, _swordSkill.PlayerSwordData.BounceDetectionRadius);
 
                 foreach (var collider in collider2D)
                 {
@@ -288,9 +293,9 @@ public class SwordController : MonoBehaviour
     /// </summary>
     private void BounceLogic()
     {
-        if (_swordType == SwordType.Bounce && _enemyTarget.Count > 0&&_bounceAmount>0)
+        if (_swordSkill.SwordType == SwordType.Bounce && _enemyTarget.Count > 0&&_bounceAmount>0)
         {
-            transform.position = Vector2.MoveTowards(transform.position, _enemyTarget[_enemyIndex].position, _swordData.BounceSpeed * Time.deltaTime);
+            transform.position = Vector2.MoveTowards(transform.position, _enemyTarget[_enemyIndex].position, _swordSkill.PlayerSwordData.BounceSpeed * Time.deltaTime);
             if (Vector2.Distance(transform.position, _enemyTarget[_enemyIndex].position) < 0.5)
             {
 

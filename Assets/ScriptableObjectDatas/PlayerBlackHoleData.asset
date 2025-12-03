@@ -23,5 +23,8 @@ MonoBehaviour:
   <ShrinkSpeed>k__BackingField: 4
   <BlackHoleFreezeTime>k__BackingField: 10
   <CloneAttackCooldown>k__BackingField: 1
+  <BlackHoleEndDelay>k__BackingField: 3
+  <CreateCrystalDelay>k__BackingField: 0.5
   <CloneAttackAmount>k__BackingField: 1
+  <CreateCrystalAmount>k__BackingField: 4
   <KeyCodeList>k__BackingField: 7a000000780000006300000076000000

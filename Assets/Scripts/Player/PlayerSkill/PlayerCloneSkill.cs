@@ -5,41 +5,76 @@ using UnityEngine;
 
 public class PlayerCloneSkill : Skill
 {
+    public CloneData PlayerCloneData;
     
-    [SerializeField] float _colorDisappearSpeed;
-    [SerializeField] float _cloneDuration;
+    //通过技能树解锁
+    public bool IsCreateDuplicateClone;
+    public bool IsCreateCloneOnDashEnd;
+    public bool IsCreateCloneOnDashStart;
+    public bool IsCreateCloneOnCounterAttack;
+
     GameObject _clonePlayer;
 
     /// <summary>
     /// 创建克隆体
     /// </summary>
-    public void CreateClonePlayer(Transform transform=null,Vector3 offset= default)
+    public void CreateClonePlayer(Transform transform,Vector3 offset= default)
     {
-        if (!CanUseSkill())
-            return;
-
         GameObject clonePre = GlobalReferencesManager.Instance.GetPrefab("PlayerClone");
         if (clonePre == null)
             return;
 
-        Transform createTransform = transform;
-
-        if (createTransform == null)
-        {
-            createTransform = player.transform;
-        }
-
-        _clonePlayer = Instantiate(clonePre, createTransform.transform.position + offset, Quaternion.identity);
-        _clonePlayer.GetComponentInChildren<CloneAnimationTrigger>().SetPlayerClone(_cloneDuration, _colorDisappearSpeed);
+        _clonePlayer = Instantiate(clonePre, transform.position + offset, Quaternion.identity);
+        Transform closestTarget = GetClosestEnemy(_clonePlayer.transform, PlayerCloneData.CheckClosestEnemyRadius);
+        _clonePlayer.GetComponentInChildren<CloneAnimationTrigger>().SetPlayerClone(this,closestTarget);
 
         CloneAttack();
 
     }
 
-
-    protected override void Update()
+    /// <summary>
+    /// 在冲刺开始时创建克隆体
+    /// </summary>
+    public void CreateCloneOnDashStart(Transform transform, Vector3 offset = default)
     {
-        base.Update();
+        if (IsCreateCloneOnDashStart)
+        {
+            CreateClonePlayer(transform,offset);
+        }
+    }
+
+    /// <summary>
+    /// 在冲刺结束后创建克隆体
+    /// </summary>
+    public void CreateCloneOnDashEnd(Transform transform, Vector3 offset = default)
+    {
+        if (IsCreateCloneOnDashEnd)
+        {
+            CreateClonePlayer(transform, offset);
+        }
+    }
+
+    /// <summary>
+    /// 反击成功创造克隆体
+    /// </summary>
+    public void CreateCloneOnCounterAttack(Transform transform, Vector3 offset = default)
+    {
+        if(IsCreateCloneOnCounterAttack)
+        {
+            StartCoroutine(CreateCloneDelayCo(transform,offset));
+        }
+    }
+
+   /// <summary>
+   /// 延迟调用创建克隆体
+   /// </summary>
+   /// <param name="transform"></param>
+   /// <param name="offset"></param>
+   /// <returns></returns>
+    private IEnumerator CreateCloneDelayCo(Transform transform, Vector3 offset = default)
+    {
+        yield return new WaitForSeconds(PlayerCloneData.CreateCloneDelayTime);
+        CreateClonePlayer(transform,offset);
     }
 
     /// <summary>

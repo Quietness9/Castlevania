@@ -5,15 +5,14 @@ using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class CloneAnimationTrigger : MonoBehaviour
 {
-
-    
-    [SerializeField] float _attackCheckRadius;
-
     Transform _attackCheck;
+    Transform _closestTarget;
     SpriteRenderer _spriteRenderer;
+    PlayerCloneSkill _cloneSkill;
+
     bool _isDisappear;
     float _cloneTimer;
-    float _colorDisappearSpeed;
+    float _faceDir=1;
 
     private void Start()
     {
@@ -32,7 +31,7 @@ public class CloneAnimationTrigger : MonoBehaviour
 
         if (_cloneTimer > 0.01f)
         {
-            _spriteRenderer.color = new Color(1, 1, 1, _spriteRenderer.color.a - (Time.deltaTime * _colorDisappearSpeed));
+            _spriteRenderer.color = new Color(1, 1, 1, _spriteRenderer.color.a - (Time.deltaTime * _cloneSkill.PlayerCloneData.ColorDisappearSpeed));
         }
 
         if (_cloneTimer < 0)
@@ -47,11 +46,29 @@ public class CloneAnimationTrigger : MonoBehaviour
     /// </summary>
     /// <param name="cloneDuration"></param>
     /// <param name="isDisappear"></param>
-    public void SetPlayerClone(float cloneDuration,float colorDisappearSpeed, bool isDisappear=true)
+    public void SetPlayerClone(PlayerCloneSkill cloneSkill,Transform closestTarget, bool isDisappear=true)
     {
-        _cloneTimer = cloneDuration;
-        _colorDisappearSpeed = colorDisappearSpeed;
         _isDisappear = isDisappear;
+        _closestTarget = closestTarget;
+        _cloneTimer=cloneSkill.PlayerCloneData.CloneDuration;
+        _cloneSkill = cloneSkill;
+
+        FaceClosestTarget();
+    }
+
+    /// <summary>
+    /// 让克隆体面向最近的敌人
+    /// </summary>
+    private void FaceClosestTarget()
+    {
+        if( _closestTarget != null )
+        {
+            if (_closestTarget.position.x < transform.position.x)
+            {
+                _faceDir *= -1;
+                transform.Rotate(0,180,0);
+            }
+        }
     }
 
     /// <summary>
@@ -59,26 +76,19 @@ public class CloneAnimationTrigger : MonoBehaviour
     /// </summary>
     private void AttackAnimationFinish()
     {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(_attackCheck.position, _attackCheckRadius);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(_attackCheck.position, _cloneSkill.PlayerCloneData.AttackCheckRadius);
 
         foreach (Collider2D hit in colliders)
         {
             
             if (hit.TryGetComponent(out Enemy enemy))
             {
-
                 enemy.Damage(GlobalReferencesManager.Instance.GamePlayer);
-                //EnemyStat _target = hit.GetComponent<EnemyStat>();
-                //if (_target != null)
-                //{
-                //    player.stats.DoDamage(_target);
-                //}
-
-                //ItemDateEquipment weaponData = Inventory.instance.GetUseEquipment(EquipmentType.Weapon);
-                //if (weaponData != null)
-                //{
-                //    weaponData.Effect(_target.transform);
-                //}
+                if (_cloneSkill.IsCreateDuplicateClone&&(Random.Range(0,10)> _cloneSkill.PlayerCloneData.DutCreateCloneProbability))
+                {
+                    SkillManager.Instance.CloneSkill.CreateClonePlayer(enemy.transform,
+                        new Vector2(_cloneSkill.PlayerCloneData.DutCreateCloneOffset.x*_faceDir, _cloneSkill.PlayerCloneData.DutCreateCloneOffset.y));
+                }
             }
         }
     }

@@ -14,6 +14,7 @@ public class Player : Character
     [Header("攻击")]
     public Vector2[] AttackMovement;
     public float CounterAttackDuration;
+    public Vector2 CounterAttackOffset;
     public float SwordReturnForce;
 
     [Header("敌人眩晕")]

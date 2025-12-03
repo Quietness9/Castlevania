@@ -6,6 +6,7 @@ public class PlayerBlackHoleState : PlayerState
 {
     float _defaultGravity;
     bool _isCreateBlackHole;
+    PlayerBlackHoleSkill _blackHoleSkill;
 
     public PlayerBlackHoleState(Character character, StateMachine stateMachine, string animationName) : base(character, stateMachine, animationName)
     {
@@ -17,7 +18,9 @@ public class PlayerBlackHoleState : PlayerState
         _defaultGravity=player.Rb.gravityScale;
         player.Rb.gravityScale = 0;
         _isCreateBlackHole=true;
-        timer = SkillManager.Instance.BlackSkill.PlayerBlackHoleData.FlyTime;
+
+        _blackHoleSkill = SkillManager.Instance.BlackSkill;
+        timer = _blackHoleSkill.PlayerBlackHoleData.FlyTime;
     }
 
     public override void Exit()
@@ -36,7 +39,7 @@ public class PlayerBlackHoleState : PlayerState
 
         if (timer > 0)
         {
-            player.Rb.velocity = new Vector2(0, SkillManager.Instance.BlackSkill.PlayerBlackHoleData.FlySpeed);
+            player.Rb.velocity = new Vector2(0, _blackHoleSkill.PlayerBlackHoleData.FlySpeed);
         }
 
         if (timer < 0)
@@ -45,18 +48,19 @@ public class PlayerBlackHoleState : PlayerState
             if (_isCreateBlackHole)
             {
                 player.Rb.velocity=Vector2.zero;
-                SkillManager.Instance.BlackSkill.CreateBlackHole();
+                _blackHoleSkill.CreateBlackHole();
+
                 player.CharacterTransparent(true);
                 _isCreateBlackHole = false;
             }
         }
 
-        if (SkillManager.Instance.BlackSkill.IsEnd)
+        if (_blackHoleSkill.IsEnd)
         {
-            player.Rb.velocity = new Vector2(0, -SkillManager.Instance.BlackSkill.PlayerBlackHoleData.LandSpeed);
+            player.Rb.velocity = new Vector2(0, -_blackHoleSkill.PlayerBlackHoleData.LandSpeed);
         }
 
-        if (SkillManager.Instance.BlackSkill.IsEnd&&player.IsGroundCheck())
+        if (_blackHoleSkill.IsEnd&&player.IsGroundCheck())
         {
             player.CharacterStateMachine.ChangeState(player.IdleState);
         }

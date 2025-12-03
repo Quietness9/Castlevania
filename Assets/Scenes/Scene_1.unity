@@ -560,6 +560,7 @@ MonoBehaviour:
   - {x: 0.8, y: 0.3}
   - {x: 0.5, y: 0.3}
   CounterAttackDuration: 0.2
+  CounterAttackOffset: {x: 1, y: 0}
   SwordReturnForce: 3
   StunnedForce: {x: 5, y: 2}
   StunnedDuration: 1
@@ -2376,9 +2377,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a45a85670cbcfd34dbe6ce3df34de0ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Cooldown: 1
-  _colorDisappearSpeed: 1.5
-  _cloneDuration: 2
+  Cooldown: 0
+  PlayerCloneData: {fileID: 11400000, guid: 62c2533e6fab2a242a8dfba641de90c9, type: 2}
+  IsCreateDuplicateClone: 1
+  IsCreateCloneOnDashEnd: 0
+  IsCreateCloneOnDashStart: 0
+  IsCreateCloneOnCounterAttack: 1
 --- !u!114 &971561231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2409,6 +2413,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Cooldown: 10
   PlayerBlackHoleData: {fileID: 11400000, guid: 10c66cd64bb5f1541a32c3c11f3bc19b, type: 2}
+  IsCreateCrystal: 1
 --- !u!114 &971561233
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2421,13 +2426,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdebed08fb8d90945ad84fe45491d134, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Cooldown: 10
+  Cooldown: 5
   PlayerCrystalData: {fileID: 11400000, guid: 4482caba2c4eb024c9e8915dcc9945b2, type: 2}
-  _isCanExplode: 0
-  _isSwapPositions: 0
-  _isCanMove: 0
-  _isUseMultCrystal: 1
-  _crystalObj: []
+  IsCanMove: 1
+  IsCanExplode: 1
+  IsSwapPosition: 0
+  IsUseMulCrystal: 0
+  IsCrystalReplaceClone: 0
 --- !u!1 &984022565
 GameObject:
   m_ObjectHideFlags: 0
@@ -2852,7 +2857,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2568641398723005995, guid: 54b12b05272d93a419beb678b610b4fe, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4580157200488326758, guid: 54b12b05272d93a419beb678b610b4fe, type: 3}
       propertyPath: m_LocalPosition.x
