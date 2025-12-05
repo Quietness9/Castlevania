@@ -18,7 +18,6 @@ public class SkeletonGroundState : EntityState
 
         if (skeleton.IsPlayerDetected() || Vector2.Distance(skeleton.transform.position, GlobalReferencesManager.Instance.GamePlayer.transform.position) < skeleton.IgnoreDistance)
         {
-            
             baseStateMachine.ChangeState(skeleton.BattleState);
         }
     }

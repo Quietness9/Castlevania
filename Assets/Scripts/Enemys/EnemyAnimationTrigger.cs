@@ -20,6 +20,9 @@ public class EnemyAnimationTrigger : MonoBehaviour
         _enemy.CurrentAnimationFinish();
     }
 
+    /// <summary>
+    /// 攻击动画造成伤害
+    /// </summary>
     private void AttackAnimationFinish()
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(_enemy.AttackCheck.position, _enemy.AttackCheckRadius);
@@ -29,12 +32,13 @@ public class EnemyAnimationTrigger : MonoBehaviour
             
             if (hit.TryGetComponent(out Player player))
             {
-                player.Damage(_enemy);
+                player.DamageEffect(_enemy);
+                player.TakeDamage(_enemy);
 
                 //EnemyStat _target = hit.GetComponent<EnemyStat>();
                 //if (_target != null)
                 //{
-                //    player.stats.DoDamage(_target);
+                //    player.stats.TakeDamage(_target);
                 //}
 
                 //ItemDateEquipment weaponData = Inventory.instance.GetUseEquipment(EquipmentType.Weapon);
@@ -46,6 +50,18 @@ public class EnemyAnimationTrigger : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 死亡时销毁
+    /// </summary>
+    private void DestroySelf() => Destroy(_enemy.gameObject);
+
+    /// <summary>
+    /// 打开反击窗口
+    /// </summary>
     private void OpenCounterWindow()=>_enemy.OpenCounterAttackWindow();
+
+    /// <summary>
+    /// 关闭反击窗口
+    /// </summary>
     private void CloseCounterWindow()=>_enemy.CloseCounterAttackWindow();
 }

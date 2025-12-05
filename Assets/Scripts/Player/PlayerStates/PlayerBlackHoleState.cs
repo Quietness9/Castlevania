@@ -49,8 +49,11 @@ public class PlayerBlackHoleState : PlayerState
             {
                 player.Rb.velocity=Vector2.zero;
                 _blackHoleSkill.CreateBlackHole();
-
-                player.CharacterTransparent(true);
+                if (!_blackHoleSkill.IsCreateCrystal)
+                {
+                    player.CharacterTransparent(true);
+                }
+                
                 _isCreateBlackHole = false;
             }
         }

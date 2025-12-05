@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class SkeletonIdleState : SkeletonGroundState
 {
-    
 
     public SkeletonIdleState(Character character,Skeleton skeleton, StateMachine stateMachine, string animationName) : base(character,skeleton, stateMachine, animationName)
     {

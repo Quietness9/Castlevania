@@ -26,7 +26,7 @@ public class PlayerCloneSkill : Skill
 
         _clonePlayer = Instantiate(clonePre, transform.position + offset, Quaternion.identity);
         Transform closestTarget = GetClosestEnemy(_clonePlayer.transform, PlayerCloneData.CheckClosestEnemyRadius);
-        _clonePlayer.GetComponentInChildren<CloneAnimationTrigger>().SetPlayerClone(this,closestTarget);
+        _clonePlayer.GetComponentInChildren<CloneAnimationTrigger>().SetPlayerClone(player,this,closestTarget);
 
         CloneAttack();
 

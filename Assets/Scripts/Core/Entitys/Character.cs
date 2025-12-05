@@ -32,34 +32,42 @@ public class Character : MonoBehaviour
     public Rigidbody2D Rb { get;private set; }
     public EntityFX Fx { get;private set; }
 
+    public CharacterAttribute Attribute { get; private set; }
+
     SpriteRenderer _sr;
 
     #endregion
 
     protected virtual void Awake()
     {
-        Fx = GetComponentInChildren<EntityFX>();
-        Animator_CT = GetComponentInChildren<Animator>();
-        _sr = GetComponentInChildren<SpriteRenderer>();
         Rb = GetComponent<Rigidbody2D>();
+        Fx = GetComponentInChildren<EntityFX>();
+        Attribute = GetComponent<CharacterAttribute>();
+        _sr = GetComponentInChildren<SpriteRenderer>();
+        Animator_CT = GetComponentInChildren<Animator>();
+
         CharacterStateMachine = new StateMachine();
     }
 
 
     /// <summary>
-    /// 造成伤害
+    /// 造成伤害的击退特性
     /// </summary>
-    public virtual void Damage(Character character)
+    /// <param name="character"></param>
+    public virtual void DamageEffect(Character character)
     {
         Fx.StartCoroutine("FlashFX");
         StartCoroutine(HitKnockbackCo(character.KnockbackForce, character.KnockDuration, character.Direction));
     }
 
+
     /// <summary>
     /// 击退效果
     /// </summary>
-    /// <param name="xForce"></param>
-    /// <param name="yForce"></param>
+    /// <param name="hitForce"></param>
+    /// <param name="hitDuration"></param>
+    /// <param name="direction"></param>
+    /// <param name="mult"></param>
     /// <returns></returns>
     private IEnumerator HitKnockbackCo(Vector2 hitForce, float hitDuration, float direction, float mult = 1)
     {
@@ -71,6 +79,36 @@ public class Character : MonoBehaviour
 
         isKnock = false;
     }
+
+    /// <summary>
+    /// 受到伤害
+    /// </summary>
+    /// <param name="character"></param>
+    /// <param name="isUseMagic"></param>
+    public virtual void TakeDamage(Character character,bool isUseMagic=false)
+    {
+        if(IsSuccessfulEvasion())
+            return;
+        
+        int totalDamage=character.Attribute.GetPhysicalDamage(Attribute);
+
+        
+        if (isUseMagic == true)
+        {
+            totalDamage += character.Attribute.GetMagicDamage(Attribute);
+            MagicEffectType effectType = character.Attribute.GetMagicType();
+            Attribute.ApplyMagicEffect(effectType);
+        }
+        Debug.Log("造成伤害" + totalDamage);
+
+        Attribute.ReduceCurrentHealth(totalDamage);
+        if (Attribute.CurrentHealth <= 0)
+        {
+            Die();
+        }
+    }
+
+    
 
     /// <summary>
     /// 完成动画播放检测
@@ -92,6 +130,14 @@ public class Character : MonoBehaviour
     }
 
     /// <summary>
+    /// 角色死亡
+    /// </summary>
+    public virtual void Die()
+    {
+        Debug.Log("Die");
+    }
+
+    /// <summary>
     /// 使用角色透明
     /// </summary>
     /// <param name="isTransparent"></param>
@@ -106,6 +152,25 @@ public class Character : MonoBehaviour
             _sr.color = Color.white;
         }
     }
+
+    #region 攻击帮助函数
+
+    /// <summary>
+    /// 判断角色是否闪避成功
+    /// </summary>
+    /// <returns></returns>
+    public virtual bool IsSuccessfulEvasion()
+    {
+        if (Random.Range(0, 100) < Attribute.GetTotalEvasion())
+        {
+            Debug.Log("闪避成功");
+            return true;
+        }
+
+        return false;
+    }
+
+    #endregion
 
     #region 通用射线碰撞检测
 

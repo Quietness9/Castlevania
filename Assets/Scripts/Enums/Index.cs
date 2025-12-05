@@ -9,3 +9,12 @@ public enum SwordType
     Pierce,//穿透模式
     Spin//旋转模式
 }
+
+public enum MagicEffectType
+{
+    Ignite,//点燃
+    Chill,//冰冻
+    Shock,//雷电
+    None//没有特效类型
+
+}

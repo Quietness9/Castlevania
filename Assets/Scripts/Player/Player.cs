@@ -34,6 +34,8 @@ public class Player : Character
     //Timer
     public float LastOnGroundTime { get;set; }
 
+    public CapsuleCollider2D Clc2d { get; private set; }
+
 
     #region 状态
 
@@ -46,6 +48,8 @@ public class Player : Character
     public PlayerAimSwordState AimSwordState { get; private set; }
     public PlayerCatchSwordState CatchSwordState { get; private set; }
     public PlayerBlackHoleState BlackHoleState { get; private set; }
+    public PlayerDeathState DeathState { get; private set; }
+
 
     #endregion
 
@@ -62,7 +66,9 @@ public class Player : Character
         AimSwordState = new PlayerAimSwordState(this, CharacterStateMachine, "AimSword");
         CatchSwordState = new PlayerCatchSwordState(this, CharacterStateMachine, "CatchSword");
         BlackHoleState = new PlayerBlackHoleState(this, CharacterStateMachine, "Jump");
+        DeathState = new PlayerDeathState(this, CharacterStateMachine, "Die");
 
+        Clc2d = GetComponent<CapsuleCollider2D>();
     }
 
     private void Start()
@@ -112,6 +118,12 @@ public class Player : Character
         {
             Destroy(SwordObj);
         }
+    }
+
+    public override void Die()
+    {
+        Debug.Log("Player Die");
+        CharacterStateMachine.ChangeState(DeathState);
     }
 
     /// <summary>

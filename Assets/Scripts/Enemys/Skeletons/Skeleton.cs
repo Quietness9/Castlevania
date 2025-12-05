@@ -1,5 +1,9 @@
+using UnityEngine;
+
 public class Skeleton : Enemy
 {
+
+    public BoxCollider2D Bd2d { get; private set; }
 
     #region 状态
     public SkeletonIdleState IdleState { get; private set; }
@@ -7,6 +11,8 @@ public class Skeleton : Enemy
     public SkeletonBattleState BattleState { get; private set; }
     public SkeletonAttackState AttackState { get; private set; }
     public SkeletonStunnedState StunnedState { get; private set; }
+
+    public SkeletonDeathState DeathState { get; private set; }
 
     #endregion
 
@@ -19,6 +25,9 @@ public class Skeleton : Enemy
         BattleState = new SkeletonBattleState(this, this, CharacterStateMachine, "Move");
         AttackState = new SkeletonAttackState(this, this, CharacterStateMachine, "Attack");
         StunnedState = new SkeletonStunnedState(this, this, CharacterStateMachine, "Stunned");
+        DeathState = new SkeletonDeathState(this, this, CharacterStateMachine, "Die");
+
+        Bd2d = GetComponent<BoxCollider2D>();
     }
 
     private void Start()
@@ -51,5 +60,14 @@ public class Skeleton : Enemy
         }
 
         return false;
+    }
+
+    /// <summary>
+    /// 切换到死亡状态
+    /// </summary>
+    public override void Die()
+    {
+        Debug.Log("Skeleton Die");
+        CharacterStateMachine.ChangeState(DeathState);
     }
 }

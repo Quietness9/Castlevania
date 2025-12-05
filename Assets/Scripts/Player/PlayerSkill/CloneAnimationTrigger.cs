@@ -5,6 +5,7 @@ using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class CloneAnimationTrigger : MonoBehaviour
 {
+    Player _player;
     Transform _attackCheck;
     Transform _closestTarget;
     SpriteRenderer _spriteRenderer;
@@ -46,8 +47,9 @@ public class CloneAnimationTrigger : MonoBehaviour
     /// </summary>
     /// <param name="cloneDuration"></param>
     /// <param name="isDisappear"></param>
-    public void SetPlayerClone(PlayerCloneSkill cloneSkill,Transform closestTarget, bool isDisappear=true)
+    public void SetPlayerClone(Player player,PlayerCloneSkill cloneSkill,Transform closestTarget, bool isDisappear=true)
     {
+        _player = player;
         _isDisappear = isDisappear;
         _closestTarget = closestTarget;
         _cloneTimer=cloneSkill.PlayerCloneData.CloneDuration;
@@ -83,7 +85,8 @@ public class CloneAnimationTrigger : MonoBehaviour
             
             if (hit.TryGetComponent(out Enemy enemy))
             {
-                enemy.Damage(GlobalReferencesManager.Instance.GamePlayer);
+                enemy.DamageEffect(_player);
+                enemy.TakeDamage(_player);
                 if (_cloneSkill.IsCreateDuplicateClone&&(Random.Range(0,10)> _cloneSkill.PlayerCloneData.DutCreateCloneProbability))
                 {
                     SkillManager.Instance.CloneSkill.CreateClonePlayer(enemy.transform,

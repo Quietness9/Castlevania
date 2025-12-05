@@ -33,11 +33,12 @@ public class PlayerAnimationTrigger : MonoBehaviour
             if (hit.TryGetComponent(out Enemy enemy))
             {
 
-                enemy.Damage(_player);
+                enemy.DamageEffect(_player);
+                enemy.TakeDamage(_player);
                 //EnemyStat _target = hit.GetComponent<EnemyStat>();
                 //if (_target != null)
                 //{
-                //    player.stats.DoDamage(_target);
+                //    player.stats.TakeDamage(_target);
                 //}
 
                 //ItemDateEquipment weaponData = Inventory.instance.GetUseEquipment(EquipmentType.Weapon);

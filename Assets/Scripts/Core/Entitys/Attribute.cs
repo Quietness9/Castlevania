@@ -2,17 +2,50 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Attribute : MonoBehaviour
+[System.Serializable]
+public class Attribute
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] int _baseValue;
+    [SerializeField] List<int> _modifier=new ();
+
+    /// <summary>
+    /// 设置基础值s
+    /// </summary>
+    /// <param name="baseValue"></param>
+    public void SetBaseValue(int baseValue)
     {
-        
+        _baseValue = baseValue;
     }
 
-    // Update is called once per frame
-    void Update()
+    /// <summary>
+    /// 获得有加成后的值
+    /// </summary>
+    public int GetValue()
     {
-        
+        int value = _baseValue;
+
+        foreach (int modifier in _modifier)
+        {
+            value += modifier;
+        }
+
+        return value;
+    }
+
+    /// <summary>
+    /// 添加加成
+    /// </summary>
+    public void AddModifier(int mod)
+    {
+        _modifier.Add(mod);
+    }
+
+    /// <summary>
+    /// 去除加成
+    /// </summary>
+    /// <param name="mod"></param>
+    public void RemoveModifier(int mod)
+    {
+        _modifier.Remove(mod);
     }
 }

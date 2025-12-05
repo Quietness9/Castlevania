@@ -99,7 +99,11 @@ public class BlackHoleController : MonoBehaviour
     {
         if (!_isCloneAttack && _isShrink)
         {
-            _player.CharacterTransparent(false);
+            if (!_blackHoleSkill.IsCreateCrystal)
+            {
+                _player.CharacterTransparent(false);
+            }
+            
             transform.localScale = Vector2.Lerp(transform.localScale, new Vector2(-1, -1)
                 , _blackHoleSkill.PlayerBlackHoleData.ShrinkSpeed * Time.deltaTime);
 

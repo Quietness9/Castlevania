@@ -29,8 +29,6 @@ public class SwordController : MonoBehaviour
     bool _canRotation = true;
     bool _isSwordReturning;
     bool _isAdvanceReturn;
-    //SwordType _swordType;
-    //SwordData _swordData;
 
     private void Awake()
     {
@@ -158,7 +156,8 @@ public class SwordController : MonoBehaviour
     private void SwordSkillDamage(Enemy enemy)
     {
         enemy.StartCoroutine("IsFreezeSelfCo", _swordSkill.PlayerSwordData.FreezeTime);
-        enemy.Damage(_player);
+        enemy.DamageEffect(_player);
+        enemy.TakeDamage(_player);
     }
 
     /// <summary>
@@ -180,7 +179,8 @@ public class SwordController : MonoBehaviour
     {
         if (collision.TryGetComponent(out Enemy enemy))
         {
-            enemy.Damage(_player);
+            enemy.DamageEffect(_player);
+            enemy.TakeDamage(_player);
             if (_pierceAmount > 0)
             {
                 _pierceAmount--;
