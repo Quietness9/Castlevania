@@ -80,34 +80,6 @@ public class Character : MonoBehaviour
         isKnock = false;
     }
 
-    /// <summary>
-    /// 受到伤害
-    /// </summary>
-    /// <param name="character"></param>
-    /// <param name="isUseMagic"></param>
-    public virtual void TakeDamage(Character character,bool isUseMagic=false)
-    {
-        if(IsSuccessfulEvasion())
-            return;
-        
-        int totalDamage=character.Attribute.GetPhysicalDamage(Attribute);
-
-        
-        if (isUseMagic == true)
-        {
-            totalDamage += character.Attribute.GetMagicDamage(Attribute);
-            MagicEffectType effectType = character.Attribute.GetMagicType();
-            Attribute.ApplyMagicEffect(effectType);
-        }
-        Debug.Log("造成伤害" + totalDamage);
-
-        Attribute.ReduceCurrentHealth(totalDamage);
-        if (Attribute.CurrentHealth <= 0)
-        {
-            Die();
-        }
-    }
-
     
 
     /// <summary>
@@ -130,14 +102,6 @@ public class Character : MonoBehaviour
     }
 
     /// <summary>
-    /// 角色死亡
-    /// </summary>
-    public virtual void Die()
-    {
-        Debug.Log("Die");
-    }
-
-    /// <summary>
     /// 使用角色透明
     /// </summary>
     /// <param name="isTransparent"></param>
@@ -152,25 +116,6 @@ public class Character : MonoBehaviour
             _sr.color = Color.white;
         }
     }
-
-    #region 攻击帮助函数
-
-    /// <summary>
-    /// 判断角色是否闪避成功
-    /// </summary>
-    /// <returns></returns>
-    public virtual bool IsSuccessfulEvasion()
-    {
-        if (Random.Range(0, 100) < Attribute.GetTotalEvasion())
-        {
-            Debug.Log("闪避成功");
-            return true;
-        }
-
-        return false;
-    }
-
-    #endregion
 
     #region 通用射线碰撞检测
 

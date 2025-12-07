@@ -157,7 +157,7 @@ public class SwordController : MonoBehaviour
     {
         enemy.StartCoroutine("IsFreezeSelfCo", _swordSkill.PlayerSwordData.FreezeTime);
         enemy.DamageEffect(_player);
-        enemy.TakeDamage(_player);
+        enemy.Attribute.TakeDamage(_player);
     }
 
     /// <summary>
@@ -180,7 +180,7 @@ public class SwordController : MonoBehaviour
         if (collision.TryGetComponent(out Enemy enemy))
         {
             enemy.DamageEffect(_player);
-            enemy.TakeDamage(_player);
+            enemy.Attribute.TakeDamage(_player);
             if (_pierceAmount > 0)
             {
                 _pierceAmount--;

@@ -40,12 +40,11 @@ public class Skeleton : Enemy
         CharacterStateMachine.CurrentState.Update();
     }
 
-    private void InitSkeleton()
+    private void OnDestroy()
     {
-        IsFacingRight = true;
-
-        CharacterStateMachine.InitState(IdleState);
+        EventUnsubscribe();
     }
+
 
     /// <summary>
     /// 判断是否可以切换Stunned状态
@@ -62,10 +61,47 @@ public class Skeleton : Enemy
         return false;
     }
 
+    private void InitSkeleton()
+    {
+        IsFacingRight = true;
+
+        EventSubscribe();
+
+        CharacterStateMachine.InitState(IdleState);
+    }
+
+    /// <summary>
+    /// 事件订阅
+    /// </summary>
+    private void EventSubscribe()
+    {
+        if (Attribute == null)
+        {
+            Debug.LogWarning("Attribute is null");
+            return;
+        }
+
+        Attribute.DieEvent += ChangeDieStateHandle;
+    }
+
+    /// <summary>
+    /// 取消事件订阅
+    /// </summary>
+    private void EventUnsubscribe()
+    {
+        if (Attribute == null)
+        {
+            Debug.LogWarning("Attribute is null");
+            return;
+        }
+
+        Attribute.DieEvent -= ChangeDieStateHandle;
+    }
+
     /// <summary>
     /// 切换到死亡状态
     /// </summary>
-    public override void Die()
+    private void ChangeDieStateHandle()
     {
         Debug.Log("Skeleton Die");
         CharacterStateMachine.ChangeState(DeathState);

@@ -22,7 +22,9 @@ MonoBehaviour:
   <Evasion>k__BackingField: 0
   <MagicResistance>k__BackingField: 0
   <CriticalChance>k__BackingField: 0
-  <CriticalDamage>k__BackingField: 50
+  <CriticalDamage>k__BackingField: 0
   <FireDamage>k__BackingField: 0
+  <IgniteDurationTime>k__BackingField: 0
+  <IgniteDamageCooldown>k__BackingField: 0
   <IceDamage>k__BackingField: 0
   <LightingDamage>k__BackingField: 0

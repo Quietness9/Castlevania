@@ -13,7 +13,6 @@ public class SkeletonDeathState : EntityState
     public override void Enter()
     {
         base.Enter();
-        _skeleton.Bd2d.enabled = false;
     }
 
     public override void Exit()

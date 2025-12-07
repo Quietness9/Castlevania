@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-[CreateAssetMenu(fileName = "New BlackHole Data", menuName = "GameData/Skill/BlackHole")]
+[CreateAssetMenu(fileName = "New BlackHole Data", menuName = "GameData/Skill/BlackHoleData")]
 public class BlackHoleData : ScriptableObject
 {
 

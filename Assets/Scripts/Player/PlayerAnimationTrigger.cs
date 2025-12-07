@@ -34,7 +34,7 @@ public class PlayerAnimationTrigger : MonoBehaviour
             {
 
                 enemy.DamageEffect(_player);
-                enemy.TakeDamage(_player);
+                enemy.Attribute.TakeDamage(_player);
                 //EnemyStat _target = hit.GetComponent<EnemyStat>();
                 //if (_target != null)
                 //{

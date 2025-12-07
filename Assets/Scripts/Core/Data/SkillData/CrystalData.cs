@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName ="New Crystal Data",menuName ="GameData/Skill/Crystal")]
+[CreateAssetMenu(fileName ="New Crystal Data",menuName ="GameData/Skill/CrystalData")]
 public class CrystalData : ScriptableObject
 {
     [field:SerializeField] public int MaxSpawnCrystalAmount { get; private set; }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName ="New Attribute Data",menuName ="GameData/Attribute")]
+[CreateAssetMenu(fileName ="New Attribute Data",menuName ="GameData/Attribute/MainData")]
 public class BaseAttributeData : ScriptableObject
 {
     [field:Header("基础属性")]
@@ -24,8 +24,14 @@ public class BaseAttributeData : ScriptableObject
     [field:SerializeField] public int CriticalChance { get; private set; }
     [field:SerializeField] public int CriticalDamage { get; private set; }
 
-    [field: Header("魔法属性值")]
-    [field:SerializeField] public int FireDamage { get; private set; }
-    [field:SerializeField] public int IceDamage { get; private set; }
-    [field:SerializeField] public int LightingDamage { get; private set; }
+    [field: Header("火焰属性值")]
+    [field: SerializeField] public int FireDamage { get; private set; }
+    [field: SerializeField] public int IgniteDurationTime { get; private set; }
+    [field: SerializeField] public int IgniteDamageCooldown { get; private set; }
+
+    [field: Header("冰冻属性值")]
+    [field: SerializeField] public int IceDamage { get; private set; }
+
+    [field: Header("雷电属性值")]
+    [field: SerializeField] public int LightingDamage { get; private set; }
 }

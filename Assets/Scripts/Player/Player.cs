@@ -120,12 +120,6 @@ public class Player : Character
         }
     }
 
-    public override void Die()
-    {
-        Debug.Log("Player Die");
-        CharacterStateMachine.ChangeState(DeathState);
-    }
-
     /// <summary>
     /// 初始化玩家
     /// </summary>
@@ -156,6 +150,14 @@ public class Player : Character
         PlayerInput.CounterAttackEvent += ChangeCounterAttackStateHandle;
         PlayerInput.AimSwordEvent += ChangeAimSwordStateHandle;
         PlayerInput.CancelSwordEvent += ChangeIdleStateHandle;
+
+        if (Attribute == null)
+        {
+            Debug.LogWarning("Attribute is null");
+            return;
+        }
+
+        Attribute.DieEvent += ChangDieStateHandle;
     }
 
     /// <summary>
@@ -176,6 +178,14 @@ public class Player : Character
         PlayerInput.CounterAttackEvent -= ChangeCounterAttackStateHandle;
         PlayerInput.AimSwordEvent -= ChangeAimSwordStateHandle;
         PlayerInput.CancelSwordEvent -= ChangeIdleStateHandle;
+
+        if (Attribute == null)
+        {
+            Debug.LogWarning("Attribute is null");
+            return;
+        }
+
+        Attribute.DieEvent -= ChangDieStateHandle;
     }
 
     #region EventHandle
@@ -247,6 +257,15 @@ public class Player : Character
     private void ChangeIdleStateHandle()
     {
         CharacterStateMachine.ChangeState(IdleState);
+    }
+
+    /// <summary>
+    /// 转为死亡状态
+    /// </summary>
+    private void ChangDieStateHandle()
+    {
+        Debug.Log("Player Die");
+        CharacterStateMachine.ChangeState(DeathState);
     }
 
     #endregion

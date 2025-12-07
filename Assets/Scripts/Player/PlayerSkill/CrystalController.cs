@@ -191,7 +191,7 @@ public class CrystalController : MonoBehaviour
             if(hit.TryGetComponent(out Enemy enemy))
             {
                 enemy.DamageEffect(_player);
-                enemy.TakeDamage(_player,true);
+                enemy.Attribute.TakeDamage(_player,true);
             }
         }
     }

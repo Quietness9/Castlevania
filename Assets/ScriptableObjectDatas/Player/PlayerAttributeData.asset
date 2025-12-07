@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PlayerAttributeData
   m_EditorClassIdentifier: 
   <Hp>k__BackingField: 100
-  <Atk>k__BackingField: 0
+  <Atk>k__BackingField: 10
   <Agility>k__BackingField: 0
   <Vitality>k__BackingField: 0
   <Strength>k__BackingField: 0
@@ -23,6 +23,8 @@ MonoBehaviour:
   <MagicResistance>k__BackingField: 0
   <CriticalChance>k__BackingField: 0
   <CriticalDamage>k__BackingField: 0
-  <FireDamage>k__BackingField: 1
-  <IceDamage>k__BackingField: 1
-  <LightingDamage>k__BackingField: 1
+  <FireDamage>k__BackingField: 10
+  <IgniteDurationTime>k__BackingField: 0
+  <IgniteDamageCooldown>k__BackingField: 1
+  <IceDamage>k__BackingField: 0
+  <LightingDamage>k__BackingField: 0
