@@ -30,8 +30,14 @@ public class Skeleton : Enemy
         Bd2d = GetComponent<BoxCollider2D>();
     }
 
-    private void Start()
+    private void OnEnable()
     {
+        EventSubscribe();
+    }
+
+    protected override void Start()
+    {
+        base.Start();
         InitSkeleton();
     }
 
@@ -40,7 +46,7 @@ public class Skeleton : Enemy
         CharacterStateMachine.CurrentState.Update();
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         EventUnsubscribe();
     }
@@ -64,9 +70,6 @@ public class Skeleton : Enemy
     private void InitSkeleton()
     {
         IsFacingRight = true;
-
-        EventSubscribe();
-
         CharacterStateMachine.InitState(IdleState);
     }
 

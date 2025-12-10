@@ -85,8 +85,9 @@ public class CloneAnimationTrigger : MonoBehaviour
             
             if (hit.TryGetComponent(out Enemy enemy))
             {
+                enemy.Attribute.TakePhysicalDamage(_player);
                 enemy.DamageEffect(_player);
-                enemy.Attribute.TakeDamage(_player);
+
                 if (_cloneSkill.IsCreateDuplicateClone&&(Random.Range(0,10)> _cloneSkill.PlayerCloneData.DutCreateCloneProbability))
                 {
                     SkillManager.Instance.CloneSkill.CreateClonePlayer(enemy.transform,

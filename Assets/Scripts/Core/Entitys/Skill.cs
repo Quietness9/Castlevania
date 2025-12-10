@@ -16,6 +16,7 @@ public class Skill : MonoBehaviour
     protected virtual void Start() 
     {
         player = GlobalReferencesManager.Instance.GamePlayer;
+        
     }
 
 
@@ -25,7 +26,12 @@ public class Skill : MonoBehaviour
     }
 
     protected virtual void OnDestroy() { }
-    
+
+    /// <summary>
+    /// 使用技能
+    /// </summary>
+    public virtual void UseSkill() { }
+
     /// <summary>
     /// 判断是否可以使用技能
     /// </summary>
@@ -41,10 +47,6 @@ public class Skill : MonoBehaviour
         return false;
     }
 
-    /// <summary>
-    /// 使用技能
-    /// </summary>
-    public virtual void UseSkill() { }
 
     /// <summary>
     /// 获得最近距离的敌人位置

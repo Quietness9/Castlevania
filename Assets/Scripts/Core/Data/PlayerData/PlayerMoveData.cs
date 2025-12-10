@@ -35,8 +35,6 @@ public class PlayerMoveData : ScriptableObject
     [Range(0.01f, 1)] public float AccelInAir;
     [Range(0.01f, 1)] public float DecreInAir;
 
-    [Header("跳跃参数")]
-    public float JumpForce;
 
     [Header("最高点重力")]
     [Range(0f, 1)] public float JumpHangGravityMult;//在接近跳跃顶点（期望的最大高度）时减少重力
@@ -48,6 +46,12 @@ public class PlayerMoveData : ScriptableObject
     [Header("Assists")]
     [Range(0.01f, 0.5f)] public float coyoteTime;//落下地面后依然可以跳跃的时间
 
+    [Header("跳跃参数")]
+    public float JumpForce;
+
+    [Header("冲刺参数")]
+    public float DashCooldown;
+    public float DashForce;
 
     private void OnValidate()
     {

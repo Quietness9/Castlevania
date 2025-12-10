@@ -15,7 +15,7 @@ public class SkeletonIdleState : SkeletonGroundState
     {
         base.Enter();
 
-        timer =skeleton.IdleTime;
+        timer =skeleton.EnemyStateData.IdleTime;
     }
 
     public override void Update()

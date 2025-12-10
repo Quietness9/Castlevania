@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -28,20 +29,22 @@ public class Character : MonoBehaviour
     public StateMachine CharacterStateMachine { get; private set; }
 
     #region 组件
+
     public Animator Animator_CT { get;private set; }
     public Rigidbody2D Rb { get;private set; }
-    public EntityFX Fx { get;private set; }
-
+    public CharacterFX Fx { get;private set; }
     public CharacterAttribute Attribute { get; private set; }
 
     SpriteRenderer _sr;
 
     #endregion
 
+    public event Action FlipEvent = delegate { };
+
     protected virtual void Awake()
     {
         Rb = GetComponent<Rigidbody2D>();
-        Fx = GetComponentInChildren<EntityFX>();
+        Fx = GetComponentInChildren<CharacterFX>();
         Attribute = GetComponent<CharacterAttribute>();
         _sr = GetComponentInChildren<SpriteRenderer>();
         Animator_CT = GetComponentInChildren<Animator>();
@@ -49,6 +52,7 @@ public class Character : MonoBehaviour
         CharacterStateMachine = new StateMachine();
     }
 
+    #region 攻击特殊效果
 
     /// <summary>
     /// 造成伤害的击退特性
@@ -56,7 +60,6 @@ public class Character : MonoBehaviour
     /// <param name="character"></param>
     public virtual void DamageEffect(Character character)
     {
-        Fx.StartCoroutine("FlashFX");
         StartCoroutine(HitKnockbackCo(character.KnockbackForce, character.KnockDuration, character.Direction));
     }
 
@@ -80,7 +83,23 @@ public class Character : MonoBehaviour
         isKnock = false;
     }
 
+    /// <summary>
+    ///当你受到冷冻时减慢角色
+    /// </summary>
+    public virtual void SlowCharacterSpeed(float slowRatio) 
+    {
+        Animator_CT.speed *= (1 - slowRatio);
+    }
     
+    /// <summary>
+    /// 恢复到原来的角色的速度
+    /// </summary>
+    public virtual void ReturnCharacterDefaultSpeed()
+    {
+        Animator_CT.speed = 1;
+    }
+
+    #endregion
 
     /// <summary>
     /// 完成动画播放检测
@@ -99,22 +118,8 @@ public class Character : MonoBehaviour
 
         Direction *= -1;
         IsFacingRight = !IsFacingRight;
-    }
 
-    /// <summary>
-    /// 使用角色透明
-    /// </summary>
-    /// <param name="isTransparent"></param>
-    public void CharacterTransparent(bool isTransparent)
-    {
-        if (isTransparent)
-        {
-            _sr.color = Color.clear;
-        }
-        else
-        {
-            _sr.color = Color.white;
-        }
+        FlipEvent.Invoke();
     }
 
     #region 通用射线碰撞检测

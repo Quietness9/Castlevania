@@ -1,18 +1,18 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterAttribute : MonoBehaviour
 {
 
     public BaseAttributeData CharacterAttributeData;
-    public event Action DieEvent;
+    public event Action DieEvent = delegate { };
+    public event Action ChangeHealthEvent = delegate { };
 
     [Header("基础属性")]
     public Attribute Hp; // 最大生命值
     public Attribute Atk; //攻击力
-    [field:SerializeField] public int CurrentHealth { get; private set; }
+    [field: SerializeField] public int CurrentHealth { get; private set; }
 
     [Header("主要属性值")]
     public Attribute Agility;  // 敏捷：增加闪避1%，暴击率1%
@@ -36,39 +36,34 @@ public class CharacterAttribute : MonoBehaviour
 
     public MagicEffectType SelfMagicType { get; private set; } = MagicEffectType.None; //自身受到的魔法效果
 
+    //CharacterFX _fx;
+    Character _character;
+    Coroutine _magicCoroutine;
+
+    int _igniteDamage;
     float _igniteDamageTimer;
     float _igniteDamageCooldown; //造成一次点燃伤害冷却
-    int _igniteDamage;
 
-    float _chillTimer;
-    float _shockTimer;
+    float _slowRatio;
 
-    protected virtual void Start()
+    private void Awake()
     {
-        InitBaseAttributeData();
+        _character = GetComponentInParent<Character>();
 
+        InitBaseAttributeData();
         CurrentHealth = GetMaxHealth();
     }
 
+    protected virtual void Start() { }
+
+
     protected virtual void Update()
     {
-        _igniteDamageTimer-= Time.deltaTime;
-        _chillTimer-= Time.deltaTime;
-        _shockTimer-= Time.deltaTime;
+        _igniteDamageTimer -= Time.deltaTime;
 
         if (SelfMagicType == MagicEffectType.Ignite && _igniteDamageTimer <= 0)
         {
             TakeIgniteDamage();
-        }
-
-        if(SelfMagicType==MagicEffectType.Chill && _chillTimer <= 0)
-        {
-            ChillEffect();
-        }
-
-        if (SelfMagicType == MagicEffectType.Shock && _shockTimer <= 0)
-        {
-            ShockEffect();
         }
     }
 
@@ -99,24 +94,33 @@ public class CharacterAttribute : MonoBehaviour
     }
 
     /// <summary>
-    /// 受到伤害
+    /// 受到物理伤害
     /// </summary>
     /// <param name="character">造成伤害的对象</param>
     /// <param name="isUseMagic">是否使用魔法伤害</param>
-    public virtual void TakeDamage(Character character, bool isUseMagic = false)
+    public virtual void TakePhysicalDamage(Character character)
     {
         if (IsSuccessfulEvasion())
             return;
 
         int totalDamage = GetPhysicalDamage(character.Attribute);
+        _character.Fx.StartCoroutine("FlashFX");
 
-        if (isUseMagic == true)
-        {
-            totalDamage += GetMagicDamage(character.Attribute);
-            ApplyMagicEffect(character.Attribute);
-        }
+        ReduceCurrentHealth(totalDamage);
+    }
 
-        Debug.Log("造成伤害" + totalDamage);
+    /// <summary>
+    /// 受到魔法伤害
+    /// </summary>
+    /// <param name="character"></param>
+    public virtual void TakeMagicDamage(Character character)
+    {
+        if (IsSuccessfulEvasion())
+            return;
+
+        int totalDamage= GetMagicDamage(character.Attribute);
+        ApplyMagicEffect(character.Attribute);
+        _character.Fx.StartCoroutine("FlashFX");
 
         ReduceCurrentHealth(totalDamage);
     }
@@ -124,11 +128,11 @@ public class CharacterAttribute : MonoBehaviour
     /// <summary>
     /// 获得物理伤害值
     /// </summary>
-    /// <param name="attackTarget">攻击对象</param>
+    /// <param name="attackTarget">造成攻击对象</param>
     /// <returns></returns>
     private int GetPhysicalDamage(CharacterAttribute attackTarget)
     {
-        float targetResistance =Armor.GetValue();
+        float targetResistance = Armor.GetValue();
 
         if (SelfMagicType == MagicEffectType.Chill)
         {
@@ -137,15 +141,15 @@ public class CharacterAttribute : MonoBehaviour
         targetResistance *= 2;
 
 
-        float damage= attackTarget.Atk.GetValue()+ attackTarget.Strength.GetValue();
+        float damage = attackTarget.Atk.GetValue() + attackTarget.Strength.GetValue();
 
         if (attackTarget.IsCriticalStrike())
         {
-           damage= attackTarget.CalculationCriticalDamage(damage);
+            damage = attackTarget.CalculationCriticalDamage(damage);
         }
 
-        float totalDamage=damage- targetResistance;
-        totalDamage=Mathf.Clamp(totalDamage, 0,int.MaxValue);
+        float totalDamage = damage - targetResistance;
+        totalDamage = Mathf.Clamp(totalDamage, 0, int.MaxValue);
 
         return Mathf.RoundToInt(totalDamage);
     }
@@ -155,22 +159,22 @@ public class CharacterAttribute : MonoBehaviour
     /// <summary>
     /// 获得魔法伤害
     /// </summary>
-    /// <param name="attackTarget">攻击对象</param>
+    /// <param name="attackTarget">造成攻击对象</param>
     /// <returns></returns>
     private int GetMagicDamage(CharacterAttribute attackTarget)
     {
-        int targetResistance=MagicResistance.GetValue() + Intelligence.GetValue()*2;
+        int targetResistance = MagicResistance.GetValue() + Intelligence.GetValue() * 2;
 
-        int damage= attackTarget.FireDamage.GetValue()+ attackTarget.IceDamage.GetValue()+ 
+        int damage = attackTarget.FireDamage.GetValue() + attackTarget.IceDamage.GetValue() +
             attackTarget.LightingDamage.GetValue() + attackTarget.Intelligence.GetValue();
 
         if (attackTarget.IsCriticalStrike())
         {
-            damage= attackTarget.CalculationCriticalDamage(damage);
+            damage = attackTarget.CalculationCriticalDamage(damage);
         }
 
-        int totalDamage = damage- targetResistance;
-        totalDamage= Mathf.Clamp(totalDamage,0,int.MaxValue);
+        int totalDamage = damage - targetResistance;
+        totalDamage = Mathf.Clamp(totalDamage, 0, int.MaxValue);
 
         return totalDamage;
     }
@@ -185,14 +189,14 @@ public class CharacterAttribute : MonoBehaviour
         int iceDamage = IceDamage.GetValue();
         int lightingDamage = LightingDamage.GetValue();
 
-        if (Mathf.Max(fireDamage,iceDamage,lightingDamage) <= 0)
+        if (Mathf.Max(fireDamage, iceDamage, lightingDamage) <= 0)
         {
             return MagicEffectType.None;
         }
 
         bool isCanApplyFire = fireDamage > iceDamage && fireDamage > lightingDamage;
         bool isCanApplyIce = iceDamage > fireDamage && iceDamage > lightingDamage;
-        bool isCanApplyLighting=lightingDamage > fireDamage && lightingDamage > iceDamage;
+        bool isCanApplyLighting = lightingDamage > fireDamage && lightingDamage > iceDamage;
 
         //两个或三个相等时随机旋转一个类型
         while (!isCanApplyFire && !isCanApplyIce && !isCanApplyLighting)
@@ -207,7 +211,7 @@ public class CharacterAttribute : MonoBehaviour
                 return MagicEffectType.Chill;
             }
 
-            if(UnityEngine.Random.value > 0.6 && lightingDamage > 0)
+            if (UnityEngine.Random.value > 0.6 && lightingDamage > 0)
             {
                 return MagicEffectType.Shock;
             }
@@ -218,7 +222,7 @@ public class CharacterAttribute : MonoBehaviour
         {
             return MagicEffectType.Ignite;
         }
-        if(isCanApplyIce)
+        if (isCanApplyIce)
         {
             return MagicEffectType.Chill;
         }
@@ -235,23 +239,53 @@ public class CharacterAttribute : MonoBehaviour
     /// 应用魔法伤害最高的魔法效果
     /// </summary>
     /// <param name="attackTarget">攻击者</param>
-    public void ApplyMagicEffect(CharacterAttribute attackTarget)
+    public void ApplyMagicEffect(CharacterAttribute attackAttribute)
     {
-        SelfMagicType = attackTarget.GetMagicType();
+
+        if (SelfMagicType!= attackAttribute.GetMagicType()&&_magicCoroutine!=null)
+        {
+            StopMagicEffect();
+            StopCoroutine(_magicCoroutine);
+            _magicCoroutine = null;
+        }
+
+        SelfMagicType = attackAttribute.GetMagicType();
 
         switch (SelfMagicType)
         {
             case MagicEffectType.Ignite:
                 {
-                    _igniteDamage = Mathf.RoundToInt(attackTarget.FireDamage.GetValue() * 0.2f);
-                    _igniteDamageCooldown=attackTarget.CharacterAttributeData.IgniteDamageCooldown;
+                    _igniteDamage = Mathf.RoundToInt(attackAttribute.FireDamage.GetValue() * 0.2f);
+                    _igniteDamageCooldown = attackAttribute.CharacterAttributeData.IgniteDamageCooldown;
+                    if (!_character.Fx.IsStartColorChange)
+                    {
+                        _magicCoroutine=StartCoroutine(IgniteEffectCo(attackAttribute.CharacterAttributeData.IgniteDurationTime));
+                    }
                 }
                 break;
-            case MagicEffectType.Chill:return;
-            case MagicEffectType.Shock:return;
-            case MagicEffectType.None:return;
-            default:Debug.LogWarning("没有此类型的魔法特效");break;
+            case MagicEffectType.Chill:
+                {
+                    _slowRatio = attackAttribute.CharacterAttributeData.SlowRatio;
+                    if (!_character.Fx.IsStartColorChange)
+                    {
+                        _magicCoroutine=StartCoroutine(ChillEffectCo(attackAttribute.CharacterAttributeData.IceDurationTime));
+                    }
+                    
+                }
+                break ;
+            case MagicEffectType.Shock:
+                {
+                    TakeShockDamage(attackAttribute);
+                    if (!_character.Fx.IsStartColorChange)
+                    {
+                        _magicCoroutine = StartCoroutine(ShockEffectCo(attackAttribute.CharacterAttributeData.LightingDurationTime));
+                    }
+                }
+                break;
+            case MagicEffectType.None:break;
+            default: Debug.LogWarning("没有此类型的魔法特效"); break;
         }
+
     }
 
     /// <summary>
@@ -261,17 +295,106 @@ public class CharacterAttribute : MonoBehaviour
     {
         _igniteDamageTimer = _igniteDamageCooldown;
         ReduceCurrentHealth(Mathf.RoundToInt(_igniteDamage));
-        Debug.Log(CurrentHealth);
     }
 
-    private void ChillEffect()
+    /// <summary>
+    /// 点燃特效
+    /// </summary>
+    /// <param name="durationTime"></param>
+    /// <returns></returns>
+    private IEnumerator IgniteEffectCo(float durationTime)
     {
+        
+        StartMagicEffect("IgniteColorChange", _character.Fx.FxData.RepeatTime);
+
+        yield return new WaitForSeconds(durationTime);
+
+        StopMagicEffect();
+    }
+
+    /// <summary>
+    /// 冰冻特效
+    /// </summary>
+    /// <param name="durationTime"></param>
+    /// <returns></returns>
+    private IEnumerator ChillEffectCo(float durationTime)
+    {
+        
+        StartMagicEffect("ChillColorChange", _character.Fx.FxData.RepeatTime);
+        _character.SlowCharacterSpeed(_slowRatio);
+
+        yield return new WaitForSeconds(durationTime);
+        
+        _character.ReturnCharacterDefaultSpeed();
+        StopMagicEffect();
+    }
+
+    /// <summary>
+    /// 产生雷电造成伤害
+    /// </summary>
+    private void TakeShockDamage(CharacterAttribute attackTarget)
+    {
+        GameObject shockPre = GlobalReferencesManager.Instance.GetPrefab("ShockStrike");
+        if (shockPre == null)
+            return;
+
+        GameObject shockObj = Instantiate(shockPre, transform.position, Quaternion.identity);
+        shockObj.GetComponent<ShockStrikeController>().ShockEffect();
+
+        int shockDamage = Mathf.RoundToInt(attackTarget.LightingDamage.GetValue() * 0.2f);
+
+        ReduceCurrentHealth(shockDamage);
+        _character.Fx.StartCoroutine("FlashFX");
+
 
     }
 
-    private void ShockEffect()
+    /// <summary>
+    /// 雷电特效
+    /// </summary>
+    /// <param name="durationTime"></param>
+    /// <returns></returns>
+    private IEnumerator ShockEffectCo(float durationTime)
     {
+        
+        StartMagicEffect("ShockColorChange", _character.Fx.FxData.RepeatTime);
 
+        yield return new WaitForSeconds(durationTime);
+
+        StopMagicEffect();
+    }
+
+    /// <summary>
+    /// 停止魔法特效
+    /// </summary>
+    private void StopMagicEffect()
+    {
+        if (_character == null || _character.Fx == null)
+        {
+            Debug.LogWarning("Character is null or Fx is null");
+            return;
+        }
+
+        _character.Fx.CancelColorChange();
+        _character.Fx.UnLockColorChange();
+        SelfMagicType = MagicEffectType.None;
+    }
+
+    /// <summary>
+    /// 开始魔法特效
+    /// </summary>
+    /// <param name="funName"></param>
+    /// <param name="repeatTime"></param>
+    private void StartMagicEffect(string funName,float repeatTime)
+    {
+        if (_character == null || _character.Fx == null)
+        {
+            Debug.LogWarning("Character is null or Fx is null");
+            return;
+        }
+
+        _character.Fx.InvokeRepeating(funName, 0, repeatTime);
+        _character.Fx.LockColorChange();
     }
 
     #endregion
@@ -291,9 +414,13 @@ public class CharacterAttribute : MonoBehaviour
     /// <param name="hp"></param>
     public void ReduceCurrentHealth(int amount)
     {
-        CurrentHealth-=amount;
-        CurrentHealth=Mathf.Max(CurrentHealth, 0);
-        if(CurrentHealth <= 0)
+        Debug.Log("造成伤害" + amount);
+        CurrentHealth -= amount;
+        CurrentHealth = Mathf.Max(CurrentHealth, 0);
+
+        ChangeHealthEvent.Invoke();
+
+        if (CurrentHealth <= 0)
         {
             Die();
         }
@@ -306,7 +433,7 @@ public class CharacterAttribute : MonoBehaviour
     public void RestoreCurrentHealth(int amount)
     {
         CurrentHealth += amount;
-        CurrentHealth=Mathf.Min(CurrentHealth, GetMaxHealth());
+        CurrentHealth = Mathf.Min(CurrentHealth, GetMaxHealth());
     }
 
     /// <summary>
@@ -338,7 +465,7 @@ public class CharacterAttribute : MonoBehaviour
     /// <returns></returns>
     private bool IsCriticalStrike()
     {
-        int totalCriticalChance=CriticalChance.GetValue()+ Agility.GetValue();
+        int totalCriticalChance = CriticalChance.GetValue() + Agility.GetValue();
 
         if (UnityEngine.Random.Range(0, 100) < totalCriticalChance)
         {
@@ -355,10 +482,10 @@ public class CharacterAttribute : MonoBehaviour
     /// <returns></returns>
     private int CalculationCriticalDamage(float damage)
     {
-        float totalCriticalEnhance = (CriticalDamage.GetValue()+Strength.GetValue())*0.01f;
+        float totalCriticalEnhance = (CriticalDamage.GetValue() + Strength.GetValue()) * 0.01f;
         float totalCriticalDamage = damage + (damage * totalCriticalEnhance);
 
-        totalCriticalDamage=Mathf.Clamp(totalCriticalDamage,0,int.MaxValue);
+        totalCriticalDamage = Mathf.Clamp(totalCriticalDamage, 0, int.MaxValue);
 
         return Mathf.RoundToInt(totalCriticalDamage);
     }

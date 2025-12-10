@@ -51,7 +51,8 @@ public class PlayerBlackHoleState : PlayerState
                 _blackHoleSkill.CreateBlackHole();
                 if (!_blackHoleSkill.IsCreateCrystal)
                 {
-                    player.CharacterTransparent(true);
+                    //player.CharacterTransparent(true);
+                    player.Fx.CharacterTransparent(true);
                 }
                 
                 _isCreateBlackHole = false;

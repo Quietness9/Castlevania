@@ -13,7 +13,7 @@ public class SkeletonMoveState : SkeletonGroundState
     {
         base.Enter();
 
-        timer=skeleton.MoveTime;
+        timer=skeleton.EnemyStateData.MoveTime;
     }
 
     public override void Update()
@@ -30,7 +30,7 @@ public class SkeletonMoveState : SkeletonGroundState
             skeleton.TurnDirection();
         }
 
-        skeleton.SetVelocity(skeleton.Direction*skeleton.MoveSpeed,skeleton.Rb.velocity.y);
+        skeleton.SetVelocity(skeleton.Direction*skeleton.EnemyStateData.MoveSpeed,skeleton.Rb.velocity.y);
     }
 
     public override void Exit() 

@@ -21,9 +21,14 @@ public class Player : Character
     public Vector2 StunnedForce;
     public float StunnedDuration;
 
+    //默认值
+    float _defaultMoveSpeed;
+    float _defaultJumpForce;
+    float _defaultDashForce;
+
+    //移动
     public float Hor { get;private set; }
     public float Vert { get;private set; }
-    public GameObject SwordObj { get;private set; }
 
     //跳跃
     public bool IsJumpCut { get;set; }
@@ -33,6 +38,9 @@ public class Player : Character
 
     //Timer
     public float LastOnGroundTime { get;set; }
+
+    //组件
+    public GameObject SwordObj { get;private set; }
 
     public CapsuleCollider2D Clc2d { get; private set; }
 
@@ -71,12 +79,15 @@ public class Player : Character
         Clc2d = GetComponent<CapsuleCollider2D>();
     }
 
+    private void OnEnable()
+    {       
+        EventSubscribe();
+    }
+
     private void Start()
     {
-        GlobalReferencesManager.Instance.GamePlayer = this;
-
         InitPlayer();
-        EventSubscribe();
+        GlobalReferencesManager.Instance.GamePlayer = this;
     }
 
     private void Update()
@@ -94,10 +105,30 @@ public class Player : Character
 
         CharacterStateMachine.CurrentState.Update();
     }
-    private void OnDestroy()
+
+    private void OnDisable()
     {
         EventUnsubscribe();
     }
+
+    public override void SlowCharacterSpeed(float slowRatio)
+    {
+        base.SlowCharacterSpeed(slowRatio);
+        MoveData.MaxMoveSpeed *= (1 - slowRatio);
+        MoveData.JumpForce *= (1 - slowRatio);
+        MoveData.DashForce *= (1 - slowRatio);
+
+    }
+
+    public override void ReturnCharacterDefaultSpeed()
+    {
+        base.ReturnCharacterDefaultSpeed();
+        MoveData.MaxFallSpeed = _defaultMoveSpeed;
+        MoveData.JumpForce = _defaultJumpForce;
+        MoveData.DashForce = _defaultDashForce;
+    }
+
+    #region 剑
 
     /// <summary>
     /// 获得新剑
@@ -120,13 +151,18 @@ public class Player : Character
         }
     }
 
+    #endregion
+
     /// <summary>
     /// 初始化玩家
     /// </summary>
     private void InitPlayer()
     {
-        IsFacingRight = true;
         Direction = 1;
+        IsFacingRight = true;
+        _defaultMoveSpeed = MoveData.MaxMoveSpeed;
+        _defaultJumpForce =MoveData.JumpForce;
+        _defaultDashForce=MoveData.DashForce;
 
         CharacterStateMachine.InitState(IdleState);
         
@@ -205,7 +241,7 @@ public class Player : Character
         }
     }
 
-    #region 地面状态转换别的状态
+    #region 状态转换别的状态
 
     /// <summary>
     /// 转换到跳跃状态

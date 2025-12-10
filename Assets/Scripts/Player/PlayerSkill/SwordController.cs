@@ -155,9 +155,15 @@ public class SwordController : MonoBehaviour
     /// <param name="collision"></param>
     private void SwordSkillDamage(Enemy enemy)
     {
+        if(enemy == null)
+        {
+            Debug.LogWarning("enemy is null");
+            return;
+        }
+
         enemy.StartCoroutine("IsFreezeSelfCo", _swordSkill.PlayerSwordData.FreezeTime);
+        enemy.Attribute.TakePhysicalDamage(_player);
         enemy.DamageEffect(_player);
-        enemy.Attribute.TakeDamage(_player);
     }
 
     /// <summary>
@@ -179,8 +185,8 @@ public class SwordController : MonoBehaviour
     {
         if (collision.TryGetComponent(out Enemy enemy))
         {
+            enemy.Attribute.TakePhysicalDamage(_player);
             enemy.DamageEffect(_player);
-            enemy.Attribute.TakeDamage(_player);
             if (_pierceAmount > 0)
             {
                 _pierceAmount--;

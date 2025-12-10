@@ -23,8 +23,11 @@ MonoBehaviour:
   <MagicResistance>k__BackingField: 0
   <CriticalChance>k__BackingField: 0
   <CriticalDamage>k__BackingField: 0
-  <FireDamage>k__BackingField: 10
-  <IgniteDurationTime>k__BackingField: 0
+  <FireDamage>k__BackingField: 0
+  <IgniteDurationTime>k__BackingField: 4
   <IgniteDamageCooldown>k__BackingField: 1
   <IceDamage>k__BackingField: 0
-  <LightingDamage>k__BackingField: 0
+  <IceDurationTime>k__BackingField: 4
+  <SlowRatio>k__BackingField: 0.2
+  <LightingDamage>k__BackingField: 10
+  <LightingDurationTime>k__BackingField: 4

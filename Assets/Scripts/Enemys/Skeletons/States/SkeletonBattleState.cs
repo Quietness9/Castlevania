@@ -32,7 +32,7 @@ public class SkeletonBattleState : EntityState
 
         if (_skeleton.IsPlayerDetected())
         {
-            timer=_skeleton.BattleTime;
+            timer=_skeleton.EnemyStateData.BattleTime;
             if (_skeleton.IsPlayerDetected().distance < _skeleton.AttackCheckRadius&&CanAttack())
             {
                 baseStateMachine.ChangeState(_skeleton.AttackState);
@@ -62,7 +62,7 @@ public class SkeletonBattleState : EntityState
 
         if (Vector2.Distance(_playerTransform.position, _skeleton.transform.position) > 0.5)
         {
-            _skeleton.SetVelocity(_moveDir* _skeleton.MoveSpeed, _skeleton.Rb.velocity.y);
+            _skeleton.SetVelocity(_moveDir* _skeleton.EnemyStateData.MoveSpeed, _skeleton.Rb.velocity.y);
         }
     }
 
@@ -79,7 +79,9 @@ public class SkeletonBattleState : EntityState
     {
         if(Time.time > _skeleton.AttackLastTime + _skeleton.AttackCooldown)
         {
-            _skeleton.AttackCooldown=Random.Range(_skeleton.AttackCooldownOffset.x,_skeleton.AttackCooldownOffset.y);
+            _skeleton.AttackCooldown=Random.Range(_skeleton.EnemyStateData.AttackCooldownOffset.x,
+                _skeleton.EnemyStateData.AttackCooldownOffset.y);
+
             _skeleton.AttackLastTime = Time.time;
             return true;
         }

@@ -37,11 +37,10 @@ public class BlackHoleController : MonoBehaviour
 
     private void OnDestroy()
     {
-        if(_player != null && _player.PlayerInput != null)
+        if (_player != null && _player.PlayerInput != null)
         {
             _player.PlayerInput.BlackHoleEvent -= CloneCrystalAttackHandle;
         }
-        
     }
 
     /// <summary>
@@ -101,7 +100,8 @@ public class BlackHoleController : MonoBehaviour
         {
             if (!_blackHoleSkill.IsCreateCrystal)
             {
-                _player.CharacterTransparent(false);
+                //_player.CharacterTransparent(false);
+                _player.Fx.CharacterTransparent(false);
             }
             
             transform.localScale = Vector2.Lerp(transform.localScale, new Vector2(-1, -1)

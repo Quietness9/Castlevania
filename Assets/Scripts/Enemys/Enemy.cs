@@ -5,38 +5,39 @@ using UnityEngine.Experimental.GlobalIllumination;
 
 public class Enemy : Character
 {
-    [Header("Íæ¼Ò¼ì²â")]
-    [SerializeField] float _checkPlayerDistance=50f;
-    [SerializeField] LayerMask _playerLayer;
+    public EnemyStateData EnemyStateData;
 
-    [Header("ÏÐÖÃ×´Ì¬")]
-    public float IdleTime;
-
-    [Header("ÒÆ¶¯×´Ì¬")]
-    public float MoveSpeed;
-    public float MoveTime;
-    float _defaultMoveSpeed;
-
-    [Header("Î£ÏÕ×´Ì¬")]
-    public float BattleTime;
-
-    [Header("¹¥»÷×´Ì¬")]
-    public float IgnoreDistance=2f;
-    public float AttackLastTime;
-    public Vector2 AttackCooldownOffset;
+    //¹¥»÷
+    public float AttackLastTime { get; set; }
     public float AttackCooldown { get; set; }
 
-    [Header("Ñ£ÔÎ×´Ì¬")]
-    public float StunnedMult;
     [SerializeField] protected GameObject counterImage;
     protected bool canStunned;
 
+    protected float defaultMoveSpeed;
 
     protected override void Awake()
     {
         base.Awake();
 
-        _defaultMoveSpeed=MoveSpeed;
+        
+    }
+
+    protected virtual void Start()
+    {
+        defaultMoveSpeed = EnemyStateData.MoveSpeed;
+    }
+
+    public override void SlowCharacterSpeed(float slowRatio)
+    {
+        base.SlowCharacterSpeed(slowRatio);
+        EnemyStateData.MoveSpeed *= (1 - slowRatio);
+    }
+
+    public override void ReturnCharacterDefaultSpeed()
+    {
+        base.ReturnCharacterDefaultSpeed();
+        EnemyStateData.MoveSpeed = defaultMoveSpeed;
     }
 
     /// <summary>
@@ -47,12 +48,12 @@ public class Enemy : Character
     {
         if (isFreeze)
         {
-            MoveSpeed = 0;
+            EnemyStateData.MoveSpeed = 0;
             Animator_CT.speed = 0;
         }
         else
         {
-            MoveSpeed = _defaultMoveSpeed;
+            EnemyStateData.MoveSpeed = defaultMoveSpeed;
             Animator_CT.speed = 1;
         }
     }
@@ -131,5 +132,5 @@ public class Enemy : Character
     /// ¼ì²âÍæ¼Ò
     /// </summary>
     /// <returns></returns>
-    public RaycastHit2D IsPlayerDetected() => Physics2D.Raycast(AttackCheck.position, Vector2.right * Direction, _checkPlayerDistance, _playerLayer);
+    public RaycastHit2D IsPlayerDetected() => Physics2D.Raycast(AttackCheck.position, Vector2.right * Direction, EnemyStateData.CheckPlayerDistance, EnemyStateData.PlayerLayer);
 }

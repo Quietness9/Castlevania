@@ -26,12 +26,16 @@ public class BaseAttributeData : ScriptableObject
 
     [field: Header("火焰属性值")]
     [field: SerializeField] public int FireDamage { get; private set; }
-    [field: SerializeField] public int IgniteDurationTime { get; private set; }
-    [field: SerializeField] public int IgniteDamageCooldown { get; private set; }
+    [field: SerializeField] public float IgniteDurationTime { get; private set; }
+    [field: SerializeField] public float IgniteDamageCooldown { get; private set; }
 
     [field: Header("冰冻属性值")]
     [field: SerializeField] public int IceDamage { get; private set; }
+    [field: SerializeField] public float IceDurationTime {  get; private set; }
+    [field: SerializeField] public float SlowRatio { get; private set; }
+
 
     [field: Header("雷电属性值")]
     [field: SerializeField] public int LightingDamage { get; private set; }
+    [field: SerializeField] public float LightingDurationTime {  get; private set; }
 }

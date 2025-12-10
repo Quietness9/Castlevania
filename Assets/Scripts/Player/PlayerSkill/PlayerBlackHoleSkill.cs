@@ -18,6 +18,7 @@ public class PlayerBlackHoleSkill : Skill
         {
             player.PlayerInput.BlackHoleEvent += UseSkill;
         }
+
     }
 
     protected override void OnDestroy()

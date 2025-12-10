@@ -20,10 +20,10 @@ public class SkeletonStunnedState : EntityState
         }
 
 
-        _skeleton.Fx.InvokeRepeating("RedColorBlink", 0, 0.1f);
+        _skeleton.Fx.InvokeRepeating("RedColorBlink", 0, _skeleton.Fx.FxData.RepeatTime);
         timer = _player.StunnedDuration;
-        _skeleton.Rb.AddForce(new Vector2(_player.StunnedForce.x * _player.Direction * _skeleton.StunnedMult,
-            _player.StunnedForce.y * _skeleton.StunnedMult), ForceMode2D.Impulse);
+        _skeleton.Rb.AddForce(new Vector2(_player.StunnedForce.x * _player.Direction * _skeleton.EnemyStateData.StunnedMul,
+            _player.StunnedForce.y * _skeleton.EnemyStateData.StunnedMul), ForceMode2D.Impulse);
 
     }
 
@@ -39,6 +39,6 @@ public class SkeletonStunnedState : EntityState
     public override void Exit()
     {
         base.Exit();
-        _skeleton.Fx.CancelRedBlink();
+        _skeleton.Fx.CancelColorChange();
     }
 }

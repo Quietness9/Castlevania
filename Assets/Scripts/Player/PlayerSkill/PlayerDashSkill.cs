@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class PlayerDashSkill : Skill
 {
-    public float DashForce;
 
     protected override void Start()
     {
@@ -29,7 +28,7 @@ public class PlayerDashSkill : Skill
         if (CanUseSkill())
         {
             player.CharacterStateMachine.ChangeState(player.DashState);
-            player.Rb.AddForce(Vector2.right * player.Direction * DashForce, ForceMode2D.Impulse);
+            player.Rb.AddForce(Vector2.right * player.Direction * player.MoveData.DashForce, ForceMode2D.Impulse);
         }
         else
         {

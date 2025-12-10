@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SkillManager : MonoSingleton<SkillManager>
 {
+    public PlayerDashSkill dashSkill {  get; private set; }
     public PlayerCloneSkill CloneSkill { get;private set; }
     public PlayerSwordSkill SwordSkill { get;private set; }
     public PlayerBlackHoleSkill BlackSkill { get; private set; }
@@ -13,6 +14,7 @@ public class SkillManager : MonoSingleton<SkillManager>
     {
         base.Awake();
 
+        dashSkill = GetComponent<PlayerDashSkill>();
         CloneSkill = GetComponent<PlayerCloneSkill>();
         SwordSkill = GetComponent<PlayerSwordSkill>();
         BlackSkill = GetComponent<PlayerBlackHoleSkill>();

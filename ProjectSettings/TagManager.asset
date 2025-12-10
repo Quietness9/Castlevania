@@ -45,12 +45,15 @@ TagManager:
   - name: Background
     uniqueID: 1278310087
     locked: 0
-  - name: player
-    uniqueID: 1972967055
-    locked: 0
   - name: Ground
     uniqueID: 3540483827
     locked: 0
+  - name: Item
+    uniqueID: 3105668197
+    locked: 0
   - name: Enemy
     uniqueID: 3023361873
+    locked: 0
+  - name: player
+    uniqueID: 1972967055
     locked: 0
