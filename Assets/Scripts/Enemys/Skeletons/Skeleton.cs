@@ -84,7 +84,7 @@ public class Skeleton : Enemy
             return;
         }
 
-        Attribute.DieEvent += ChangeDieStateHandle;
+        Attribute.OnDieEvent += ChangeDieStateHandle;
     }
 
     /// <summary>
@@ -98,7 +98,7 @@ public class Skeleton : Enemy
             return;
         }
 
-        Attribute.DieEvent -= ChangeDieStateHandle;
+        Attribute.OnDieEvent -= ChangeDieStateHandle;
     }
 
     /// <summary>

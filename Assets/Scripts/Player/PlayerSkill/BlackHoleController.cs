@@ -39,7 +39,7 @@ public class BlackHoleController : MonoBehaviour
     {
         if (_player != null && _player.PlayerInput != null)
         {
-            _player.PlayerInput.BlackHoleEvent -= CloneCrystalAttackHandle;
+            _player.PlayerInput.OnBlackHoleEvent -= CloneCrystalAttackHandle;
         }
     }
 
@@ -57,7 +57,7 @@ public class BlackHoleController : MonoBehaviour
         _isCreateKey = true;
         _blackHoleDurationTimer= blackSkill.PlayerBlackHoleData.BlackHoleDuration;
 
-        player.PlayerInput.BlackHoleEvent += CloneCrystalAttackHandle;
+        player.PlayerInput.OnBlackHoleEvent += CloneCrystalAttackHandle;
     }
     
     /// <summary>

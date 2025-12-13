@@ -179,13 +179,13 @@ public class Player : Character
             return;
         }
 
-        PlayerInput.MoveEvent += GetDirectionHandle;
+        PlayerInput.OnMoveEvent += GetDirectionHandle;
 
-        PlayerInput.JumpUpEvent += ChangeJumpStateHandle;
-        PlayerInput.AttackEvent += ChangeAttackStateHandle;
-        PlayerInput.CounterAttackEvent += ChangeCounterAttackStateHandle;
-        PlayerInput.AimSwordEvent += ChangeAimSwordStateHandle;
-        PlayerInput.CancelSwordEvent += ChangeIdleStateHandle;
+        PlayerInput.OnJumpUpEvent += ChangeJumpStateHandle;
+        PlayerInput.OnAttackEvent += ChangeAttackStateHandle;
+        PlayerInput.OnCounterAttackEvent += ChangeCounterAttackStateHandle;
+        PlayerInput.OnAimSwordEvent += ChangeAimSwordStateHandle;
+        PlayerInput.OnCancelSwordEvent += ChangeIdleStateHandle;
 
         if (Attribute == null)
         {
@@ -193,7 +193,7 @@ public class Player : Character
             return;
         }
 
-        Attribute.DieEvent += ChangDieStateHandle;
+        Attribute.OnDieEvent += ChangDieStateHandle;
     }
 
     /// <summary>
@@ -207,13 +207,13 @@ public class Player : Character
             return;
         }
 
-        PlayerInput.MoveEvent -= GetDirectionHandle;
+        PlayerInput.OnMoveEvent -= GetDirectionHandle;
 
-        PlayerInput.JumpUpEvent -= ChangeJumpStateHandle;
-        PlayerInput.AttackEvent -= ChangeAttackStateHandle;
-        PlayerInput.CounterAttackEvent -= ChangeCounterAttackStateHandle;
-        PlayerInput.AimSwordEvent -= ChangeAimSwordStateHandle;
-        PlayerInput.CancelSwordEvent -= ChangeIdleStateHandle;
+        PlayerInput.OnJumpUpEvent -= ChangeJumpStateHandle;
+        PlayerInput.OnAttackEvent -= ChangeAttackStateHandle;
+        PlayerInput.OnCounterAttackEvent -= ChangeCounterAttackStateHandle;
+        PlayerInput.OnAimSwordEvent -= ChangeAimSwordStateHandle;
+        PlayerInput.OnCancelSwordEvent -= ChangeIdleStateHandle;
 
         if (Attribute == null)
         {
@@ -221,7 +221,7 @@ public class Player : Character
             return;
         }
 
-        Attribute.DieEvent -= ChangDieStateHandle;
+        Attribute.OnDieEvent -= ChangDieStateHandle;
     }
 
     #region EventHandle

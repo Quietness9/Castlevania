@@ -16,5 +16,18 @@ public enum MagicEffectType
     Chill,//冰冻
     Shock,//雷电
     None//没有特效类型
+}
 
+public enum ItemType
+{
+    Material, //材料
+    Equipment //装备
+}
+
+public enum EquipmentItemType
+{
+    Weapon, //武器
+    Armor, //护甲
+    Amulet, //饰品
+    Flask, //药品
 }

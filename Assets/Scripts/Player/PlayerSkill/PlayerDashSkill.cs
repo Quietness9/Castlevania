@@ -9,7 +9,7 @@ public class PlayerDashSkill : Skill
         base.Start();
         if (player.PlayerInput != null)
         {
-            player.PlayerInput.DashEvent += UseSkill;
+            player.PlayerInput.OnDashEvent += UseSkill;
         }
     }
 
@@ -18,7 +18,7 @@ public class PlayerDashSkill : Skill
         base.OnDestroy();
         if (player.PlayerInput != null)
         {
-            player.PlayerInput.DashEvent -= UseSkill;
+            player.PlayerInput.OnDashEvent -= UseSkill;
         }
         
     }

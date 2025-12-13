@@ -16,7 +16,7 @@ public class PlayerBlackHoleSkill : Skill
         base.Start();
         if (player.PlayerInput != null)
         {
-            player.PlayerInput.BlackHoleEvent += UseSkill;
+            player.PlayerInput.OnBlackHoleEvent += UseSkill;
         }
 
     }
@@ -26,7 +26,7 @@ public class PlayerBlackHoleSkill : Skill
         base.OnDestroy();
         if(player.PlayerInput != null)
         {
-            player.PlayerInput.BlackHoleEvent -= UseSkill;
+            player.PlayerInput.OnBlackHoleEvent -= UseSkill;
         }
     }
 

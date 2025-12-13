@@ -39,7 +39,7 @@ public class Character : MonoBehaviour
 
     #endregion
 
-    public event Action FlipEvent = delegate { };
+    public event Action OnFlipEvent = delegate { };
 
     protected virtual void Awake()
     {
@@ -119,7 +119,7 @@ public class Character : MonoBehaviour
         Direction *= -1;
         IsFacingRight = !IsFacingRight;
 
-        FlipEvent.Invoke();
+        OnFlipEvent.Invoke();
     }
 
     #region Õ®”√…‰œﬂ≈ˆ◊≤ºÏ≤‚

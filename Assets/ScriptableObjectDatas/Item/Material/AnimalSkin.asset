@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5640c2701f3164241953115684d17d4c, type: 3}
   m_Name: AnimalSkin
   m_EditorClassIdentifier: 
-  <Id>k__BackingField: 0
+  <Id>k__BackingField: 280
   <Name>k__BackingField: "\u52A8\u7269\u76AE"
-  <Icon>k__BackingField: {fileID: -973012730, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
+  <DropIcon>k__BackingField: {fileID: -30923116, guid: be55291aae08d434db3da3b59db3ab4a, type: 3}
+  <InventoryIcon>k__BackingField: {fileID: 256669037, guid: bdeaeacf91e805f449e7fa66d480d644, type: 3}
+  <ShowIcon>k__BackingField: {fileID: -973012730, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
+  <Type>k__BackingField: 0

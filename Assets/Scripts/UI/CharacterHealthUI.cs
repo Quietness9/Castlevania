@@ -20,8 +20,8 @@ public class CharacterHealthUI : MonoBehaviour
     {
         if (_character != null)
         {
-            _character.FlipEvent += AvoidHealthUIFlipHandle;
-            _character.Attribute.ChangeHealthEvent += UpdateHealthUIHandle;
+            _character.OnFlipEvent += AvoidHealthUIFlipHandle;
+            _character.Attribute.OnChangeHealthEvent += UpdateHealthUIHandle;
         }
         UpdateHealthUIHandle();
     }
@@ -30,8 +30,8 @@ public class CharacterHealthUI : MonoBehaviour
     {
         if (_character != null)
         {
-            _character.FlipEvent -= AvoidHealthUIFlipHandle;
-            _character.Attribute.ChangeHealthEvent -= UpdateHealthUIHandle;
+            _character.OnFlipEvent -= AvoidHealthUIFlipHandle;
+            _character.Attribute.OnChangeHealthEvent -= UpdateHealthUIHandle;
         }
     }
 

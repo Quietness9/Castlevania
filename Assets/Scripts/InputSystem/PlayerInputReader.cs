@@ -12,17 +12,17 @@ namespace GameInputSystem
         GameInput _gameInput;
 
         //playerController
-        public event Action<Vector2> MoveEvent=delegate { };
-        public event Action JumpUpEvent=delegate { };
-        public event Action AttackEvent=delegate { };
+        public event Action<Vector2> OnMoveEvent=delegate { };
+        public event Action OnJumpUpEvent=delegate { };
+        public event Action OnAttackEvent=delegate { };
 
         //SkillController
-        public event Action DashEvent=delegate { };
-        public event Action CounterAttackEvent=delegate { };
-        public event Action AimSwordEvent=delegate { };
-        public event Action CancelSwordEvent = delegate { };
-        public event Action BlackHoleEvent=delegate { };
-        public event Action CrystalEvent=delegate { };
+        public event Action OnDashEvent=delegate { };
+        public event Action OnCounterAttackEvent=delegate { };
+        public event Action OnAimSwordEvent=delegate { };
+        public event Action OnCancelSwordEvent = delegate { };
+        public event Action OnBlackHoleEvent=delegate { };
+        public event Action OnCrystalEvent=delegate { };
 
         private void OnEnable()
         {
@@ -52,8 +52,17 @@ namespace GameInputSystem
         /// </summary>
         private void ClearAllEvent()
         {
-            MoveEvent = delegate { };
-            JumpUpEvent = delegate { };
+            OnMoveEvent = delegate { };
+            OnJumpUpEvent = delegate { };
+            OnAttackEvent = delegate { };
+
+
+            OnDashEvent = delegate { };
+            OnCounterAttackEvent = delegate { };
+            OnAimSwordEvent = delegate { };
+            OnCancelSwordEvent = delegate { };
+            OnBlackHoleEvent = delegate { };
+            OnCrystalEvent = delegate { };
 
 
         }
@@ -101,7 +110,7 @@ namespace GameInputSystem
 
         public void OnMove(InputAction.CallbackContext context)
         {
-            MoveEvent.Invoke(context.ReadValue<Vector2>());
+            OnMoveEvent.Invoke(context.ReadValue<Vector2>());
         }
 
         public void OnJump(InputAction.CallbackContext context)
@@ -109,7 +118,7 @@ namespace GameInputSystem
 
             if (context.phase == InputActionPhase.Canceled)
             {
-                JumpUpEvent.Invoke();
+                OnJumpUpEvent.Invoke();
             }
         }
 
@@ -118,7 +127,7 @@ namespace GameInputSystem
         {
             if(context.phase == InputActionPhase.Performed)
             {
-                AttackEvent.Invoke();
+                OnAttackEvent.Invoke();
             }
         }
 
@@ -130,7 +139,7 @@ namespace GameInputSystem
         {
             if (context.phase == InputActionPhase.Performed)
             {
-                DashEvent.Invoke();
+                OnDashEvent.Invoke();
             }
         }
 
@@ -138,7 +147,7 @@ namespace GameInputSystem
         {
             if (context.phase == InputActionPhase.Performed)
             {
-                CounterAttackEvent.Invoke();
+                OnCounterAttackEvent.Invoke();
             }
         }
 
@@ -146,12 +155,12 @@ namespace GameInputSystem
         {
             if(context.phase== InputActionPhase.Performed)
             {
-                AimSwordEvent.Invoke();
+                OnAimSwordEvent.Invoke();
             }
 
             if(context.phase== InputActionPhase.Canceled)
             {
-                CancelSwordEvent.Invoke();
+                OnCancelSwordEvent.Invoke();
             }
         }
 
@@ -160,7 +169,7 @@ namespace GameInputSystem
         {
             if( context.phase == InputActionPhase.Performed)
             {
-                BlackHoleEvent.Invoke();
+                OnBlackHoleEvent.Invoke();
             }
         }
 
@@ -168,7 +177,7 @@ namespace GameInputSystem
         {
             if (context.phase == InputActionPhase.Performed)
             {
-                CrystalEvent.Invoke();
+                OnCrystalEvent.Invoke();
             }
         }
 

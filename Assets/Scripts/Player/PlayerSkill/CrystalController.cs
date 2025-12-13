@@ -53,7 +53,7 @@ public class CrystalController : MonoBehaviour
     {
         if (_player.PlayerInput != null)
         {
-            _player.PlayerInput.CrystalEvent -= CrystalLogicHandle;
+            _player.PlayerInput.OnCrystalEvent -= CrystalLogicHandle;
         }
     }
 
@@ -68,7 +68,7 @@ public class CrystalController : MonoBehaviour
         _crystalSkill = crystalSkill;
         _crystalDurationTimer = crystalSkill.PlayerCrystalData.CrystalDurationTime;
         
-        player.PlayerInput.CrystalEvent += CrystalLogicHandle;
+        player.PlayerInput.OnCrystalEvent += CrystalLogicHandle;
     }
 
     

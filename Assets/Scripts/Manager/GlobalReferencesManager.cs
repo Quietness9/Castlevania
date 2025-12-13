@@ -11,6 +11,13 @@ public class GlobalReferencesManager : MonoSingleton<GlobalReferencesManager>
     [Header("实例化预制体")]
     [SerializeField] List<GameObject> _editorPrefab=new ();
 
+
+    protected override void OnDestroy()
+    {
+        base.OnDestroy();
+        _editorPrefab?.Clear ();
+    }
+
     public GameObject GetPrefab(string name)
     {
         var found = _editorPrefab.Find(p => p != null && p.name == name);

@@ -26,8 +26,8 @@ public class PlayerCrystalSkill : Skill
         base.Start();
         if (player.PlayerInput != null)
         {
-            player.PlayerInput.CrystalEvent += UseSkill;
-            player.PlayerInput.CrystalEvent += MulCrystalLogicHandle;
+            player.PlayerInput.OnCrystalEvent += UseSkill;
+            player.PlayerInput.OnCrystalEvent += MulCrystalLogicHandle;
         }
 
     }
@@ -37,8 +37,8 @@ public class PlayerCrystalSkill : Skill
         base.OnDestroy();
         if(player.PlayerInput != null)
         {
-            player.PlayerInput.CrystalEvent-= UseSkill;
-            player.PlayerInput.CrystalEvent -= MulCrystalLogicHandle;
+            player.PlayerInput.OnCrystalEvent-= UseSkill;
+            player.PlayerInput.OnCrystalEvent -= MulCrystalLogicHandle;
         }
     }
 

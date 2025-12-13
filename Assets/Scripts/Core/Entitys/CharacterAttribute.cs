@@ -6,8 +6,8 @@ public class CharacterAttribute : MonoBehaviour
 {
 
     public BaseAttributeData CharacterAttributeData;
-    public event Action DieEvent = delegate { };
-    public event Action ChangeHealthEvent = delegate { };
+    public event Action OnDieEvent = delegate { };
+    public event Action OnChangeHealthEvent = delegate { };
 
     [Header("基础属性")]
     public Attribute Hp; // 最大生命值
@@ -418,7 +418,7 @@ public class CharacterAttribute : MonoBehaviour
         CurrentHealth -= amount;
         CurrentHealth = Mathf.Max(CurrentHealth, 0);
 
-        ChangeHealthEvent.Invoke();
+        OnChangeHealthEvent.Invoke();
 
         if (CurrentHealth <= 0)
         {
@@ -495,6 +495,6 @@ public class CharacterAttribute : MonoBehaviour
     /// </summary>
     private void Die()
     {
-        DieEvent.Invoke();
+        OnDieEvent.Invoke();
     }
 }

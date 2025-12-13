@@ -16,7 +16,8 @@ public class ItemObject : MonoBehaviour
 
     private void Start()
     {
-        _sr.sprite = _itemData.Icon;
+        _sr.sprite = _itemData.DropIcon;
+        gameObject.name = _itemData.Name;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -25,8 +26,11 @@ public class ItemObject : MonoBehaviour
         {
             if(collision.TryGetComponent(out Player player))
             {
-                InventoryController.Instance.AddItem(_itemData);
-                Destroy(gameObject);
+                if (InventoryController.Instance.AddItem(_itemData))
+                {
+                    Destroy(gameObject);
+                }
+                
             }
         }
     }

@@ -6,12 +6,12 @@ using UnityEngine;
 [Serializable]
 public class InventoryItem
 {
-    [SerializeField] ItemData _itemData;
+    public ItemData ItemData;
     [SerializeField] int _itemCount;
 
     public InventoryItem(ItemData data)
     {
-        _itemData = data;
+        ItemData = data;
         _itemCount = 1;
     }
     
