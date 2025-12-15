@@ -18,6 +18,15 @@ public class Attribute
     }
 
     /// <summary>
+    /// 获得基础值
+    /// </summary>
+    /// <returns></returns>
+    public int GetBaseValue()
+    {
+        return _baseValue;
+    }
+
+    /// <summary>
     /// 获得有加成后的值
     /// </summary>
     public int GetValue()
@@ -37,6 +46,10 @@ public class Attribute
     /// </summary>
     public void AddModifier(int mod)
     {
+        if (mod == 0)
+            return;
+
+
         _modifier.Add(mod);
     }
 

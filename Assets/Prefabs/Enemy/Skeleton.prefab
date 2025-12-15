@@ -198,6 +198,8 @@ MonoBehaviour:
   LightingDamage:
     _baseValue: 0
     _modifier: 
+  _level: 5
+  _modifierData: {fileID: 11400000, guid: 6e04ac5d4ea12c64ebce45fa118c8e6b, type: 2}
 --- !u!1 &2656677583921412502
 GameObject:
   m_ObjectHideFlags: 0

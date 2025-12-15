@@ -102,11 +102,12 @@ public class Skeleton : Enemy
     }
 
     /// <summary>
-    /// 切换到死亡状态
+    /// 切换到死亡状态并掉落物品
     /// </summary>
     private void ChangeDieStateHandle()
     {
         Debug.Log("Skeleton Die");
         CharacterStateMachine.ChangeState(DeathState);
+        ItemDrop.DropItem();
     }
 }

@@ -3,22 +3,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Experimental.GlobalIllumination;
+using static UnityEditor.Progress;
 
 public class InventoryController : MonoSingleton<InventoryController>
 {
 
-    public List<InventoryItem> Items; //方便查看，可以删除
-    public Dictionary<int, InventoryItem> InventoryItemDir; //全部库存数据
+    public List<InventoryItem> Items; //方便查看，可以删除(全部物品)
+
+    public Dictionary<int, InventoryItem> EquipmentItemDir;
+    public Dictionary<int, InventoryItem> MaterialItemDIr;
+
     public event Action OnUpdateInventoryCount = delegate { };
 
     [SerializeField] int InventoryItemUpperLimit=999; //单个栏上限
-    [SerializeField] int InventorySlotUpperLimit = 10; //存放栏上限
-    
+    [SerializeField] int EquipmentSlotUpperLimit = 10; //存放栏上限
+    [SerializeField] int MaterialSlotUpperLimit = 10; //存放栏上限
+
 
     [Header("库存UI")]
-    [SerializeField] Transform _inventorySlotParent;
-    [SerializeField] InventorySlotController[] _inventoryItemSlots;
-
+    [SerializeField] Transform _equipmentSlotParent;
+    [SerializeField] Transform _materialSlotParent;
+    [SerializeField] InventorySlotController[] _equipmentItemSlots;
+    [SerializeField] InventorySlotController[] _materialItemSlots;
+    
     private void Start()
     {
         InitInventory();
@@ -31,8 +38,9 @@ public class InventoryController : MonoSingleton<InventoryController>
 
         // 清理其他可能的引用...
         Items?.Clear();
-        InventoryItemDir?.Clear();
-        _inventoryItemSlots = null;
+        EquipmentItemDir?.Clear();
+        MaterialItemDIr?.Clear();
+        _equipmentItemSlots = null;
     }
 
     /// <summary>
@@ -41,32 +49,71 @@ public class InventoryController : MonoSingleton<InventoryController>
     private void InitInventory()
     {
         Items = new();
-        InventoryItemDir = new();
+        EquipmentItemDir = new ();
+        MaterialItemDIr = new ();
 
-        _inventoryItemSlots=_inventorySlotParent.GetComponentsInChildren<InventorySlotController>();
+        _equipmentItemSlots=_equipmentSlotParent.GetComponentsInChildren<InventorySlotController>();
+        _materialItemSlots = _materialSlotParent.GetComponentsInChildren<InventorySlotController>();
     }
 
     /// <summary>
-    /// 整理库存UI槽数据
+    /// 制作装备
+    /// </summary>
+    /// <param name="data"></param>
+    /// <returns></returns>
+    public bool CraftEquipment(EquipmentItemData data)
+    {
+        List<InventoryItem> needMaterial = new();
+
+        //获得并判断材料是否足够
+        for (int i = 0; i < data.CraftMaterial.Count; i++)
+        {
+            if (MaterialItemDIr.TryGetValue(data.CraftMaterial[i].Count, out InventoryItem inventoryItem))
+            {
+                if (inventoryItem.GetCount() >= data.CraftMaterial[i].Count)
+                {
+                    needMaterial.Add(inventoryItem);
+                }
+            }
+            else
+            {
+                Debug.Log("缺少材料"+ data.CraftMaterial[i].MaterialData.Name);
+                return false;
+            }
+        }
+
+        for (int i = 0; i < needMaterial.Count; i++)
+        {
+            RemoveItem(needMaterial[i].ItemData);
+        }
+
+        needMaterial.Clear();
+        Debug.Log("制作装备成功"+data.name);
+
+        return true;
+    }
+
+    /// <summary>
+    /// 整理武器库存UI槽数据
     /// </summary>
     public void ReorganizeInventoryData()
     {
-       if(_inventoryItemSlots==null|| _inventoryItemSlots.Length <= 0)
+       if(_equipmentItemSlots==null|| _equipmentItemSlots.Length <= 0)
         {
             Debug.LogWarning("Inventory slots are not initialized or empty.");
             return;
         }
 
-        var inventoryItems = new List<InventoryItem>(InventoryItemDir.Values);
+        var inventoryItems = new List<InventoryItem>(EquipmentItemDir.Values);
 
         for(int i = 0; i < inventoryItems.Count; i++)
         {
-            _inventoryItemSlots[i].SetInventorySlotData(inventoryItems[i]);
+            _equipmentItemSlots[i].SetInventorySlotData(inventoryItems[i]);
         }
 
-        for(int i =_inventoryItemSlots.Length - inventoryItems.Count;i< _inventoryItemSlots.Length; i++)
+        for(int i =_equipmentItemSlots.Length - inventoryItems.Count;i< _equipmentItemSlots.Length; i++)
         {
-            _inventoryItemSlots[i].SetInventorySlotData(null);
+            _equipmentItemSlots[i].SetInventorySlotData(null);
         }
     }
 
@@ -76,35 +123,31 @@ public class InventoryController : MonoSingleton<InventoryController>
     /// <param name="item"></param>
     public bool AddItem(ItemData item)
     {
-        if(InventoryItemDir.TryGetValue(item.Id, out InventoryItem value))
+
+        if (ItemType.Equipment == item.Type)
         {
-            if (value.GetCount() >= InventoryItemUpperLimit)
+            if (EquipmentItemDir.Count >= EquipmentSlotUpperLimit)
             {
-                Debug.Log("单个物品到达上限");
-                return false;
-            }
-               
-            value.AddCount();
-            OnUpdateInventoryCount.Invoke();
-        }
-        else
-        {
-            if (InventoryItemDir.Count >= InventorySlotUpperLimit)
-            {
-                Debug.Log("物品栏已经到达上限");
+                Debug.Log("武器库存已满");
                 return false;
             }
 
-            InventoryItem inventoryItem = new InventoryItem(item);
-            Items.Add(inventoryItem);
-            InventoryItemDir.Add(item.Id, inventoryItem);
-
-            UpdateInventoryData(inventoryItem);
+            return AddDirItem(item, EquipmentItemDir);
         }
 
-        //ReorganizeInventoryData();
+        if(ItemType.Material == item.Type)
+        {
+            if(MaterialItemDIr.Count >= MaterialSlotUpperLimit)
+            {
+                Debug.Log("材料库存已满");
+                return false;
+            }
 
-        return true;
+            return AddDirItem(item, MaterialItemDIr);
+        }
+
+        Debug.Log("错误");
+        return false;
     }
 
     /// <summary>
@@ -114,11 +157,61 @@ public class InventoryController : MonoSingleton<InventoryController>
     /// <returns></returns>
     public void RemoveItem(ItemData item)
     {
-        if( InventoryItemDir.TryGetValue(item.Id,out InventoryItem value))
+
+        if(ItemType.Equipment == item.Type)
         {
-            if (value.GetCount()==1)
+            RemoveDirItem(item, EquipmentItemDir);
+        }
+
+        if(ItemType.Material== item.Type)
+        {
+            RemoveDirItem(item,MaterialItemDIr);
+        }
+    }
+
+    /// <summary>
+    /// 添加物品到容器
+    /// </summary>
+    /// <param name="item"></param>
+    /// <param name="dir"></param>
+    /// <returns></returns>
+    private bool AddDirItem(ItemData item,Dictionary<int, InventoryItem> dir)
+    {
+        if (dir.TryGetValue(item.Id, out InventoryItem value))
+        {
+            if (value.GetCount() >= InventoryItemUpperLimit)
             {
-                InventoryItemDir.Remove(item.Id);
+                Debug.Log("单个物品到达上限");
+                return false;
+            }
+
+            value.AddCount();
+            OnUpdateInventoryCount.Invoke();
+        }
+        else
+        {
+            InventoryItem inventoryItem = new InventoryItem(item);
+            Items.Add(inventoryItem);
+            dir.Add(item.Id, inventoryItem);
+
+            UpdateInventoryData(inventoryItem);
+        }
+
+        return true;
+    }
+
+    /// <summary>
+    /// 从容器中去除物品
+    /// </summary>
+    /// <param name="item"></param>
+    /// <param name="dir"></param>
+    private void RemoveDirItem(ItemData item,Dictionary<int,InventoryItem> dir)
+    {
+        if (dir.TryGetValue(item.Id, out InventoryItem value))
+        {
+            if (value.GetCount() == 1)
+            {
+                dir.Remove(item.Id);
                 Items.Remove(value);
                 value.RemoveCount();
             }
@@ -140,13 +233,32 @@ public class InventoryController : MonoSingleton<InventoryController>
     /// <param name="inventoryItem"></param>
     private void UpdateInventoryData(InventoryItem inventoryItem)
     {
-        for(int i = 0; i < _inventoryItemSlots.Length; i++)
+        if (inventoryItem.ItemData.Type == ItemType.Equipment)
         {
-            if( _inventoryItemSlots[i].InventoryItem== null)
+            for (int i = 0; i < _equipmentItemSlots.Length; i++)
             {
-                _inventoryItemSlots[i].SetInventorySlotData(inventoryItem);
-                return;
+                if (_equipmentItemSlots[i].InventoryItem == null)
+                {
+                    _equipmentItemSlots[i].SetInventorySlotData(inventoryItem);
+                    return;
+                }
+            }
+
+        }
+
+        if(inventoryItem.ItemData.Type == ItemType.Material)
+        {
+            for (int i = 0; i < _materialItemSlots.Length; i++)
+            {
+                if (_materialItemSlots[i].InventoryItem == null)
+                {
+                    _materialItemSlots[i].SetInventorySlotData(inventoryItem);
+                    return;
+                }
             }
         }
+        
     }
+
+    
 }

@@ -13,4 +13,6 @@ public class ItemData : ScriptableObject
     [field:SerializeField] public Sprite ShowIcon { get; private set; }
     [field:SerializeField] public ItemType Type { get; private set; }
 
+    [field: Range(0, 1f)]
+    [field: SerializeField] public float DropChance { get; private set; }
 }

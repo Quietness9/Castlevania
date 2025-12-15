@@ -18,3 +18,4 @@ MonoBehaviour:
   <InventoryIcon>k__BackingField: {fileID: -1628513395, guid: bdeaeacf91e805f449e7fa66d480d644, type: 3}
   <ShowIcon>k__BackingField: {fileID: 1025795234, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
   <Type>k__BackingField: 0
+  <DropChance>k__BackingField: 0.833

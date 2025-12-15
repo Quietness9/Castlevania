@@ -38,7 +38,11 @@ public class EquipmentSlotController : MonoBehaviour, IPointerDownHandler
         if (EqInventoryItem == null)
             return;
 
+        EquipmentItemData equipmentItemData = EqInventoryItem.ItemData as EquipmentItemData;
+
         InventoryController.Instance.AddItem(EqInventoryItem.ItemData);
+        GlobalReferencesManager.Instance.GamePlayer.Attribute.RemoveEquipmentModifier(equipmentItemData);
+
         _itemIcon.sprite = _emptySprite;
         EqInventoryItem= null;
     }

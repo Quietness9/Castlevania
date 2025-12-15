@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Xml.Linq;
 using UnityEngine;
 
 public class CharacterAttribute : MonoBehaviour
@@ -36,7 +37,6 @@ public class CharacterAttribute : MonoBehaviour
 
     public MagicEffectType SelfMagicType { get; private set; } = MagicEffectType.None; //自身受到的魔法效果
 
-    //CharacterFX _fx;
     Character _character;
     Coroutine _magicCoroutine;
 
@@ -50,11 +50,14 @@ public class CharacterAttribute : MonoBehaviour
     {
         _character = GetComponentInParent<Character>();
 
+
         InitBaseAttributeData();
-        CurrentHealth = GetMaxHealth();
     }
 
-    protected virtual void Start() { }
+    protected virtual void Start() 
+    {
+        CurrentHealth = GetMaxHealth();
+    }
 
 
     protected virtual void Update()
@@ -436,6 +439,66 @@ public class CharacterAttribute : MonoBehaviour
         CurrentHealth = Mathf.Min(CurrentHealth, GetMaxHealth());
     }
 
+    #region Modifier修改
+
+    /// <summary>
+    /// 添加装备加成
+    /// </summary>
+    /// <param name="eqData"></param>
+    public void AddEquipmentModifier(EquipmentItemData eqData)
+    {
+        Hp.AddModifier(eqData.Hp);
+        Atk.AddModifier(eqData.Atk);
+
+        Agility.AddModifier(eqData.Agility);
+        Vitality.AddModifier(eqData.Vitality);
+        Strength.AddModifier(eqData.Strength);
+        Intelligence.AddModifier(eqData.Intelligence);
+
+        Armor.AddModifier(eqData.Armor);
+        Evasion.AddModifier(eqData.Evasion);
+        MagicResistance.AddModifier(eqData.MagicResistance);
+
+        CriticalChance.AddModifier(eqData.CriticalChance);
+        CriticalDamage.AddModifier(eqData.CriticalDamage);
+
+        FireDamage.AddModifier(eqData.FireDamage);
+        IceDamage.AddModifier(eqData.IceDamage);
+        LightingDamage.AddModifier(eqData.LightingDamage);
+    }
+
+    /// <summary>
+    /// 移除装备加成
+    /// </summary>
+    /// <param name="eqData"></param>
+    public void RemoveEquipmentModifier(EquipmentItemData eqData)
+    {
+        Hp.RemoveModifier(eqData.Hp);
+        Atk.RemoveModifier(eqData.Atk);
+
+        Agility.RemoveModifier(eqData.Agility);
+        Vitality.RemoveModifier(eqData.Vitality);
+        Strength.RemoveModifier(eqData.Strength);
+        Intelligence.RemoveModifier(eqData.Intelligence);
+
+        Armor.RemoveModifier(eqData.Armor);
+        Evasion.RemoveModifier(eqData.Evasion);
+        MagicResistance.RemoveModifier(eqData.MagicResistance);
+
+        CriticalChance.RemoveModifier(eqData.CriticalChance);
+        CriticalDamage.RemoveModifier(eqData.CriticalDamage);
+
+        FireDamage.RemoveModifier(eqData.FireDamage);
+        IceDamage.RemoveModifier(eqData.IceDamage);
+        LightingDamage.RemoveModifier(eqData.LightingDamage);
+    }
+
+
+    #endregion
+
+
+    #region 伤害计算辅助函数
+
     /// <summary>
     /// 判断角色是否闪避成功
     /// </summary>
@@ -489,6 +552,8 @@ public class CharacterAttribute : MonoBehaviour
 
         return Mathf.RoundToInt(totalCriticalDamage);
     }
+
+    #endregion
 
     /// <summary>
     /// 角色死亡

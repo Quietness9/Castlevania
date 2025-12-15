@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SkeletonAttributeData
   m_EditorClassIdentifier: 
   <Hp>k__BackingField: 120
-  <Atk>k__BackingField: 40
+  <Atk>k__BackingField: 10
   <Agility>k__BackingField: 0
   <Vitality>k__BackingField: 0
   <Strength>k__BackingField: 0

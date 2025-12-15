@@ -57,7 +57,7 @@ public class InventorySlotController : MonoBehaviour, IPointerDownHandler
         if(InventoryItem==null||InventoryItem.ItemData.Type!=ItemType.Equipment) 
             return;
 
-        MenuController.Instance.EquipWeapons(InventoryItem);
+        MenuController.Instance.CharacterUI.EquipWeapons(InventoryItem);
 
         if (InventoryItem.GetCount()<=0)
         {
