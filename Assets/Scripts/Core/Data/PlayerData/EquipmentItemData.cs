@@ -10,6 +10,9 @@ public class EquipmentItemData : ItemData
 
     [field:SerializeField] public EquipmentItemType EquipmentType {  get;private set; }
 
+    [Header("装备特效")]
+    [SerializeField] List<EquipmentEffect> _equipmentEffects = new();
+
     [field: Header("基础属性")]
     [field: SerializeField] public int Hp { get; private set; }
     [field: SerializeField] public int Atk { get; private set; }
@@ -42,6 +45,17 @@ public class EquipmentItemData : ItemData
     {
         public ItemData MaterialData;
         public int Count;
+    }
+
+    /// <summary>
+    /// 使用武器特效
+    /// </summary>
+    public void UseEquipmentEffect()
+    {
+        foreach(var effect in _equipmentEffects)
+        {
+            effect.ReleaseEffects();
+        }
     }
 
 }

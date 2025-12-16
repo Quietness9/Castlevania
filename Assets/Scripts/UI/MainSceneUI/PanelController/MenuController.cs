@@ -64,10 +64,8 @@ public class MenuController : MonoSingleton<MenuController>
     {
         for(int i=0;i< _allMenu.childCount; i++)
         {
-            _allMenu.GetChild(i).gameObject.SetActive(true);
             _allMenu.GetChild(i).gameObject.SetActive(false);
         }
-
 
     }
 

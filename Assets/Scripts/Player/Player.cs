@@ -296,12 +296,13 @@ public class Player : Character
     }
 
     /// <summary>
-    /// 转为死亡状态
+    /// 转为死亡状态并掉落物品
     /// </summary>
     private void ChangDieStateHandle()
     {
         Debug.Log("Player Die");
         CharacterStateMachine.ChangeState(DeathState);
+        ItemDrop.DropItem();
     }
 
     #endregion

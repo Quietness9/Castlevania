@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6524757645735674385}
   - component: {fileID: 2683642320941578345}
   - component: {fileID: 8496098126607424146}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Item
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,8 +100,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 151db6c2a2f630b4eb63be34bfa48c90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _itemData: {fileID: 11400000, guid: 089ff1bc6e2184e488a283007f64aae2, type: 2}
-  _jumpForce: {x: 7, y: 10}
+  _jumpForceX: {x: 5, y: 8}
+  _jumpForceY: {x: 6, y: 8}
 --- !u!61 &2683642320941578345
 BoxCollider2D:
   m_ObjectHideFlags: 0

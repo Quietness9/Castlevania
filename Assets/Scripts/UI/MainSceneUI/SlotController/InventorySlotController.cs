@@ -9,23 +9,17 @@ public class InventorySlotController : MonoBehaviour, IPointerDownHandler
 {
     public InventoryItem InventoryItem {  get; private set; }
 
-    Image _itemIcon;
-    Sprite _emptySprite;
-    TextMeshProUGUI _itemText;
+    [SerializeField] Image _itemIcon;
+    [SerializeField] TextMeshProUGUI _itemText;
+    [SerializeField] Sprite _emptySprite;
 
-    private void Awake()
-    {
-        _itemIcon = GetComponent<Image>();
-        _itemText = GetComponentInChildren<TextMeshProUGUI>();
-
-        _emptySprite=_itemIcon.sprite;
-    }
 
     private void Start()
     {
         if(InventoryController.Instance != null)
         {
-            InventoryController.Instance.OnUpdateInventoryCount += UpdateInventorySlotCount;
+            InventoryController.Instance.OnUpdateInventoryCount += UpdateSlotCountHandle;
+            InventoryController.Instance.OnDropItemEvent += DefaultSetHandle;
         }
     }
 
@@ -45,7 +39,7 @@ public class InventorySlotController : MonoBehaviour, IPointerDownHandler
 
         _itemIcon.sprite = inventoryItem.ItemData.InventoryIcon;
 
-        UpdateInventorySlotCount();
+        UpdateSlotCountHandle();
     }
 
     /// <summary>
@@ -54,12 +48,22 @@ public class InventorySlotController : MonoBehaviour, IPointerDownHandler
     /// <param name="eventData"></param>
     public void OnPointerDown(PointerEventData eventData)
     {
-        if(InventoryItem==null||InventoryItem.ItemData.Type!=ItemType.Equipment) 
+        if(InventoryItem==null) 
+            return;
+
+        if (Input.GetKey(KeyCode.LeftControl))
+        {
+            InventoryController.Instance.DropDirItem(InventoryItem);
+            InventoryItem = null;
+            return;
+        }
+
+        if (InventoryItem.ItemData.Type != ItemType.Equipment)
             return;
 
         MenuController.Instance.CharacterUI.EquipWeapons(InventoryItem);
 
-        if (InventoryItem.GetCount()<=0)
+        if (InventoryItem.GetCount() <= 0)
         {
             _itemIcon.sprite = _emptySprite;
             InventoryItem = null;
@@ -69,7 +73,7 @@ public class InventorySlotController : MonoBehaviour, IPointerDownHandler
     /// <summary>
     /// 更新单个栏的数量
     /// </summary>
-    private void UpdateInventorySlotCount()
+    private void UpdateSlotCountHandle()
     {
         if (InventoryItem == null)
             return;
@@ -82,5 +86,15 @@ public class InventorySlotController : MonoBehaviour, IPointerDownHandler
         {
             _itemText.text = "";
         }
+    }
+
+    /// <summary>
+    /// 回到存储栏默认设置
+    /// </summary>
+    private void DefaultSetHandle()
+    {
+        _itemText.text = "";
+        _itemIcon.sprite = _emptySprite;
+        InventoryItem=null;
     }
 }

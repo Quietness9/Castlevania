@@ -36,6 +36,8 @@ public class PlayerAnimationTrigger : MonoBehaviour
                 enemy.Attribute.TakePhysicalDamage(_player);
                 enemy.DamageEffect(_player);
 
+                InventoryController.Instance.GetEquipment(EquipmentItemType.Weapon).UseEquipmentEffect();
+
                 //EnemyStat _target = hit.GetComponent<EnemyStat>();
                 //if (_target != null)
                 //{

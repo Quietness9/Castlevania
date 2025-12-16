@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2070326604754336820}
   - component: {fileID: 2660686330760649729}
   - component: {fileID: 734278110895383861}
+  - component: {fileID: 3584600151036716404}
   m_Layer: 8
   m_Name: Skeleton
   m_TagString: Untagged
@@ -200,6 +201,23 @@ MonoBehaviour:
     _modifier: 
   _level: 5
   _modifierData: {fileID: 11400000, guid: 6e04ac5d4ea12c64ebce45fa118c8e6b, type: 2}
+--- !u!114 &3584600151036716404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2568641398723005995}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f21eede3f588a4429a1c2e642927c91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dropAmount: 3
+  _dropItemData:
+  - {fileID: 11400000, guid: 089ff1bc6e2184e488a283007f64aae2, type: 2}
+  - {fileID: 11400000, guid: 45468878df9d26d4e92739048a120935, type: 2}
+  - {fileID: 11400000, guid: d445db76f53c2a446a4947cd3b0bd3a4, type: 2}
 --- !u!1 &2656677583921412502
 GameObject:
   m_ObjectHideFlags: 0

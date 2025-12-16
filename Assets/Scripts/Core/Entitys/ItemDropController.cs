@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class ItemDropController : MonoBehaviour
 {
-    [SerializeField] int _dropAmount;
-    [SerializeField] List<ItemData> _dropItemData=new();
+    [SerializeField] protected int _dropAmount;
+    [SerializeField] protected List<ItemData> _dropItemData=new();
 
     /// <summary>
     /// µÙ¬‰ŒÔ∆∑
     /// </summary>
-    public void DropItem()
+    public virtual void DropItem()
     {
         GameObject dropItemPre = GlobalReferencesManager.Instance.GetPrefab("Item");
 
@@ -41,6 +41,8 @@ public class ItemDropController : MonoBehaviour
         {
             GameObject dropItem = Instantiate(dropItemPre, transform.position, Quaternion.identity);
             dropItem.GetComponent<ItemObject>().SetItemData(dropList[Random.Range(0,dropList.Count)]);
-        }        
+        }
+        
+        dropList?.Clear();
     }
 }

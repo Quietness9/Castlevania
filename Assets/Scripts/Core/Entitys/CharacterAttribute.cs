@@ -36,6 +36,7 @@ public class CharacterAttribute : MonoBehaviour
     public Attribute LightingDamage; // 雷电伤害：减少20%的命中率
 
     public MagicEffectType SelfMagicType { get; private set; } = MagicEffectType.None; //自身受到的魔法效果
+    public bool IsDie { get; private set; }
 
     Character _character;
     Coroutine _magicCoroutine;
@@ -93,6 +94,8 @@ public class CharacterAttribute : MonoBehaviour
         FireDamage.SetBaseValue(CharacterAttributeData.FireDamage);
         IceDamage.SetBaseValue(CharacterAttributeData.IceDamage);
         LightingDamage.SetBaseValue(CharacterAttributeData.LightingDamage);
+
+        IsDie = false;
 
     }
 
@@ -417,6 +420,9 @@ public class CharacterAttribute : MonoBehaviour
     /// <param name="hp"></param>
     public void ReduceCurrentHealth(int amount)
     {
+        if(CurrentHealth<=0)
+            return;
+
         Debug.Log("造成伤害" + amount);
         CurrentHealth -= amount;
         CurrentHealth = Mathf.Max(CurrentHealth, 0);
@@ -560,6 +566,7 @@ public class CharacterAttribute : MonoBehaviour
     /// </summary>
     private void Die()
     {
+        IsDie = true;
         OnDieEvent.Invoke();
     }
 }

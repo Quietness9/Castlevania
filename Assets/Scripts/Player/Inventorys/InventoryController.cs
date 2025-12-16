@@ -8,12 +8,14 @@ using static UnityEditor.Progress;
 public class InventoryController : MonoSingleton<InventoryController>
 {
 
-    public List<InventoryItem> Items; //方便查看，可以删除(全部物品)
+    public List<InventoryItem> Items=new(); //方便查看，可以删除(全部物品)
+    [SerializeField] List<ItemData> _startItemData=new();
 
-    public Dictionary<int, InventoryItem> EquipmentItemDir;
-    public Dictionary<int, InventoryItem> MaterialItemDIr;
+    public Dictionary<int, InventoryItem> EquipmentItemDir = new();
+    public Dictionary<int, InventoryItem> MaterialItemDIr = new();
 
     public event Action OnUpdateInventoryCount = delegate { };
+    public event Action OnDropItemEvent = delegate { };
 
     [SerializeField] int InventoryItemUpperLimit=999; //单个栏上限
     [SerializeField] int EquipmentSlotUpperLimit = 10; //存放栏上限
@@ -23,9 +25,13 @@ public class InventoryController : MonoSingleton<InventoryController>
     [Header("库存UI")]
     [SerializeField] Transform _equipmentSlotParent;
     [SerializeField] Transform _materialSlotParent;
-    [SerializeField] InventorySlotController[] _equipmentItemSlots;
-    [SerializeField] InventorySlotController[] _materialItemSlots;
-    
+    InventorySlotController[] _equipmentItemSlots;
+    InventorySlotController[] _materialItemSlots;
+
+    [Header("展示UI")]
+    [SerializeField] Transform _showEquipmentSlotParent;
+    EquipmentSlotController[] _showEquipmentItemSlots;
+
     private void Start()
     {
         InitInventory();
@@ -34,26 +40,33 @@ public class InventoryController : MonoSingleton<InventoryController>
     protected override void OnDestroy()
     {
         base.OnDestroy();
-        OnUpdateInventoryCount = delegate { }; 
+        OnUpdateInventoryCount = delegate { };
+        OnDropItemEvent= delegate { };
 
         // 清理其他可能的引用...
         Items?.Clear();
         EquipmentItemDir?.Clear();
         MaterialItemDIr?.Clear();
+
         _equipmentItemSlots = null;
+        _materialItemSlots= null;
+        _showEquipmentItemSlots= null;
+
     }
 
     /// <summary>
     /// 初始化库存
     /// </summary>
     private void InitInventory()
-    {
-        Items = new();
-        EquipmentItemDir = new ();
-        MaterialItemDIr = new ();
-
+    {  
         _equipmentItemSlots=_equipmentSlotParent.GetComponentsInChildren<InventorySlotController>();
         _materialItemSlots = _materialSlotParent.GetComponentsInChildren<InventorySlotController>();
+        _showEquipmentItemSlots=_showEquipmentSlotParent.GetComponentsInChildren<EquipmentSlotController>();
+
+        for(int i = 0; i < _startItemData.Count; i++)
+        {
+            AddItem(_startItemData[i]);
+        }
     }
 
     /// <summary>
@@ -94,26 +107,41 @@ public class InventoryController : MonoSingleton<InventoryController>
     }
 
     /// <summary>
-    /// 整理武器库存UI槽数据
+    /// 获得不同类型的装备
     /// </summary>
-    public void ReorganizeInventoryData()
+    /// <param name="type"></param>
+    /// <returns></returns>
+    public EquipmentItemData GetEquipment(EquipmentItemType type)
     {
-       if(_equipmentItemSlots==null|| _equipmentItemSlots.Length <= 0)
+        EquipmentItemData resultData = null;
+
+        for(int i=0; i < _showEquipmentItemSlots.Length; i++)
         {
-            Debug.LogWarning("Inventory slots are not initialized or empty.");
-            return;
+            resultData = _showEquipmentItemSlots[i].EqInventoryItem?.ItemData as EquipmentItemData;
+            if (resultData != null && resultData.EquipmentType == type)
+            {
+                break;
+            }
         }
 
-        var inventoryItems = new List<InventoryItem>(EquipmentItemDir.Values);
+        return resultData;
+    }
 
-        for(int i = 0; i < inventoryItems.Count; i++)
+    /// <summary>
+    /// 整理材料库存UI槽数据
+    /// </summary>
+    public void OrganizeInventoryData(Dictionary<int,InventoryItem> dir, InventorySlotController[] slots)
+    {
+        int index = 0;
+        foreach(var item  in dir)
         {
-            _equipmentItemSlots[i].SetInventorySlotData(inventoryItems[i]);
+            slots[index].SetInventorySlotData(item.Value);
+            index++;
         }
 
-        for(int i =_equipmentItemSlots.Length - inventoryItems.Count;i< _equipmentItemSlots.Length; i++)
+        for (int i = dir.Count; i < slots.Length; i++)
         {
-            _equipmentItemSlots[i].SetInventorySlotData(null);
+            slots[i].SetInventorySlotData(null);
         }
     }
 
@@ -170,6 +198,28 @@ public class InventoryController : MonoSingleton<InventoryController>
     }
 
     /// <summary>
+    /// 玩家掉落物品
+    /// </summary>
+    /// <param name="item"></param>
+    public void DropDirItem(InventoryItem item)
+    {
+        if(item.ItemData.Type == ItemType.Equipment)
+        {
+            EquipmentItemDir.Remove(item.ItemData.Id);
+            OrganizeInventoryData(EquipmentItemDir, _equipmentItemSlots);
+        }
+
+        if(item.ItemData.Type== ItemType.Material)
+        {
+            MaterialItemDIr.Remove(item.ItemData.Id);
+            OrganizeInventoryData(MaterialItemDIr, _materialItemSlots);
+        }
+
+        Items.Remove(item);
+        
+    }
+
+    /// <summary>
     /// 添加物品到容器
     /// </summary>
     /// <param name="item"></param>
@@ -201,7 +251,7 @@ public class InventoryController : MonoSingleton<InventoryController>
     }
 
     /// <summary>
-    /// 从容器中去除物品
+    /// 从容器中减少物品
     /// </summary>
     /// <param name="item"></param>
     /// <param name="dir"></param>
@@ -226,6 +276,8 @@ public class InventoryController : MonoSingleton<InventoryController>
             Debug.LogWarning("库存中没有此物体" + item.name);
         }
     }
+
+
 
     /// <summary>
     /// 更新库存数据

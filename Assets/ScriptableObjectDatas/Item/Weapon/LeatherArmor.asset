@@ -10,18 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1511387098cc4b04bb9521d235d52999, type: 3}
-  m_Name: WoodenSword
+  m_Name: LeatherArmor
   m_EditorClassIdentifier: 
-  <Id>k__BackingField: 80
-  <Name>k__BackingField: "\u6728\u5251"
-  <DropIcon>k__BackingField: {fileID: -1055781779, guid: be55291aae08d434db3da3b59db3ab4a, type: 3}
-  <InventoryIcon>k__BackingField: {fileID: -1550038187, guid: bdeaeacf91e805f449e7fa66d480d644, type: 3}
-  <ShowIcon>k__BackingField: {fileID: 1025091068, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
+  <Id>k__BackingField: 118
+  <Name>k__BackingField: "\u76AE\u7532"
+  <DropIcon>k__BackingField: {fileID: -947522925, guid: be55291aae08d434db3da3b59db3ab4a, type: 3}
+  <InventoryIcon>k__BackingField: {fileID: -1924557449, guid: bdeaeacf91e805f449e7fa66d480d644, type: 3}
+  <ShowIcon>k__BackingField: {fileID: 1667790894, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
   <Type>k__BackingField: 1
-  <DropChance>k__BackingField: 0
-  <EquipmentType>k__BackingField: 0
-  _equipmentEffects:
-  - {fileID: 11400000, guid: c6f03a0bf97cd4044b07e2736acff51a, type: 2}
+  <DropChance>k__BackingField: 0.12
+  <EquipmentType>k__BackingField: 1
   <Hp>k__BackingField: 0
   <Atk>k__BackingField: 0
   <Agility>k__BackingField: 0
@@ -36,6 +34,4 @@ MonoBehaviour:
   <FireDamage>k__BackingField: 0
   <IceDamage>k__BackingField: 0
   <LightingDamage>k__BackingField: 0
-  <CraftMaterial>k__BackingField:
-  - MaterialData: {fileID: 11400000, guid: d445db76f53c2a446a4947cd3b0bd3a4, type: 2}
-    Count: 3
+  <CraftMaterial>k__BackingField: []

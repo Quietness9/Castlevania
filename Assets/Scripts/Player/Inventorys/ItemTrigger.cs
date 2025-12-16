@@ -8,9 +8,9 @@ public class ItemTrigger : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision != null)
+        if (collision.TryGetComponent(out Player player))
         {
-            if (collision.TryGetComponent(out Player player))
+            if (!player.Attribute.IsDie)
             {
                 _itemObj.PuckUpItem();
             }

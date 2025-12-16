@@ -38,7 +38,7 @@ public class ItemObject : MonoBehaviour
         float forceX=Random.Range(_jumpForceX.x, _jumpForceX.y);
         float forceY=Random.Range(_jumpForceY.x, _jumpForceY.y);
 
-        _rb.AddForce(new Vector2( forceX* direction, forceY));
+        _rb.velocity = new Vector3(direction*forceX, forceY, 0);
     }
 
     /// <summary>
