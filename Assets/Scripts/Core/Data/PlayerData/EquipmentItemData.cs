@@ -50,11 +50,12 @@ public class EquipmentItemData : ItemData
     /// <summary>
     /// 使用武器特效
     /// </summary>
-    public void UseEquipmentEffect()
+    /// <param name="transform">生产特效的位置</param>
+    public void UseEquipmentEffect(Transform transform)
     {
         foreach(var effect in _equipmentEffects)
         {
-            effect.ReleaseEffects();
+            effect.ReleaseEffects(transform);
         }
     }
 

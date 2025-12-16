@@ -2,14 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName ="New Effect new",menuName ="GameData/Effect")]
+
 public class EquipmentEffect : ScriptableObject
 {
+    [SerializeField] protected float destroyTime;
+
 
     /// <summary>
     /// 释放装备特效
     /// </summary>
-    public virtual void ReleaseEffects()
+    /// <param name="transform"></param>
+    public virtual void ReleaseEffects(Transform transform)
     {
         Debug.Log("Effect");
     }

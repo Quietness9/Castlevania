@@ -36,7 +36,11 @@ public class PlayerAnimationTrigger : MonoBehaviour
                 enemy.Attribute.TakePhysicalDamage(_player);
                 enemy.DamageEffect(_player);
 
-                InventoryController.Instance.GetEquipment(EquipmentItemType.Weapon).UseEquipmentEffect();
+                EquipmentItemData equipmentItem = InventoryController.Instance.GetEquipment(EquipmentItemType.Weapon);
+                if(equipmentItem != null)
+                {
+                    equipmentItem.UseEquipmentEffect(enemy.transform);
+                }
 
                 //EnemyStat _target = hit.GetComponent<EnemyStat>();
                 //if (_target != null)
@@ -44,11 +48,7 @@ public class PlayerAnimationTrigger : MonoBehaviour
                 //    player.stats.TakePhysicalDamage(_target);
                 //}
 
-                //ItemDateEquipment weaponData = InventoryController.instance.GetUseEquipment(EquipmentType.Weapon);
-                //if (weaponData != null)
-                //{
-                //    weaponData.Effect(_target.transform);
-                //}
+                
             }
         }
 
