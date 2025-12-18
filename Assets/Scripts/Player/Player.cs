@@ -100,8 +100,7 @@ public class Player : Character
             {
                 LastOnGroundTime = MoveData.coyoteTime;
             }
-        } 
-
+        }
 
         CharacterStateMachine.CurrentState.Update();
     }
@@ -180,12 +179,14 @@ public class Player : Character
         }
 
         PlayerInput.OnMoveEvent += GetDirectionHandle;
-
         PlayerInput.OnJumpUpEvent += ChangeJumpStateHandle;
         PlayerInput.OnAttackEvent += ChangeAttackStateHandle;
+
         PlayerInput.OnCounterAttackEvent += ChangeCounterAttackStateHandle;
         PlayerInput.OnAimSwordEvent += ChangeAimSwordStateHandle;
         PlayerInput.OnCancelSwordEvent += ChangeIdleStateHandle;
+
+        PlayerInput.OnUseFlaskEvent += UseFlaskHandle;
 
         if (Attribute == null)
         {
@@ -208,12 +209,16 @@ public class Player : Character
         }
 
         PlayerInput.OnMoveEvent -= GetDirectionHandle;
-
         PlayerInput.OnJumpUpEvent -= ChangeJumpStateHandle;
         PlayerInput.OnAttackEvent -= ChangeAttackStateHandle;
+
         PlayerInput.OnCounterAttackEvent -= ChangeCounterAttackStateHandle;
         PlayerInput.OnAimSwordEvent -= ChangeAimSwordStateHandle;
         PlayerInput.OnCancelSwordEvent -= ChangeIdleStateHandle;
+
+
+        PlayerInput.OnUseFlaskEvent-=UseFlaskHandle;
+
 
         if (Attribute == null)
         {
@@ -238,6 +243,22 @@ public class Player : Character
         if (Hor*Direction<0)
         {
             TurnDirection();
+        }
+    }
+
+    /// <summary>
+    /// 使用药瓶道具订阅
+    /// </summary>
+    private void UseFlaskHandle()
+    {
+        EquipmentItemData equipment=InventoryController.Instance.GetEquipment(EquipmentItemType.Flask);
+        if (equipment != null)
+        {
+            if (InventoryController.Instance.CanUseEquipment(EquipmentItemType.Flask, equipment))
+            {
+                equipment.UseEquipmentEffect(transform);
+            }
+            
         }
     }
 

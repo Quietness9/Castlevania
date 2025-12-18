@@ -352,6 +352,34 @@ namespace GameInputSystem
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""GameProps"",
+            ""id"": ""302de8d8-caf9-4bf3-ae55-088112a4615b"",
+            ""actions"": [
+                {
+                    ""name"": ""UseFlask"",
+                    ""type"": ""Button"",
+                    ""id"": ""7b1dc14a-8703-4f20-b9b4-5675c91d118f"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""470afeff-8599-49e9-a517-41ebe4d50acd"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UseFlask"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -368,12 +396,16 @@ namespace GameInputSystem
             m_Skill_AimSword = m_Skill.FindAction("AimSword", throwIfNotFound: true);
             m_Skill_BlackHole = m_Skill.FindAction("BlackHole", throwIfNotFound: true);
             m_Skill_Crystal = m_Skill.FindAction("Crystal", throwIfNotFound: true);
+            // GameProps
+            m_GameProps = asset.FindActionMap("GameProps", throwIfNotFound: true);
+            m_GameProps_UseFlask = m_GameProps.FindAction("UseFlask", throwIfNotFound: true);
         }
 
         ~@GameInput()
         {
             UnityEngine.Debug.Assert(!m_Player.enabled, "This will cause a leak and performance issues, GameInput.Player.Disable() has not been called.");
             UnityEngine.Debug.Assert(!m_Skill.enabled, "This will cause a leak and performance issues, GameInput.Skill.Disable() has not been called.");
+            UnityEngine.Debug.Assert(!m_GameProps.enabled, "This will cause a leak and performance issues, GameInput.GameProps.Disable() has not been called.");
         }
 
         /// <summary>
@@ -703,6 +735,102 @@ namespace GameInputSystem
         /// Provides a new <see cref="SkillActions" /> instance referencing this action map.
         /// </summary>
         public SkillActions @Skill => new SkillActions(this);
+
+        // GameProps
+        private readonly InputActionMap m_GameProps;
+        private List<IGamePropsActions> m_GamePropsActionsCallbackInterfaces = new List<IGamePropsActions>();
+        private readonly InputAction m_GameProps_UseFlask;
+        /// <summary>
+        /// Provides access to input actions defined in input action map "GameProps".
+        /// </summary>
+        public struct GamePropsActions
+        {
+            private @GameInput m_Wrapper;
+
+            /// <summary>
+            /// Construct a new instance of the input action map wrapper class.
+            /// </summary>
+            public GamePropsActions(@GameInput wrapper) { m_Wrapper = wrapper; }
+            /// <summary>
+            /// Provides access to the underlying input action "GameProps/UseFlask".
+            /// </summary>
+            public InputAction @UseFlask => m_Wrapper.m_GameProps_UseFlask;
+            /// <summary>
+            /// Provides access to the underlying input action map instance.
+            /// </summary>
+            public InputActionMap Get() { return m_Wrapper.m_GameProps; }
+            /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+            public void Enable() { Get().Enable(); }
+            /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+            public void Disable() { Get().Disable(); }
+            /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+            public bool enabled => Get().enabled;
+            /// <summary>
+            /// Implicitly converts an <see ref="GamePropsActions" /> to an <see ref="InputActionMap" /> instance.
+            /// </summary>
+            public static implicit operator InputActionMap(GamePropsActions set) { return set.Get(); }
+            /// <summary>
+            /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+            /// </summary>
+            /// <param name="instance">Callback instance.</param>
+            /// <remarks>
+            /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+            /// </remarks>
+            /// <seealso cref="GamePropsActions" />
+            public void AddCallbacks(IGamePropsActions instance)
+            {
+                if (instance == null || m_Wrapper.m_GamePropsActionsCallbackInterfaces.Contains(instance)) return;
+                m_Wrapper.m_GamePropsActionsCallbackInterfaces.Add(instance);
+                @UseFlask.started += instance.OnUseFlask;
+                @UseFlask.performed += instance.OnUseFlask;
+                @UseFlask.canceled += instance.OnUseFlask;
+            }
+
+            /// <summary>
+            /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+            /// </summary>
+            /// <remarks>
+            /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+            /// </remarks>
+            /// <seealso cref="GamePropsActions" />
+            private void UnregisterCallbacks(IGamePropsActions instance)
+            {
+                @UseFlask.started -= instance.OnUseFlask;
+                @UseFlask.performed -= instance.OnUseFlask;
+                @UseFlask.canceled -= instance.OnUseFlask;
+            }
+
+            /// <summary>
+            /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="GamePropsActions.UnregisterCallbacks(IGamePropsActions)" />.
+            /// </summary>
+            /// <seealso cref="GamePropsActions.UnregisterCallbacks(IGamePropsActions)" />
+            public void RemoveCallbacks(IGamePropsActions instance)
+            {
+                if (m_Wrapper.m_GamePropsActionsCallbackInterfaces.Remove(instance))
+                    UnregisterCallbacks(instance);
+            }
+
+            /// <summary>
+            /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+            /// </summary>
+            /// <remarks>
+            /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+            /// </remarks>
+            /// <seealso cref="GamePropsActions.AddCallbacks(IGamePropsActions)" />
+            /// <seealso cref="GamePropsActions.RemoveCallbacks(IGamePropsActions)" />
+            /// <seealso cref="GamePropsActions.UnregisterCallbacks(IGamePropsActions)" />
+            public void SetCallbacks(IGamePropsActions instance)
+            {
+                foreach (var item in m_Wrapper.m_GamePropsActionsCallbackInterfaces)
+                    UnregisterCallbacks(item);
+                m_Wrapper.m_GamePropsActionsCallbackInterfaces.Clear();
+                AddCallbacks(instance);
+            }
+        }
+        /// <summary>
+        /// Provides a new <see cref="GamePropsActions" /> instance referencing this action map.
+        /// </summary>
+        public GamePropsActions @GameProps => new GamePropsActions(this);
         /// <summary>
         /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Player" which allows adding and removing callbacks.
         /// </summary>
@@ -774,6 +902,21 @@ namespace GameInputSystem
             /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
             void OnCrystal(InputAction.CallbackContext context);
+        }
+        /// <summary>
+        /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "GameProps" which allows adding and removing callbacks.
+        /// </summary>
+        /// <seealso cref="GamePropsActions.AddCallbacks(IGamePropsActions)" />
+        /// <seealso cref="GamePropsActions.RemoveCallbacks(IGamePropsActions)" />
+        public interface IGamePropsActions
+        {
+            /// <summary>
+            /// Method invoked when associated input action "UseFlask" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnUseFlask(InputAction.CallbackContext context);
         }
     }
 }

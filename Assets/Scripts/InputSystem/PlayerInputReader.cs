@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 namespace GameInputSystem
 {
     [CreateAssetMenu(fileName ="New Input Data",menuName ="GameData/InputData")]
-    public class PlayerInputReader:ScriptableObject,GameInput.IPlayerActions,GameInput.ISkillActions
+    public class PlayerInputReader:ScriptableObject,GameInput.IPlayerActions,GameInput.ISkillActions,GameInput.IGamePropsActions
     {
         GameInput _gameInput;
 
@@ -24,6 +24,9 @@ namespace GameInputSystem
         public event Action OnBlackHoleEvent=delegate { };
         public event Action OnCrystalEvent=delegate { };
 
+        //GamePropController
+        public event Action OnUseFlaskEvent=delegate { };
+
         private void OnEnable()
         {
             if (_gameInput == null)
@@ -31,6 +34,7 @@ namespace GameInputSystem
                 _gameInput = new GameInput();
                 _gameInput.Player.SetCallbacks(this);
                 _gameInput.Skill.SetCallbacks(this);
+                _gameInput.GameProps.SetCallbacks(this);
             }
 
             SetInitInput();
@@ -56,13 +60,14 @@ namespace GameInputSystem
             OnJumpUpEvent = delegate { };
             OnAttackEvent = delegate { };
 
-
             OnDashEvent = delegate { };
             OnCounterAttackEvent = delegate { };
             OnAimSwordEvent = delegate { };
             OnCancelSwordEvent = delegate { };
             OnBlackHoleEvent = delegate { };
             OnCrystalEvent = delegate { };
+
+            OnUseFlaskEvent = delegate { };
 
 
         }
@@ -77,6 +82,7 @@ namespace GameInputSystem
             {
                 _gameInput.Player.Disable();
                 _gameInput.Skill.Disable();
+                _gameInput.GameProps.Disable();
             }
             
         }
@@ -103,6 +109,7 @@ namespace GameInputSystem
         {
             _gameInput.Player.Enable();
             _gameInput.Skill.Enable();
+            _gameInput.GameProps.Enable();
         }
 
 
@@ -178,6 +185,18 @@ namespace GameInputSystem
             if (context.phase == InputActionPhase.Performed)
             {
                 OnCrystalEvent.Invoke();
+            }
+        }
+
+        #endregion
+
+        #region µÀ¾ß¿ØÖÆ
+
+        public void OnUseFlask(InputAction.CallbackContext context)
+        {
+            if (context.phase == InputActionPhase.Performed)
+            {
+                OnUseFlaskEvent.Invoke();
             }
         }
 

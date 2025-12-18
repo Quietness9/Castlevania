@@ -10,21 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1511387098cc4b04bb9521d235d52999, type: 3}
-  m_Name: ThunderSword
+  m_Name: HealFlask
   m_EditorClassIdentifier: 
-  <Id>k__BackingField: 84
-  <Name>k__BackingField: "\u96F7\u5251"
-  <DropIcon>k__BackingField: {fileID: 397739693, guid: be55291aae08d434db3da3b59db3ab4a, type: 3}
-  <InventoryIcon>k__BackingField: {fileID: 1414076520, guid: bdeaeacf91e805f449e7fa66d480d644, type: 3}
-  <ShowIcon>k__BackingField: {fileID: 367297872, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
+  <Id>k__BackingField: 144
+  <Name>k__BackingField: "\u56DE\u8840\u836F\u54C1"
+  <DropIcon>k__BackingField: {fileID: 1206954855, guid: be55291aae08d434db3da3b59db3ab4a, type: 3}
+  <InventoryIcon>k__BackingField: {fileID: -1148461279, guid: bdeaeacf91e805f449e7fa66d480d644, type: 3}
+  <ShowIcon>k__BackingField: {fileID: -410334530, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
   <Type>k__BackingField: 1
   <DropChance>k__BackingField: 0
-  <EquipmentType>k__BackingField: 0
+  <EquipmentType>k__BackingField: 3
   _equipmentEffects:
-  - {fileID: 11400000, guid: c67d5476e345f6e49bf91330fe687156, type: 2}
-  <Cooldown>k__BackingField: 2
+  - {fileID: 11400000, guid: 3cbc930596fa99346b1df0f8d846a0bd, type: 2}
+  <Cooldown>k__BackingField: 8
   <Hp>k__BackingField: 0
-  <Atk>k__BackingField: 10
+  <Atk>k__BackingField: 0
   <Agility>k__BackingField: 0
   <Vitality>k__BackingField: 0
   <Strength>k__BackingField: 0
@@ -36,5 +36,5 @@ MonoBehaviour:
   <CriticalDamage>k__BackingField: 0
   <FireDamage>k__BackingField: 0
   <IceDamage>k__BackingField: 0
-  <LightingDamage>k__BackingField: 20
+  <LightingDamage>k__BackingField: 0
   <CraftMaterial>k__BackingField: []

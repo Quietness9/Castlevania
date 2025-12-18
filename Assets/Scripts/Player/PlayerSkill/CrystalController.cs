@@ -193,6 +193,15 @@ public class CrystalController : MonoBehaviour
                 enemy.Attribute.TakeMagicDamage(_player);
                 enemy.Attribute.TakePhysicalDamage(_player);
 
+                EquipmentItemData equipment=InventoryController.Instance.GetEquipment(EquipmentItemType.Amulet);
+                if (equipment != null)
+                {
+                    if(InventoryController.Instance.CanUseEquipment(EquipmentItemType.Amulet, equipment))
+                    {
+                        equipment.UseEquipmentEffect(enemy.transform);
+                    }
+                }
+
                 enemy.DamageEffect(_player);
             }
         }

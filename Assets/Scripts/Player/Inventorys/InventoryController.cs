@@ -32,9 +32,23 @@ public class InventoryController : MonoSingleton<InventoryController>
     [SerializeField] Transform _showEquipmentSlotParent;
     EquipmentSlotController[] _showEquipmentItemSlots;
 
+    //装备冷却计时
+    float _weaponCooldownTimer;
+    float _armorCooldownTimer;
+    float _amuletCooldownTimer;
+    float _flaskCooldownTimer;
+
     private void Start()
     {
         InitInventory();
+    }
+
+    private void Update()
+    {
+        _weaponCooldownTimer-= Time.deltaTime;
+        _amuletCooldownTimer-= Time.deltaTime;
+        _armorCooldownTimer-= Time.deltaTime;
+        _flaskCooldownTimer-=Time.deltaTime;
     }
 
     protected override void OnDestroy()
@@ -120,7 +134,7 @@ public class InventoryController : MonoSingleton<InventoryController>
             resultData = _showEquipmentItemSlots[i].EqInventoryItem?.ItemData as EquipmentItemData;
             if (resultData != null && resultData.EquipmentType == type)
             {
-                break;
+                return resultData;
             }
         }
 
@@ -219,6 +233,8 @@ public class InventoryController : MonoSingleton<InventoryController>
         
     }
 
+    #region 辅助函数
+
     /// <summary>
     /// 添加物品到容器
     /// </summary>
@@ -278,7 +294,6 @@ public class InventoryController : MonoSingleton<InventoryController>
     }
 
 
-
     /// <summary>
     /// 更新库存数据
     /// </summary>
@@ -312,5 +327,54 @@ public class InventoryController : MonoSingleton<InventoryController>
         
     }
 
-    
+    /// <summary>
+    /// 判断是否可以使用武器
+    /// </summary>
+    /// <param name="type"></param>
+    /// <param name="equipment"></param>
+    /// <returns></returns>
+    public bool CanUseEquipment(EquipmentItemType type,EquipmentItemData equipment)
+    {
+        switch (type)
+        {
+            case EquipmentItemType.Weapon: 
+                {
+                    if (_weaponCooldownTimer <= 0)
+                    {
+                        _weaponCooldownTimer=equipment.Cooldown;
+                        return true;
+                    }
+                } break;
+            case EquipmentItemType.Armor: 
+                {
+                    if (_armorCooldownTimer <= 0)
+                    {
+                        _armorCooldownTimer=equipment.Cooldown;
+                        return true;
+                    }
+                } break;
+            case EquipmentItemType.Amulet: 
+                { 
+                    if(_amuletCooldownTimer <= 0)
+                    {
+                        _amuletCooldownTimer=equipment.Cooldown;
+                        return true;
+                    }
+                } break;
+            case EquipmentItemType.Flask: 
+                {
+                    if (_flaskCooldownTimer <= 0)
+                    {
+                        _flaskCooldownTimer=equipment.Cooldown;
+                        return true;
+                    }
+                } break;
+        }
+
+        Debug.Log("装备效果还在冷却中" + equipment.name);
+        return false;
+    }
+
+    #endregion
+
 }

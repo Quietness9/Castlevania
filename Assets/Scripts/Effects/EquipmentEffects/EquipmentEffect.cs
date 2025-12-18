@@ -9,7 +9,7 @@ public class EquipmentEffect : ScriptableObject
 
 
     /// <summary>
-    /// 释放装备特效
+    /// 释放特效
     /// </summary>
     /// <param name="transform"></param>
     public virtual void ReleaseEffects(Transform transform)

@@ -161,8 +161,19 @@ public class SwordController : MonoBehaviour
             return;
         }
 
-        enemy.StartCoroutine("IsFreezeSelfCo", _swordSkill.PlayerSwordData.FreezeTime);
+        //enemy.StartCoroutine("FreezeSelfCo", _swordSkill.PlayerSwordData.FreezeTime);
+        enemy.FreezeTimerForSelf(_swordSkill.PlayerSwordData.FreezeTime);
         enemy.Attribute.TakePhysicalDamage(_player);
+
+        EquipmentItemData equipment=InventoryController.Instance.GetEquipment(EquipmentItemType.Amulet);
+        if (equipment != null)
+        {
+            if(InventoryController.Instance.CanUseEquipment(EquipmentItemType.Amulet, equipment))
+            {
+                equipment.UseEquipmentEffect(enemy.transform);
+            }
+        }
+
         enemy.DamageEffect(_player);
     }
 
@@ -186,6 +197,16 @@ public class SwordController : MonoBehaviour
         if (collision.TryGetComponent(out Enemy enemy))
         {
             enemy.Attribute.TakePhysicalDamage(_player);
+
+            EquipmentItemData equipment = InventoryController.Instance.GetEquipment(EquipmentItemType.Amulet);
+            if (equipment != null)
+            {
+                if(InventoryController.Instance.CanUseEquipment(EquipmentItemType.Amulet, equipment))
+                {
+                    equipment.UseEquipmentEffect(enemy.transform);
+                }
+            }
+
             enemy.DamageEffect(_player);
             if (_pierceAmount > 0)
             {

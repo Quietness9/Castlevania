@@ -39,7 +39,10 @@ public class PlayerAnimationTrigger : MonoBehaviour
                 EquipmentItemData equipmentItem = InventoryController.Instance.GetEquipment(EquipmentItemType.Weapon);
                 if(equipmentItem != null)
                 {
-                    equipmentItem.UseEquipmentEffect(enemy.transform);
+                    if(InventoryController.Instance.CanUseEquipment(EquipmentItemType.Weapon, equipmentItem))
+                    {
+                        equipmentItem.UseEquipmentEffect(enemy.transform);
+                    }
                 }
 
                 //EnemyStat _target = hit.GetComponent<EnemyStat>();

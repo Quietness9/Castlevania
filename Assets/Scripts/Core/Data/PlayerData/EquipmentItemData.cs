@@ -12,6 +12,7 @@ public class EquipmentItemData : ItemData
 
     [Header("装备特效")]
     [SerializeField] List<EquipmentEffect> _equipmentEffects = new();
+    [field: SerializeField] public float Cooldown { get; private set; }
 
     [field: Header("基础属性")]
     [field: SerializeField] public int Hp { get; private set; }

@@ -22,6 +22,12 @@ public class IceAndFireEffect : EquipmentEffect
             return;
 
         GameObject iceAndFireObj=Instantiate(iceAndFirePre,transform.position, Quaternion.identity);
+
+        if (_direction != 1)
+        {
+            iceAndFireObj.transform.Rotate(0, 180, 0);
+        }
+
         iceAndFireObj.GetComponent<IceAndFireController>().SetForce(new Vector2(_force.x * _direction, _force.y));
 
         Destroy(iceAndFireObj, destroyTime);

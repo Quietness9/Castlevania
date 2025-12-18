@@ -1119,7 +1119,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &260387362
 Transform:
   m_ObjectHideFlags: 0
@@ -1191,6 +1191,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 45468878df9d26d4e92739048a120935, type: 2}
   - {fileID: 11400000, guid: 690003c6b8523e746b247930c9fc54af, type: 2}
   - {fileID: 11400000, guid: 5f9fd61776613134793356315e675712, type: 2}
+  - {fileID: 11400000, guid: 050152ae5f6d7434a967de1baff68018, type: 2}
+  - {fileID: 11400000, guid: 3f4e10eff5d63c04cb7397094b6632ef, type: 2}
+  - {fileID: 11400000, guid: 65fe36f80d9f3e1488e8c7f9b2621a44, type: 2}
+  - {fileID: 11400000, guid: 65fe36f80d9f3e1488e8c7f9b2621a44, type: 2}
+  - {fileID: 11400000, guid: 0451d8771b8e3b3438f759a651dbf7dd, type: 2}
+  - {fileID: 11400000, guid: 84b4cdc8392eb6a42998aa254fa232f0, type: 2}
   InventoryItemUpperLimit: 999
   EquipmentSlotUpperLimit: 28
   MaterialSlotUpperLimit: 16
@@ -5213,7 +5219,7 @@ MonoBehaviour:
   Cooldown: 0
   _dotsParent: {fileID: 582373358}
   PlayerSwordData: {fileID: 11400000, guid: cb4e9085ecad98b438f4e7c93be421c7, type: 2}
-  SwordType: 1
+  SwordType: 0
 --- !u!114 &971561232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12204,11 +12210,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8935157236833773696, guid: 54b12b05272d93a419beb678b610b4fe, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 8935157236833773696, guid: 54b12b05272d93a419beb678b610b4fe, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

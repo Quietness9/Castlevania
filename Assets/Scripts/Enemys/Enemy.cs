@@ -19,8 +19,6 @@ public class Enemy : Character
     protected override void Awake()
     {
         base.Awake();
-
-        
     }
 
     protected virtual void Start()
@@ -59,12 +57,18 @@ public class Enemy : Character
     }
 
     /// <summary>
+    /// 冻结自身并在一定时间后解冻
+    /// </summary>
+    /// <param name="duration"></param>
+    public virtual void FreezeTimerForSelf(float duration) => StartCoroutine(FreezeSelfCo(duration));
+
+    /// <summary>
     /// 控制冻结自身
     /// </summary>
     /// <param name="freezeTimer"></param>
     /// <returns></returns>
 
-    protected virtual IEnumerator IsFreezeSelfCo(float freezeTimer)
+    protected virtual IEnumerator FreezeSelfCo(float freezeTimer)
     {
         IsFreezeSelf(true);
 

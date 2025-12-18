@@ -418,7 +418,7 @@ public class CharacterAttribute : MonoBehaviour
     /// 减少当前生命值
     /// </summary>
     /// <param name="hp"></param>
-    public void ReduceCurrentHealth(int amount)
+    public virtual void ReduceCurrentHealth(int amount)
     {
         if(CurrentHealth<=0)
             return;
@@ -439,10 +439,13 @@ public class CharacterAttribute : MonoBehaviour
     /// 恢复当前生命值
     /// </summary>
     /// <param name="amount"></param>
-    public void RestoreCurrentHealth(int amount)
+    public virtual void RecoverCurrentHealth(int amount)
     {
+        Debug.Log("恢复血量"+amount);
         CurrentHealth += amount;
         CurrentHealth = Mathf.Min(CurrentHealth, GetMaxHealth());
+
+        OnChangeHealthEvent.Invoke();
     }
 
     #region Modifier修改
@@ -499,6 +502,62 @@ public class CharacterAttribute : MonoBehaviour
         LightingDamage.RemoveModifier(eqData.LightingDamage);
     }
 
+    /// <summary>
+    /// 添加buff加成
+    /// </summary>
+    /// <param name="type"></param>
+    /// <param name="value"></param>
+    /// <param name="duration"></param>
+    public void AddBuffModifier(AttributeType type,int value,float duration)
+    {
+        StartCoroutine(AddBuffModifierCo(type, value, duration));
+    }
+
+
+    private IEnumerator AddBuffModifierCo(AttributeType type, int value, float duration)
+    {
+        Attribute attribute = GetAttribute(type);
+
+        if (attribute == null)
+        {
+            Debug.LogWarning($"Attribute of type {type} not found. Buff modifier not applied.");
+            yield break; // 如果是 null，则立即结束协程
+        }
+
+        attribute.AddModifier(value);
+
+        yield return new WaitForSeconds(duration);
+
+        attribute.RemoveModifier(value);
+    }
+
+    /// <summary>
+    /// 获得属性值
+    /// </summary>
+    /// <param name="type"></param>
+    /// <returns></returns>
+    public Attribute GetAttribute(AttributeType type)
+    {
+        switch (type)
+        {
+            case AttributeType.Hp:return Hp;
+            case AttributeType.Atk:return Atk;
+            case AttributeType.Agility: return Agility;
+            case AttributeType.Vitality: return Vitality;
+            case AttributeType.Strength: return Strength;
+            case AttributeType.Intelligence: return Intelligence;
+            case AttributeType.Armor: return Armor;
+            case AttributeType.Evasion: return Evasion;
+            case AttributeType.MagicResistance: return MagicResistance;
+            case AttributeType.CriticalChance: return CriticalChance;
+            case AttributeType.CriticalDamage:return CriticalDamage;
+            case AttributeType.FireDamage:return FireDamage;
+            case AttributeType.IceDamage:return IceDamage;
+            case AttributeType.LightingDamage:return LightingDamage;
+            default:return null;
+                
+        }
+    }
 
     #endregion
 

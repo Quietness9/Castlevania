@@ -31,3 +31,21 @@ public enum EquipmentItemType
     Amulet, // Œ∆∑
     Flask, //“©∆∑
 }
+
+public enum AttributeType
+{
+    Hp,
+    Atk,
+    Agility,
+    Vitality,
+    Strength,
+    Intelligence,
+    Armor,
+    Evasion,
+    MagicResistance,
+    CriticalChance,
+    CriticalDamage,
+    FireDamage,
+    IceDamage,
+    LightingDamage
+}
