@@ -11,7 +11,7 @@ public class CharacterUIController : MonoBehaviour
     List<GameObject> _equipmentItemSlots = new();
     EquipmentSlotController[] _equipmentSlotControllers;
 
-    private void Start()
+    private void Awake()
     {
         InitCharacterUI();
     }
@@ -43,9 +43,9 @@ public class CharacterUIController : MonoBehaviour
         for (int i = 0; i < _equipmentMenuSlotParent.childCount; i++)
         {
 
-            if (_equipmentSlotControllers[i].EqInventoryItem != null)
+            if (_equipmentSlotControllers[i].InventoryItemData.ItemData != null)
             {
-                _equipmentItemSlots[i].GetComponent<Image>().sprite = _equipmentSlotControllers[i].EqInventoryItem.ItemData.ShowIcon;
+                _equipmentItemSlots[i].GetComponent<Image>().sprite = _equipmentSlotControllers[i].InventoryItemData.ItemData.ShowIcon;
             }
 
         }
@@ -83,11 +83,11 @@ public class CharacterUIController : MonoBehaviour
     /// <param name="inventoryItem"></param>
     private void EquipWeaponHelp(int index, InventoryItem inventoryItem, EquipmentItemData equipmentItemData)
     {
-        if (_equipmentSlotControllers[index].EqInventoryItem != null)
+        if (_equipmentSlotControllers[index].InventoryItemData.ItemData != null)
             return;
 
         GlobalReferencesManager.Instance.GamePlayer.Attribute.AddEquipmentModifier(equipmentItemData);
-        _equipmentSlotControllers[index].SetEquipmentSlotData(inventoryItem);
+        _equipmentSlotControllers[index].SetSlotData(inventoryItem);
         InventoryController.Instance.RemoveItem(inventoryItem.ItemData);
     }
 

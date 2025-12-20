@@ -18,11 +18,15 @@ MonoBehaviour:
   <InventoryIcon>k__BackingField: {fileID: -2040626630, guid: bdeaeacf91e805f449e7fa66d480d644, type: 3}
   <ShowIcon>k__BackingField: {fileID: 1526008332, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
   <Type>k__BackingField: 1
+  <DropChance>k__BackingField: 0
+  minDescriptionLength: 5
   <EquipmentType>k__BackingField: 0
+  _equipmentEffects: []
+  <Cooldown>k__BackingField: 0
   <Hp>k__BackingField: 20
   <Atk>k__BackingField: 10
   <Agility>k__BackingField: 0
-  <Vitality>k__BackingField: 0
+  <Vitality>k__BackingField: 5
   <Strength>k__BackingField: 5
   <Intelligence>k__BackingField: 0
   <Armor>k__BackingField: 0

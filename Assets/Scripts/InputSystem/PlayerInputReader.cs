@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 namespace GameInputSystem
 {
     [CreateAssetMenu(fileName ="New Input Data",menuName ="GameData/InputData")]
-    public class PlayerInputReader:ScriptableObject,GameInput.IPlayerActions,GameInput.ISkillActions,GameInput.IGamePropsActions
+    public class PlayerInputReader:ScriptableObject,GameInput.IPlayerActions,GameInput.ISkillActions,GameInput.IGamePropsActions,GameInput.IUIActions
     {
         GameInput _gameInput;
 
@@ -27,6 +27,12 @@ namespace GameInputSystem
         //GamePropController
         public event Action OnUseFlaskEvent=delegate { };
 
+        //UI
+        public event Action OnCharacterUIEvent=delegate { };
+        public event Action OnSkillTreeUIEvent=delegate { };
+        public event Action OnCraftUIEvent=delegate { };
+        public event Action OnOptionUIEvent=delegate { };
+
         private void OnEnable()
         {
             if (_gameInput == null)
@@ -35,6 +41,7 @@ namespace GameInputSystem
                 _gameInput.Player.SetCallbacks(this);
                 _gameInput.Skill.SetCallbacks(this);
                 _gameInput.GameProps.SetCallbacks(this);
+                _gameInput.UI.SetCallbacks(this);
             }
 
             SetInitInput();
@@ -83,6 +90,7 @@ namespace GameInputSystem
                 _gameInput.Player.Disable();
                 _gameInput.Skill.Disable();
                 _gameInput.GameProps.Disable();
+                _gameInput.UI.Disable();
             }
             
         }
@@ -110,6 +118,7 @@ namespace GameInputSystem
             _gameInput.Player.Enable();
             _gameInput.Skill.Enable();
             _gameInput.GameProps.Enable();
+            _gameInput.UI.Enable();
         }
 
 
@@ -197,6 +206,42 @@ namespace GameInputSystem
             if (context.phase == InputActionPhase.Performed)
             {
                 OnUseFlaskEvent.Invoke();
+            }
+        }
+
+        #endregion
+
+        #region UI¿ØÖÆ
+
+        public void OnCharacterUI(InputAction.CallbackContext context)
+        {
+            if(context.phase == InputActionPhase.Performed)
+            {
+                OnCharacterUIEvent.Invoke();
+            }
+        }
+
+        public void OnSkillTreeUI(InputAction.CallbackContext context)
+        {
+            if (context.phase == InputActionPhase.Performed)
+            {
+                OnSkillTreeUIEvent.Invoke();
+            }
+        }
+
+        public void OnCraftUI(InputAction.CallbackContext context)
+        {
+            if (context.phase == InputActionPhase.Performed)
+            {
+                OnCraftUIEvent.Invoke();
+            }
+        }
+
+        public void OnOption(InputAction.CallbackContext context)
+        {
+            if (context.phase == InputActionPhase.Performed)
+            {
+                OnOptionUIEvent.Invoke();
             }
         }
 

@@ -5,13 +5,10 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class InventorySlotController : MonoBehaviour, IPointerDownHandler
+public class InventorySlotController : SlotController, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    public InventoryItem InventoryItem {  get; private set; }
-
-    [SerializeField] Image _itemIcon;
+    
     [SerializeField] TextMeshProUGUI _itemText;
-    [SerializeField] Sprite _emptySprite;
 
 
     private void Start()
@@ -19,25 +16,30 @@ public class InventorySlotController : MonoBehaviour, IPointerDownHandler
         if(InventoryController.Instance != null)
         {
             InventoryController.Instance.OnUpdateInventoryCount += UpdateSlotCountHandle;
-            InventoryController.Instance.OnDropItemEvent += DefaultSetHandle;
         }
     }
+
+    
+    //public void SetInventorySlotData(InventoryItem inventoryItem)
+    //{
+        
+    //}
 
     /// <summary>
     /// 设置库存槽数据
     /// </summary>
     /// <param name="inventoryItem"></param>
-    public void SetInventorySlotData(InventoryItem inventoryItem)
+    public override void SetSlotData(InventoryItem inventoryItem)
     {
-        if(inventoryItem == null)
+        if (inventoryItem == null)
         {
-            _itemIcon.sprite= _emptySprite;
+            itemIcon.sprite = _emptySprite;
             return;
         }
 
-        InventoryItem = inventoryItem;
+        InventoryItemData = inventoryItem;
 
-        _itemIcon.sprite = inventoryItem.ItemData.InventoryIcon;
+        itemIcon.sprite = inventoryItem.ItemData.InventoryIcon;
 
         UpdateSlotCountHandle();
     }
@@ -48,25 +50,25 @@ public class InventorySlotController : MonoBehaviour, IPointerDownHandler
     /// <param name="eventData"></param>
     public void OnPointerDown(PointerEventData eventData)
     {
-        if(InventoryItem==null) 
+        if(InventoryItemData ==null|| InventoryItemData.ItemData==null) 
             return;
 
         if (Input.GetKey(KeyCode.LeftControl))
         {
-            InventoryController.Instance.DropDirItem(InventoryItem);
-            InventoryItem = null;
+            InventoryController.Instance.DropDirItem(InventoryItemData);
+            DefaultSet();
             return;
         }
 
-        if (InventoryItem.ItemData.Type != ItemType.Equipment)
+        if (InventoryItemData.ItemData.Type != ItemType.Equipment)
             return;
 
-        MenuController.Instance.CharacterUI.EquipWeapons(InventoryItem);
+        MenuController.Instance.CharacterUI.EquipWeapons(InventoryItemData);
 
-        if (InventoryItem.GetCount() <= 0)
+        if (InventoryItemData.GetCount() <= 0)
         {
-            _itemIcon.sprite = _emptySprite;
-            InventoryItem = null;
+            itemIcon.sprite = _emptySprite;
+            InventoryItemData = null;
         }
     }
 
@@ -75,12 +77,12 @@ public class InventorySlotController : MonoBehaviour, IPointerDownHandler
     /// </summary>
     private void UpdateSlotCountHandle()
     {
-        if (InventoryItem == null)
+        if (InventoryItemData == null)
             return;
 
-        if (InventoryItem.GetCount() > 1)
+        if (InventoryItemData.GetCount() > 1)
         {
-            _itemText.text = "" + InventoryItem.GetCount();
+            _itemText.text = "" + InventoryItemData.GetCount();
         }
         else
         {
@@ -91,10 +93,32 @@ public class InventorySlotController : MonoBehaviour, IPointerDownHandler
     /// <summary>
     /// 回到存储栏默认设置
     /// </summary>
-    private void DefaultSetHandle()
+    private void DefaultSet()
     {
         _itemText.text = "";
-        _itemIcon.sprite = _emptySprite;
-        InventoryItem=null;
+        itemIcon.sprite = _emptySprite;
+        InventoryItemData =null;
+    }
+
+    /// <summary>
+    /// 鼠标划入显示介绍
+    /// </summary>
+    /// <param name="eventData"></param>
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (InventoryItemData == null)
+            return;
+
+        MenuController.Instance.ItemTip.ShowTipContent(InventoryItemData.ItemData);
+    }
+
+    /// <summary>
+    /// 鼠标化出关闭介绍
+    /// </summary>
+    /// <param name="eventData"></param>
+    /// <exception cref="System.NotImplementedException"></exception>
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        MenuController.Instance.ItemTip.HideTipContent();
     }
 }

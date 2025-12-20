@@ -9,6 +9,7 @@ public class CharacterAttribute : MonoBehaviour
     public BaseAttributeData CharacterAttributeData;
     public event Action OnDieEvent = delegate { };
     public event Action OnChangeHealthEvent = delegate { };
+    public event Action OnAttributeSlotEvent = delegate { };
 
     [Header("基础属性")]
     public Attribute Hp; // 最大生命值
@@ -51,13 +52,13 @@ public class CharacterAttribute : MonoBehaviour
     {
         _character = GetComponentInParent<Character>();
 
-
         InitBaseAttributeData();
+        
     }
 
     protected virtual void Start() 
     {
-        CurrentHealth = GetMaxHealth();
+        
     }
 
 
@@ -96,7 +97,7 @@ public class CharacterAttribute : MonoBehaviour
         LightingDamage.SetBaseValue(CharacterAttributeData.LightingDamage);
 
         IsDie = false;
-
+        CurrentHealth = GetMaxHealth();
     }
 
     /// <summary>
@@ -147,7 +148,7 @@ public class CharacterAttribute : MonoBehaviour
         targetResistance *= 2;
 
 
-        float damage = attackTarget.Atk.GetValue() + attackTarget.Strength.GetValue();
+        float damage = attackTarget.GetTotalAtk();
 
         if (attackTarget.IsCriticalStrike())
         {
@@ -169,7 +170,7 @@ public class CharacterAttribute : MonoBehaviour
     /// <returns></returns>
     private int GetMagicDamage(CharacterAttribute attackTarget)
     {
-        int targetResistance = MagicResistance.GetValue() + Intelligence.GetValue() * 2;
+        int targetResistance = GetTotalMagicResistance();
 
         int damage = attackTarget.FireDamage.GetValue() + attackTarget.IceDamage.GetValue() +
             attackTarget.LightingDamage.GetValue() + attackTarget.Intelligence.GetValue();
@@ -405,14 +406,47 @@ public class CharacterAttribute : MonoBehaviour
 
     #endregion
 
+    #region 不同属性对其他属性影响后的总值
+
+    /// <summary>
+    /// 获得总魔法抗性
+    /// </summary>
+    /// <returns></returns>
+    public int GetTotalMagicResistance() => MagicResistance.GetValue() + Intelligence.GetValue() * 2;
+
+    /// <summary>
+    /// 获得总暴击伤害增幅
+    /// </summary>
+    /// <returns></returns>
+    public int GetTotalCriticalDamage() => CriticalDamage.GetValue() + Strength.GetValue();
+
+    /// <summary>
+    /// 获得总共暴击率
+    /// </summary>
+    /// <returns></returns>
+    public int GetTotalCriticalChance() => CriticalChance.GetValue() + Agility.GetValue();
+
+    /// <summary>
+    /// 获得总共Atk值
+    /// </summary>
+    /// <returns></returns>
+    public int GetTotalAtk()=>Atk.GetValue() + Strength.GetValue();
+    
+
+    /// <summary>
+    /// 获得总共闪避值
+    /// </summary>
+    /// <returns></returns>
+    public int GetTotalEvasion()=> Evasion.GetValue() + Agility.GetValue();
+
+
     /// <summary>
     /// 获得最大生命值
     /// </summary>
     /// <returns></returns>
-    public int GetMaxHealth()
-    {
-        return Hp.GetValue() + Vitality.GetValue() * 3;
-    }
+    public int GetMaxHealth()=> Hp.GetValue() + Vitality.GetValue() * 3;
+
+    #endregion
 
     /// <summary>
     /// 减少当前生命值
@@ -474,6 +508,8 @@ public class CharacterAttribute : MonoBehaviour
         FireDamage.AddModifier(eqData.FireDamage);
         IceDamage.AddModifier(eqData.IceDamage);
         LightingDamage.AddModifier(eqData.LightingDamage);
+
+        OnAttributeSlotEvent.Invoke();
     }
 
     /// <summary>
@@ -500,6 +536,8 @@ public class CharacterAttribute : MonoBehaviour
         FireDamage.RemoveModifier(eqData.FireDamage);
         IceDamage.RemoveModifier(eqData.IceDamage);
         LightingDamage.RemoveModifier(eqData.LightingDamage);
+
+        OnAttributeSlotEvent.Invoke();
     }
 
     /// <summary>
@@ -570,7 +608,7 @@ public class CharacterAttribute : MonoBehaviour
     /// <returns></returns>
     public virtual bool IsSuccessfulEvasion()
     {
-        float totalEvasion = Evasion.GetValue() + Agility.GetValue();
+        float totalEvasion =GetTotalEvasion(); 
 
         if (SelfMagicType == MagicEffectType.Shock)
         {
@@ -593,7 +631,7 @@ public class CharacterAttribute : MonoBehaviour
     /// <returns></returns>
     private bool IsCriticalStrike()
     {
-        int totalCriticalChance = CriticalChance.GetValue() + Agility.GetValue();
+        int totalCriticalChance = GetTotalCriticalChance();
 
         if (UnityEngine.Random.Range(0, 100) < totalCriticalChance)
         {
@@ -610,7 +648,7 @@ public class CharacterAttribute : MonoBehaviour
     /// <returns></returns>
     private int CalculationCriticalDamage(float damage)
     {
-        float totalCriticalEnhance = (CriticalDamage.GetValue() + Strength.GetValue()) * 0.01f;
+        float totalCriticalEnhance = GetTotalCriticalDamage() * 0.01f;
         float totalCriticalDamage = damage + (damage * totalCriticalEnhance);
 
         totalCriticalDamage = Mathf.Clamp(totalCriticalDamage, 0, int.MaxValue);

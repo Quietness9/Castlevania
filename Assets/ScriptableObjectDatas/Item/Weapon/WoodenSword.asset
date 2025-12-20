@@ -19,8 +19,10 @@ MonoBehaviour:
   <ShowIcon>k__BackingField: {fileID: 1025091068, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
   <Type>k__BackingField: 1
   <DropChance>k__BackingField: 0.24
+  minDescriptionLength: 5
   <EquipmentType>k__BackingField: 0
   _equipmentEffects: []
+  <Cooldown>k__BackingField: 0
   <Hp>k__BackingField: 0
   <Atk>k__BackingField: 0
   <Agility>k__BackingField: 0

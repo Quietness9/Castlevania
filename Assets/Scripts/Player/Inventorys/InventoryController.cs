@@ -15,7 +15,6 @@ public class InventoryController : MonoSingleton<InventoryController>
     public Dictionary<int, InventoryItem> MaterialItemDIr = new();
 
     public event Action OnUpdateInventoryCount = delegate { };
-    public event Action OnDropItemEvent = delegate { };
 
     [SerializeField] int InventoryItemUpperLimit=999; //单个栏上限
     [SerializeField] int EquipmentSlotUpperLimit = 10; //存放栏上限
@@ -55,7 +54,6 @@ public class InventoryController : MonoSingleton<InventoryController>
     {
         base.OnDestroy();
         OnUpdateInventoryCount = delegate { };
-        OnDropItemEvent= delegate { };
 
         // 清理其他可能的引用...
         Items?.Clear();
@@ -131,7 +129,7 @@ public class InventoryController : MonoSingleton<InventoryController>
 
         for(int i=0; i < _showEquipmentItemSlots.Length; i++)
         {
-            resultData = _showEquipmentItemSlots[i].EqInventoryItem?.ItemData as EquipmentItemData;
+            resultData = _showEquipmentItemSlots[i].InventoryItemData?.ItemData as EquipmentItemData;
             if (resultData != null && resultData.EquipmentType == type)
             {
                 return resultData;
@@ -149,13 +147,13 @@ public class InventoryController : MonoSingleton<InventoryController>
         int index = 0;
         foreach(var item  in dir)
         {
-            slots[index].SetInventorySlotData(item.Value);
+            slots[index].SetSlotData(item.Value);
             index++;
         }
 
         for (int i = dir.Count; i < slots.Length; i++)
         {
-            slots[i].SetInventorySlotData(null);
+            slots[i].SetSlotData(null);
         }
     }
 
@@ -304,9 +302,9 @@ public class InventoryController : MonoSingleton<InventoryController>
         {
             for (int i = 0; i < _equipmentItemSlots.Length; i++)
             {
-                if (_equipmentItemSlots[i].InventoryItem == null)
+                if (_equipmentItemSlots[i].InventoryItemData == null|| _equipmentItemSlots[i].InventoryItemData.ItemData == null)
                 {
-                    _equipmentItemSlots[i].SetInventorySlotData(inventoryItem);
+                    _equipmentItemSlots[i].SetSlotData(inventoryItem);
                     return;
                 }
             }
@@ -317,9 +315,9 @@ public class InventoryController : MonoSingleton<InventoryController>
         {
             for (int i = 0; i < _materialItemSlots.Length; i++)
             {
-                if (_materialItemSlots[i].InventoryItem == null)
+                if (_materialItemSlots[i].InventoryItemData == null||_equipmentItemSlots[i].InventoryItemData.ItemData == null)
                 {
-                    _materialItemSlots[i].SetInventorySlotData(inventoryItem);
+                    _materialItemSlots[i].SetSlotData(inventoryItem);
                     return;
                 }
             }

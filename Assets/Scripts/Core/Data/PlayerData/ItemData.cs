@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 //库存物品数据
@@ -15,4 +16,18 @@ public class ItemData : ScriptableObject
 
     [field: Range(0, 1f)]
     [field: SerializeField] public float DropChance { get; private set; }
+
+    [SerializeField] protected int minDescriptionLength;
+
+    protected StringBuilder stringBuilder=new();
+
+
+    /// <summary>
+    /// 获得关于物品的描述
+    /// </summary>
+    /// <returns></returns>
+    public virtual string GetDescription()
+    {
+        return "";
+    }
 }

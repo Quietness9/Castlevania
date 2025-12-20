@@ -48,6 +48,8 @@ public class EquipmentItemData : ItemData
         public int Count;
     }
 
+    int _description;
+
     /// <summary>
     /// 使用武器特效
     /// </summary>
@@ -57,6 +59,61 @@ public class EquipmentItemData : ItemData
         foreach(var effect in _equipmentEffects)
         {
             effect.ReleaseEffects(transform);
+        }
+    }
+
+    public override string GetDescription()
+    {
+        stringBuilder.Length = 0;
+        _description = 0;
+
+        AddItemDescription(Hp, "Hp");
+        AddItemDescription(Atk, "Atk");
+
+        AddItemDescription(Agility, "Agility");
+        AddItemDescription(Vitality, "Vitality");
+        AddItemDescription(Strength, "Strength");
+        AddItemDescription(Intelligence, "Intelligence");
+
+        AddItemDescription(Armor, "Armor");
+        AddItemDescription(Evasion, "Evasion");
+        AddItemDescription(MagicResistance, "MagicResist");
+
+        AddItemDescription(CriticalChance, "CriticalChance");
+        AddItemDescription(CriticalDamage, "CriticalDamage");
+
+        AddItemDescription(FireDamage, "FireDamage");
+        AddItemDescription(IceDamage, "IceDamage");
+        AddItemDescription(LightingDamage, "LightDamage");
+
+        if (_description<minDescriptionLength)
+        {
+            for(int i = 0; i < minDescriptionLength-_description; i++)
+            {
+                stringBuilder.AppendLine();
+                stringBuilder.Append("");
+            }
+        }
+
+        return stringBuilder.ToString();
+    }
+
+    /// <summary>
+    /// 添加描述
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="name"></param>
+    private void AddItemDescription(int value,string name)
+    {
+        if (value != 0)
+        {
+            if (stringBuilder.Length > 0)
+            {
+                stringBuilder.AppendLine();
+            }
+
+            stringBuilder.Append("+ "+name+":"+value);
+            _description++;
         }
     }
 

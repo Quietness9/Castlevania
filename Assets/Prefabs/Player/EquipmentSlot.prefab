@@ -88,3 +88,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: febd553e07c33cc45a9b6580f9ed2062, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  InventoryItemData:
+    ItemData: {fileID: 0}
+    _itemCount: 0
+  itemIcon: {fileID: 2315109728610939292}
+  _emptySprite: {fileID: -1224798615, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
