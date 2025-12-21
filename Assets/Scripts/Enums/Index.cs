@@ -32,6 +32,7 @@ public enum EquipmentItemType
     Flask, //药品
 }
 
+
 public enum AttributeType
 {
     Hp,
@@ -48,4 +49,12 @@ public enum AttributeType
     FireDamage,
     IceDamage,
     LightingDamage
+}
+
+
+//对象池类型
+public enum PoolType
+{
+    GameObject,
+    CraftListObject,
 }

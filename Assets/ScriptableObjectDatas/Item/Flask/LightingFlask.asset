@@ -13,12 +13,14 @@ MonoBehaviour:
   m_Name: LightingFlask
   m_EditorClassIdentifier: 
   <Id>k__BackingField: 157
-  <Name>k__BackingField: "\u96F7\u9706\u836F\u6C34"
+  <Name>k__BackingField: "\u96F7\u795E\u836F\u6C34"
   <DropIcon>k__BackingField: {fileID: 1361707535, guid: be55291aae08d434db3da3b59db3ab4a, type: 3}
   <InventoryIcon>k__BackingField: {fileID: 428929992, guid: bdeaeacf91e805f449e7fa66d480d644, type: 3}
   <ShowIcon>k__BackingField: {fileID: 1073501139, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
   <Type>k__BackingField: 1
   <DropChance>k__BackingField: 0
+  description: 
+  minDescriptionLength: 0
   <EquipmentType>k__BackingField: 3
   _equipmentEffects:
   - {fileID: 11400000, guid: 49b9045da2bca044ba70d1e8b443919b, type: 2}

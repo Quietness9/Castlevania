@@ -19,6 +19,7 @@ MonoBehaviour:
   <ShowIcon>k__BackingField: {fileID: 1526008332, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
   <Type>k__BackingField: 1
   <DropChance>k__BackingField: 0
+  description: 
   minDescriptionLength: 5
   <EquipmentType>k__BackingField: 0
   _equipmentEffects: []
@@ -37,4 +38,6 @@ MonoBehaviour:
   <FireDamage>k__BackingField: 0
   <IceDamage>k__BackingField: 0
   <LightingDamage>k__BackingField: 0
-  <CraftMaterial>k__BackingField: []
+  <CraftMaterial>k__BackingField:
+  - MaterialData: {fileID: 11400000, guid: 45468878df9d26d4e92739048a120935, type: 2}
+    Count: 5

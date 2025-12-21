@@ -9,6 +9,7 @@ public class MenuController : MonoSingleton<MenuController>
     public TipController Tip;
     public ItemTipController ItemTip;
     public CharacterUIController CharacterUI;
+    public CraftUlController CraftUI;
 
     [SerializeField] Transform _allMenuParent;
     [SerializeField] GameObject _bg;

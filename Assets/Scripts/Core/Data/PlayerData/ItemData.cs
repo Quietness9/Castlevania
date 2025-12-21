@@ -17,6 +17,9 @@ public class ItemData : ScriptableObject
     [field: Range(0, 1f)]
     [field: SerializeField] public float DropChance { get; private set; }
 
+    [TextArea]
+    [SerializeField] protected string description;
+
     [SerializeField] protected int minDescriptionLength;
 
     protected StringBuilder stringBuilder=new();

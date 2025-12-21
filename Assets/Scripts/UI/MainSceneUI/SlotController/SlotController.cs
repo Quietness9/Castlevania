@@ -8,7 +8,7 @@ public class SlotController : MonoBehaviour
     public InventoryItem InventoryItemData;
 
     [SerializeField] protected Image itemIcon;
-    [SerializeField] protected Sprite _emptySprite;
+    [SerializeField] protected Sprite emptySprite;
     /// <summary>
     /// …Ë÷√≤€ ˝æ›
     /// </summary>

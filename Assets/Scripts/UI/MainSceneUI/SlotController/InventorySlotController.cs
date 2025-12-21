@@ -19,12 +19,6 @@ public class InventorySlotController : SlotController, IPointerDownHandler, IPoi
         }
     }
 
-    
-    //public void SetInventorySlotData(InventoryItem inventoryItem)
-    //{
-        
-    //}
-
     /// <summary>
     /// …Ë÷√ø‚¥Ê≤€ ˝æ›
     /// </summary>
@@ -33,7 +27,7 @@ public class InventorySlotController : SlotController, IPointerDownHandler, IPoi
     {
         if (inventoryItem == null)
         {
-            itemIcon.sprite = _emptySprite;
+            itemIcon.sprite = emptySprite;
             return;
         }
 
@@ -67,7 +61,7 @@ public class InventorySlotController : SlotController, IPointerDownHandler, IPoi
 
         if (InventoryItemData.GetCount() <= 0)
         {
-            itemIcon.sprite = _emptySprite;
+            itemIcon.sprite = emptySprite;
             InventoryItemData = null;
         }
     }
@@ -96,7 +90,7 @@ public class InventorySlotController : SlotController, IPointerDownHandler, IPoi
     private void DefaultSet()
     {
         _itemText.text = "";
-        itemIcon.sprite = _emptySprite;
+        itemIcon.sprite = emptySprite;
         InventoryItemData =null;
     }
 
