@@ -8,6 +8,9 @@ public class Player : Character
     public PlayerInputReader PlayerInput;
     public PlayerMoveData MoveData;
 
+    [Header("游戏货币")]
+    public int Currency;
+
     [Header("动画配置")]
     public float AnimationSpeed;
 
@@ -127,6 +130,24 @@ public class Player : Character
         MoveData.DashForce = _defaultDashForce;
     }
 
+
+    /// <summary>
+    /// 判断是否有足够的货币
+    /// </summary>
+    /// <param name="money"></param>
+    public bool HaveEnoughMoney(int money)
+    {
+        if (Currency < money)
+        {
+            Debug.Log("货币不足现持有货币为" + Currency);
+            return false;
+        }
+
+        Currency -= money;
+
+        return true;
+    }
+
     #region 剑
 
     /// <summary>
@@ -182,7 +203,6 @@ public class Player : Character
         PlayerInput.OnJumpUpEvent += ChangeJumpStateHandle;
         PlayerInput.OnAttackEvent += ChangeAttackStateHandle;
 
-        PlayerInput.OnCounterAttackEvent += ChangeCounterAttackStateHandle;
         PlayerInput.OnAimSwordEvent += ChangeAimSwordStateHandle;
         PlayerInput.OnCancelSwordEvent += ChangeIdleStateHandle;
 
@@ -212,7 +232,6 @@ public class Player : Character
         PlayerInput.OnJumpUpEvent -= ChangeJumpStateHandle;
         PlayerInput.OnAttackEvent -= ChangeAttackStateHandle;
 
-        PlayerInput.OnCounterAttackEvent -= ChangeCounterAttackStateHandle;
         PlayerInput.OnAimSwordEvent -= ChangeAimSwordStateHandle;
         PlayerInput.OnCancelSwordEvent -= ChangeIdleStateHandle;
 
@@ -285,18 +304,13 @@ public class Player : Character
     }
 
     /// <summary>
-    /// 转换为连击状态
-    /// </summary>
-    private void ChangeCounterAttackStateHandle()
-    {
-        CharacterStateMachine.ChangeState(CounterAttackState);
-    }
-
-    /// <summary>
     /// 转换为剑的瞄准状态
     /// </summary>
     private void ChangeAimSwordStateHandle()
     {
+        if(SkillManager.Instance.SwordSkill.IsLock==false)
+            return;
+
         if (!SwordObj)
         {
             CharacterStateMachine.ChangeState(AimSwordState);

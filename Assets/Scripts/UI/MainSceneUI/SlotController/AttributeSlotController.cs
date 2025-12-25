@@ -95,7 +95,7 @@ public class AttributeSlotController : MonoBehaviour, IPointerEnterHandler, IPoi
     /// <param name="eventData"></param>
     public void OnPointerEnter(PointerEventData eventData)
     {
-        MenuController.Instance.Tip.ShowTip(_attributeDescription);
+        MenuController.Instance.AttributeTip.ShowTip(_attributeDescription);
     }
 
     /// <summary>
@@ -104,6 +104,6 @@ public class AttributeSlotController : MonoBehaviour, IPointerEnterHandler, IPoi
     /// <param name="eventData"></param>
     public void OnPointerExit(PointerEventData eventData)
     {
-        MenuController.Instance.Tip.HideTip();
+        MenuController.Instance.AttributeTip.HideTip();
     }
 }

@@ -92,4 +92,4 @@ MonoBehaviour:
     ItemData: {fileID: 0}
     _itemCount: 0
   itemIcon: {fileID: 2315109728610939292}
-  _emptySprite: {fileID: -1224798615, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
+  emptySprite: {fileID: -1224798615, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}

@@ -8,6 +8,11 @@ using UnityEngine.UI;
 public class EquipmentSlotController : SlotController, IPointerDownHandler
 {
 
+    private void Awake()
+    {
+        InventoryItemData = null;
+    }
+
     /// <summary>
     /// 设置展示武器槽数据
     /// </summary>
@@ -24,7 +29,7 @@ public class EquipmentSlotController : SlotController, IPointerDownHandler
     /// <param name="eventData"></param>
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (InventoryItemData.ItemData == null)
+        if (InventoryItemData==null)
             return;
 
         EquipmentItemData equipmentItemData = InventoryItemData.ItemData as EquipmentItemData;
@@ -33,7 +38,7 @@ public class EquipmentSlotController : SlotController, IPointerDownHandler
         GlobalReferencesManager.Instance.GamePlayer.Attribute.RemoveEquipmentModifier(equipmentItemData);
 
         itemIcon.sprite = emptySprite;
-        InventoryItemData.ItemData = null;
+        InventoryItemData=null;
     }
 
     

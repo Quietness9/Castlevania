@@ -44,6 +44,8 @@ public class Skill : MonoBehaviour
             return true;
         }
 
+        Debug.Log("¼¼ÄÜÀäÈ´ÖĞ");
+
         return false;
     }
 

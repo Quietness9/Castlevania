@@ -9,6 +9,8 @@ public class SkillManager : MonoSingleton<SkillManager>
     public PlayerSwordSkill SwordSkill { get;private set; }
     public PlayerBlackHoleSkill BlackSkill { get; private set; }
     public PlayerCrystalSkill CrystalSkill { get; private set; }
+    public PlayerParrySkill ParrySkill { get; private set; }
+
 
     protected override void Awake()
     {
@@ -19,5 +21,6 @@ public class SkillManager : MonoSingleton<SkillManager>
         SwordSkill = GetComponent<PlayerSwordSkill>();
         BlackSkill = GetComponent<PlayerBlackHoleSkill>();
         CrystalSkill = GetComponent<PlayerCrystalSkill>();
+        ParrySkill = GetComponent<PlayerParrySkill>();
     }
 }

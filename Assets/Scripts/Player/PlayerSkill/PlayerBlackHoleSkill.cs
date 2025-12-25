@@ -9,7 +9,9 @@ public class PlayerBlackHoleSkill : Skill
     public bool IsStart { get;private set; }
     public bool IsEnd { get;private set; }
 
-    public  bool IsCreateCrystal;
+    public bool IsLock;
+    public bool IsCreateCrystal;
+    
 
     protected override void Start()
     {
@@ -58,14 +60,25 @@ public class PlayerBlackHoleSkill : Skill
 
     public override void UseSkill()
     {
-        if (CanUseSkill())
+        if (IsLock&&CanUseSkill())
         {
             SetBlackHoleState(true, false);
             player.CharacterStateMachine.ChangeState(player.BlackHoleState);
         }
-        else
-        {
-            Debug.Log("技能在冷却");
-        }
     }
+
+    #region 技能解锁
+
+    /// <summary>
+    /// 解锁技能
+    /// </summary>
+    public void UnLockBlackHole() => IsLock = true;
+
+    /// <summary>
+    /// 解锁创建水晶
+    /// </summary>
+    public void UnLockCreateCrystal()=>IsCreateCrystal = true;
+
+
+    #endregion
 }

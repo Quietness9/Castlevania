@@ -5,13 +5,15 @@ using UnityEngine;
 public class PlayerSwordSkill : Skill
 {
     
-    [SerializeField] Transform _dotsParent;
+    public SwordData PlayerSwordData;
 
+    public bool IsLock;
+    public SwordType SwordType=SwordType.Ordinary;
+
+
+    Transform _dotsParent;
     GameObject[] _dots;
     Vector2 _finalDir;
-
-    public SwordData PlayerSwordData;
-    public SwordType SwordType=SwordType.Ordinary;
 
     protected override void Start()
     {
@@ -141,6 +143,30 @@ public class PlayerSwordSkill : Skill
 
         return position;
     }
+
+    #endregion
+
+    #region 技能解锁
+
+    /// <summary>
+    /// 解锁技能
+    /// </summary>
+    public void UnLockSword() => IsLock = true;
+
+    /// <summary>
+    /// 解锁剑为弹跳模式
+    /// </summary>
+    public void UnLockBounceMode()=>SwordType=SwordType.Bounce;
+
+    /// <summary>
+    /// 解锁剑为穿透模式
+    /// </summary>
+    public void UnLockPierceMode()=>SwordType=SwordType.Pierce;
+
+    /// <summary>
+    /// 解锁剑为旋转模式
+    /// </summary>
+    public void UnLockSpinMode() => SwordType = SwordType.Spin;
 
     #endregion
 }

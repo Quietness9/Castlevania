@@ -6,10 +6,15 @@ using UnityEngine.UI;
 
 public class MenuController : MonoSingleton<MenuController>
 {
-    public TipController Tip;
+    [Header("提示UI")]
     public ItemTipController ItemTip;
+    public TipController AttributeTip;
+    public TipController SkillTip;
+
+    [Header("主要角色面板UI")]
     public CharacterUIController CharacterUI;
     public CraftUlController CraftUI;
+
 
     [SerializeField] Transform _allMenuParent;
     [SerializeField] GameObject _bg;
@@ -89,6 +94,7 @@ public class MenuController : MonoSingleton<MenuController>
     /// </summary>
     private void InitMenu()
     {
+
         for (int i = 0; i < _allMenuParent.childCount; i++)
         {
             GameObject menuObj = _allMenuParent.GetChild(i).gameObject;
@@ -102,7 +108,7 @@ public class MenuController : MonoSingleton<MenuController>
 
         SetMenuActive(false);
 
-        playerInput=GlobalReferencesManager.Instance.GamePlayer.PlayerInput;
+        playerInput =GlobalReferencesManager.Instance.GamePlayer.PlayerInput;
 
         if(playerInput != null)
         {

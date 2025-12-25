@@ -6,7 +6,10 @@ using UnityEngine;
 public class CrystalData : ScriptableObject
 {
     [field:SerializeField] public int MaxSpawnCrystalAmount { get; private set; }
-    [field:SerializeField] public float MultCrystalWindowTime {  get; private set; }
+
+    [field:Range(0,1f)]
+    [field:SerializeField] public float EvasionRatio { get; private set; }
+    [field:SerializeField] public float MulCrystalWindowTime {  get; private set; }
     [field:SerializeField] public float CheckRadius {  get;private set; } 
     [field:SerializeField] public float CrystalMoveSpeed {  get;private set; }
     [field: SerializeField] public float CrystalDurationTime { get; private set; }

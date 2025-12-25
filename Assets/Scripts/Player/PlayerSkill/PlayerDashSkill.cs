@@ -3,6 +3,10 @@ using UnityEngine;
 
 public class PlayerDashSkill : Skill
 {
+    public bool IsLock;
+
+    public bool IsCreateCloneDashEnd;
+    public bool IsCreateCloneDashStart;
 
     protected override void Start()
     {
@@ -25,16 +29,31 @@ public class PlayerDashSkill : Skill
 
     public override void UseSkill()
     {
-        if (CanUseSkill())
+        if (IsLock&&CanUseSkill())
         {
             player.CharacterStateMachine.ChangeState(player.DashState);
             player.Rb.AddForce(Vector2.right * player.Direction * player.MoveData.DashForce, ForceMode2D.Impulse);
         }
-        else
-        {
-            Debug.Log("技能冷却中");
-        }
     }
+
+    #region 技能解锁
+
+    /// <summary>
+    /// 解锁冲刺
+    /// </summary>
+    public void UnLockDash()=>IsLock = true;
+
+    /// <summary>
+    /// 解锁冲刺开始时创造克隆体
+    /// </summary>
+    public void UnLockDashStartCreateClone()=> IsCreateCloneDashStart = true;
+
+    /// <summary>
+    /// 解锁冲刺结束后创造克隆体
+    /// </summary>
+    public void UnLockDashEndCreateClone()=> IsCreateCloneDashEnd = true;
+
+    #endregion
 }
 
 

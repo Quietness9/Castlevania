@@ -58,12 +58,6 @@ public class InventorySlotController : SlotController, IPointerDownHandler, IPoi
             return;
 
         MenuController.Instance.CharacterUI.EquipWeapons(InventoryItemData);
-
-        if (InventoryItemData.GetCount() <= 0)
-        {
-            itemIcon.sprite = emptySprite;
-            InventoryItemData = null;
-        }
     }
 
     /// <summary>
@@ -81,6 +75,12 @@ public class InventorySlotController : SlotController, IPointerDownHandler, IPoi
         else
         {
             _itemText.text = "";
+        }
+
+        if (InventoryItemData.GetCount() <= 0)
+        {
+            itemIcon.sprite = emptySprite;
+            InventoryItemData = null;
         }
     }
 
@@ -104,6 +104,26 @@ public class InventorySlotController : SlotController, IPointerDownHandler, IPoi
             return;
 
         MenuController.Instance.ItemTip.ShowTipContent(InventoryItemData.ItemData);
+
+        //以下功能为提示跟随鼠标
+        float offsetX = 0;
+        float offsetY = 0;
+
+        Vector2 mousePosition = Input.mousePosition;
+
+        offsetX = 75;
+        if (mousePosition.x > 560)
+        {
+            offsetX = -75;
+        }
+
+        offsetY = 40;
+        if (offsetY > 600)
+        {
+            offsetY = -75;
+        }
+
+        MenuController.Instance.ItemTip.transform.position = new Vector3(mousePosition.x + offsetX, mousePosition.y + offsetY, 0);
     }
 
     /// <summary>

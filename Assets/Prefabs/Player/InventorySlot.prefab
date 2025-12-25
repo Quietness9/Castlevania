@@ -93,7 +93,7 @@ MonoBehaviour:
     ItemData: {fileID: 0}
     _itemCount: 0
   itemIcon: {fileID: 7830290753659487089}
-  _emptySprite: {fileID: 1397281011, guid: bdeaeacf91e805f449e7fa66d480d644, type: 3}
+  emptySprite: {fileID: 1397281011, guid: bdeaeacf91e805f449e7fa66d480d644, type: 3}
   _itemText: {fileID: 6908280325891049088}
 --- !u!1 &6981331773875984100
 GameObject:

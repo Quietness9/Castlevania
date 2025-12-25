@@ -95,6 +95,12 @@ public class EquipmentItemData : ItemData
             }
         }
 
+        if(description.Length > 0)
+        {
+            stringBuilder.AppendLine();
+            stringBuilder.Append(description);
+        }
+
         return stringBuilder.ToString();
     }
 

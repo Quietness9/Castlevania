@@ -86,14 +86,14 @@ public class InventoryController : MonoSingleton<InventoryController>
     /// </summary>
     /// <param name="data"></param>
     /// <returns></returns>
-    public bool CraftEquipment(EquipmentItemData data)
+    public bool IsCraftEquipment(EquipmentItemData data)
     {
         List<InventoryItem> needMaterial = new();
 
         //获得并判断材料是否足够
         for (int i = 0; i < data.CraftMaterial.Count; i++)
         {
-            if (MaterialItemDIr.TryGetValue(data.CraftMaterial[i].Count, out InventoryItem inventoryItem))
+            if (MaterialItemDIr.TryGetValue(data.CraftMaterial[i].MaterialData.Id, out InventoryItem inventoryItem))
             {
                 if (inventoryItem.GetCount() >= data.CraftMaterial[i].Count)
                 {
@@ -103,6 +103,7 @@ public class InventoryController : MonoSingleton<InventoryController>
             else
             {
                 Debug.Log("缺少材料"+ data.CraftMaterial[i].MaterialData.Name);
+                needMaterial.Clear();
                 return false;
             }
         }
@@ -250,7 +251,6 @@ public class InventoryController : MonoSingleton<InventoryController>
             }
 
             value.AddCount();
-            OnUpdateInventoryCount.Invoke();
         }
         else
         {
@@ -260,6 +260,8 @@ public class InventoryController : MonoSingleton<InventoryController>
 
             UpdateInventoryData(inventoryItem);
         }
+
+        OnUpdateInventoryCount.Invoke();
 
         return true;
     }
@@ -282,8 +284,9 @@ public class InventoryController : MonoSingleton<InventoryController>
             else
             {
                 value.RemoveCount();
-                OnUpdateInventoryCount.Invoke();
             }
+
+            OnUpdateInventoryCount.Invoke();
         }
         else
         {
@@ -315,7 +318,7 @@ public class InventoryController : MonoSingleton<InventoryController>
         {
             for (int i = 0; i < _materialItemSlots.Length; i++)
             {
-                if (_materialItemSlots[i].InventoryItemData == null||_equipmentItemSlots[i].InventoryItemData.ItemData == null)
+                if (_materialItemSlots[i].InventoryItemData == null||_materialItemSlots[i].InventoryItemData.ItemData == null)
                 {
                     _materialItemSlots[i].SetSlotData(inventoryItem);
                     return;

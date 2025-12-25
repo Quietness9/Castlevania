@@ -40,4 +40,4 @@ MonoBehaviour:
   <LightingDamage>k__BackingField: 0
   <CraftMaterial>k__BackingField:
   - MaterialData: {fileID: 11400000, guid: 45468878df9d26d4e92739048a120935, type: 2}
-    Count: 5
+    Count: 1

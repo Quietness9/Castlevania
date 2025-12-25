@@ -43,7 +43,7 @@ public class CharacterUIController : MonoBehaviour
         for (int i = 0; i < _equipmentMenuSlotParent.childCount; i++)
         {
 
-            if (_equipmentSlotControllers[i].InventoryItemData.ItemData != null)
+            if (_equipmentSlotControllers[i].InventoryItemData!= null)
             {
                 _equipmentItemSlots[i].GetComponent<Image>().sprite = _equipmentSlotControllers[i].InventoryItemData.ItemData.ShowIcon;
             }
@@ -83,7 +83,7 @@ public class CharacterUIController : MonoBehaviour
     /// <param name="inventoryItem"></param>
     private void EquipWeaponHelp(int index, InventoryItem inventoryItem, EquipmentItemData equipmentItemData)
     {
-        if (_equipmentSlotControllers[index].InventoryItemData.ItemData != null)
+        if (_equipmentSlotControllers[index].InventoryItemData != null)
             return;
 
         GlobalReferencesManager.Instance.GamePlayer.Attribute.AddEquipmentModifier(equipmentItemData);

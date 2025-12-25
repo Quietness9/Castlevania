@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class PlayerCounterAttackState : PlayerState
 {
-    bool _canCreateClone;
 
     public PlayerCounterAttackState(Character character, StateMachine stateMachine, string animationName) : base(character, stateMachine, animationName)
     {
@@ -14,14 +13,12 @@ public class PlayerCounterAttackState : PlayerState
 
         player.SetVelocityZero();
         timer = player.CounterAttackDuration;
-        _canCreateClone = true;
-
-        player.Animator_CT.SetBool("SuccessfulCounterAttack", false);
     }
 
     public override void Exit()
     {
         base.Exit();
+        player.Animator_CT.SetBool("SuccessfulCounterAttack", false);
     }
 
     public override void Update()
@@ -35,11 +32,8 @@ public class PlayerCounterAttackState : PlayerState
             {
                 timer = 4f;
                 player.Animator_CT.SetBool("SuccessfulCounterAttack", true);
-                if (_canCreateClone)
-                {
-                    _canCreateClone = false;
-                    SkillManager.Instance.CloneSkill.CreateCloneOnCounterAttack(enemy.transform, -player.Direction * player.CounterAttackOffset);
-                }
+                SkillManager.Instance.ParrySkill.RecoverHp();
+                SkillManager.Instance.CloneSkill.CreateCloneOnCounterAttack(enemy.transform, -player.Direction * player.CounterAttackOffset);
             }
         }
 

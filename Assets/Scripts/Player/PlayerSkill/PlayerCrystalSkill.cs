@@ -8,6 +8,8 @@ public class PlayerCrystalSkill : Skill
     public CrystalData PlayerCrystalData;
 
     //通过技能树解锁
+    public bool IsLock;
+
     public bool IsCanMove;
     public bool IsCanExplode;
     public bool IsSwapPosition;
@@ -86,7 +88,7 @@ public class PlayerCrystalSkill : Skill
     public override void UseSkill()
     {
 
-        if (CanUseSkill())
+        if (IsLock&&CanUseSkill())
         {
             
             //CreateCrystal();
@@ -115,7 +117,7 @@ public class PlayerCrystalSkill : Skill
         {
             if (_crystalObj.Count == PlayerCrystalData.MaxSpawnCrystalAmount)
             {
-                Invoke("CloseCrystalUse", PlayerCrystalData.MultCrystalWindowTime);
+                Invoke("CloseCrystalUse", PlayerCrystalData.MulCrystalWindowTime);
             }
             
             Transform enemyTransform = GetClosestEnemy(player.transform, PlayerCrystalData.CheckRadius);
@@ -171,4 +173,48 @@ public class PlayerCrystalSkill : Skill
     {
         _isOpenWindow = false;
     }
+
+    #region 技能解锁
+
+    /// <summary>
+    /// 解锁技能
+    /// </summary>
+    public void UnLockCrystal() => IsLock = true;
+
+    /// <summary>
+    /// 解锁水晶移动
+    /// </summary>
+    public void UnLockCrystalMove() => IsCanMove = true;
+
+    /// <summary>
+    /// 解锁水晶爆炸
+    /// </summary>
+    public void UnLockCrystalExplode()=>IsCanExplode = true;
+
+    /// <summary>
+    /// 解锁水晶交换位置
+    /// </summary>
+    public void UnLockCrystalSwapPosition()=>IsSwapPosition = true;
+
+    /// <summary>
+    /// 解锁可以使用多个水晶
+    /// </summary>
+    public void UnLockUseMulCrystal()=>IsUseMulCrystal = true;
+
+    /// <summary>
+    /// 解锁增加闪避率
+    /// </summary>
+    public void UnLockIncreaseEvasion()
+    {
+        int value=Mathf.RoundToInt(player.Attribute.Evasion.GetValue()*PlayerCrystalData.EvasionRatio);
+        player.Attribute.Evasion.AddModifier(value);
+    }
+
+    /// <summary>
+    /// 解锁使用克隆体代替水晶
+    /// </summary>
+    public void UnLockCrystalReplaceClone()=>IsCrystalReplaceClone=true;
+
+
+    #endregion
 }
