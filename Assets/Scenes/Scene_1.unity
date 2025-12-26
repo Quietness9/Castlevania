@@ -2248,7 +2248,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &260387362
 Transform:
   m_ObjectHideFlags: 0
@@ -4897,11 +4897,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2377249369755649118, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
       propertyPath: _slotName
-      value: Vulnerability
+      value: SwordPower
       objectReference: {fileID: 0}
     - target: {fileID: 2377249369755649118, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
       propertyPath: _skillPrice
-      value: 1000
+      value: 2000
+      objectReference: {fileID: 0}
+    - target: {fileID: 2377249369755649118, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
+      propertyPath: _skillDescription
+      value: "\u589E\u52A0\u5251\u4F24\u5BB320%"
+      objectReference: {fileID: 0}
+    - target: {fileID: 2377249369755649118, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
+      propertyPath: _lockSlots.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2377249369755649118, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
       propertyPath: _unLockSlots.Array.size
@@ -4911,6 +4919,34 @@ PrefabInstance:
       propertyPath: _unLockSlots.Array.data[0]
       value: 
       objectReference: {fileID: 1752166051}
+    - target: {fileID: 2377249369755649118, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
+      propertyPath: _onSkillUnLockEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2377249369755649118, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
+      propertyPath: _onSkillUnLockEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2377249369755649118, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
+      propertyPath: _onSkillUnLockEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 971561231}
+    - target: {fileID: 2377249369755649118, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
+      propertyPath: _onSkillUnLockEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2377249369755649118, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
+      propertyPath: _onSkillUnLockEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: UnLockVulnerability
+      objectReference: {fileID: 0}
+    - target: {fileID: 2377249369755649118, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
+      propertyPath: _onSkillUnLockEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: PlayerSwordSkill, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2377249369755649118, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
+      propertyPath: _onSkillUnLockEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 6986096723567347243, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
       propertyPath: m_Type
       value: 0
@@ -5001,7 +5037,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8443746009442719067, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
       propertyPath: m_Name
-      value: Skill-Vulnerability
+      value: Skill-SwordPower
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8122,11 +8158,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2377249369755649118, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
       propertyPath: _skillPrice
-      value: 1200
+      value: 2000
       objectReference: {fileID: 0}
     - target: {fileID: 2377249369755649118, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
       propertyPath: _skillDescription
-      value: "\u53EF\u4EE5\u4F7F\u7528\u591A\u4E2A\u6C34\u6676"
+      value: "\u53EF\u4EE5\u4F7F\u7528\u591A\u4E2A\u6C34\u6676,\u5E76\u4E14\u4F7F\u7528\u9ED1\u6D1E\u6280\u80FD\u65F6\u4F1A\u4EA7\u751F\u6C34\u6676"
       objectReference: {fileID: 0}
     - target: {fileID: 2377249369755649118, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
       propertyPath: _unLockSlots.Array.size
@@ -8452,16 +8488,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2377249369755649118, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
       propertyPath: _skillDescription
-      value: "\u4F7F\u7528\u955C\u50CF\u4EE3\u66FF\u6C34\u6676"
+      value: "\u5728\u6B64\u4F7F\u7528\u65F6\u5728\u539F\u5730\u751F\u6210\u955C\u50CF"
       objectReference: {fileID: 0}
     - target: {fileID: 2377249369755649118, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
       propertyPath: _unLockSlots.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2377249369755649118, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
       propertyPath: _unLockSlots.Array.data[0]
       value: 
       objectReference: {fileID: 825016127}
+    - target: {fileID: 2377249369755649118, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
+      propertyPath: _unLockSlots.Array.data[1]
+      value: 
+      objectReference: {fileID: 1453867548}
     - target: {fileID: 2377249369755649118, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
       propertyPath: _onSkillUnLockEvent.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -10307,6 +10347,8 @@ MonoBehaviour:
   Cooldown: 0
   PlayerSwordData: {fileID: 11400000, guid: cb4e9085ecad98b438f4e7c93be421c7, type: 2}
   IsLock: 0
+  IsLockTimeStop: 0
+  IsLockSwordPower: 0
   SwordType: 0
 --- !u!114 &971561232
 MonoBehaviour:
@@ -19349,7 +19391,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1722754841
 RectTransform:
   m_ObjectHideFlags: 0
@@ -19881,6 +19923,10 @@ PrefabInstance:
       value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 2377249369755649118, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
+      propertyPath: _skillDescription
+      value: "\u5251\u51FB\u4E2D\u654C\u4EBA\u65F6\u654C\u4EBA\u4F1A\u88AB\u5B9A\u8EAB1\u79D2"
+      objectReference: {fileID: 0}
+    - target: {fileID: 2377249369755649118, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
       propertyPath: _unLockSlots.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -19888,6 +19934,34 @@ PrefabInstance:
       propertyPath: _unLockSlots.Array.data[0]
       value: 
       objectReference: {fileID: 43057223}
+    - target: {fileID: 2377249369755649118, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
+      propertyPath: _onSkillUnLockEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2377249369755649118, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
+      propertyPath: _onSkillUnLockEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2377249369755649118, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
+      propertyPath: _onSkillUnLockEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 971561231}
+    - target: {fileID: 2377249369755649118, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
+      propertyPath: _onSkillUnLockEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2377249369755649118, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
+      propertyPath: _onSkillUnLockEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: UnLockTimeStop
+      objectReference: {fileID: 0}
+    - target: {fileID: 2377249369755649118, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
+      propertyPath: _onSkillUnLockEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: PlayerSwordSkill, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2377249369755649118, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
+      propertyPath: _onSkillUnLockEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 6986096723567347243, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
       propertyPath: m_Type
       value: 0
@@ -23508,11 +23582,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8935157236833773696, guid: 54b12b05272d93a419beb678b610b4fe, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0.75
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8935157236833773696, guid: 54b12b05272d93a419beb678b610b4fe, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

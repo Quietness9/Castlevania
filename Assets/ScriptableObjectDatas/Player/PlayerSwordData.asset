@@ -17,6 +17,7 @@ MonoBehaviour:
   <FreezeTime>k__BackingField: 1
   <ReturnSpeed>k__BackingField: 10
   <MaxMoveTime>k__BackingField: 8
+  <SwordAtkEnhancedRation>k__BackingField: 0.2
   <BounceGravity>k__BackingField: 1
   <BounceSpeed>k__BackingField: 15
   <BounceAmount>k__BackingField: 5

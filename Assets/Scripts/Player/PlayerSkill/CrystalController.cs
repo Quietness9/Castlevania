@@ -109,12 +109,13 @@ public class CrystalController : MonoBehaviour
             return;
         }
 
-        if (_crystalSkill.IsSwapPosition && _crystalSkill.IsCanExplode)
-        {
-            PlayerSwapCrystalPosition();
-            CrystalExplosion();
-            return;
-        }
+        //因为技能树中不会出现这个组合，所有将其注释掉
+        //if (_crystalSkill.IsSwapPosition && _crystalSkill.IsCanExplode)
+        //{
+        //    PlayerSwapCrystalPosition();
+        //    CrystalExplosion();
+        //    return;
+        //}
 
         // 如果没有高级组合，则执行基础逻辑
         if (_crystalSkill.IsSwapPosition)

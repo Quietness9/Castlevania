@@ -7,10 +7,10 @@ public class EnemyAttribute : CharacterAttribute
     [SerializeField] int _level=1;
     [SerializeField] EnemyLevelModifierData _modifierData;
 
-    protected override void Start()
+    protected override void Awake()
     {
         LevelEnhanceAttribute();
-        base.Start();
+        base.Awake();
     }
 
     /// <summary>

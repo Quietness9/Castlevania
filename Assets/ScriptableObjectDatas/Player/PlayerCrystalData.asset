@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <MaxSpawnCrystalAmount>k__BackingField: 3
   <EvasionRatio>k__BackingField: 0.1
-  <MulCrystalWindowTime>k__BackingField: 0
+  <MulCrystalWindowTime>k__BackingField: 3
   <CheckRadius>k__BackingField: 10
   <CrystalMoveSpeed>k__BackingField: 5
   <CrystalDurationTime>k__BackingField: 4

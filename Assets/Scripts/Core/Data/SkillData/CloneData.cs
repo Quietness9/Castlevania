@@ -5,6 +5,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName ="new Clone Data",menuName ="GameData/Skill/CloneData")]
 public class CloneData : ScriptableObject
 {
+    [field: Range(0,1f)]
+    [field:SerializeField] public float CloneAtkRatio {  get;private set; }
+    [field: Range(0, 1f)]
+    [field:SerializeField] public float CloneAtkEnhancedRation {  get; private set; }
     [field: SerializeField] public float ColorDisappearSpeed { get; private set; }
     [field: SerializeField] public float CloneDuration { get; private set; }
     [field: SerializeField] public float CreateCloneDelayTime { get; private set; }

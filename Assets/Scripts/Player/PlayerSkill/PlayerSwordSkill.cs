@@ -8,6 +8,8 @@ public class PlayerSwordSkill : Skill
     public SwordData PlayerSwordData;
 
     public bool IsLock;
+    public bool IsLockTimeStop;
+    public bool IsLockSwordPower;
     public SwordType SwordType=SwordType.Ordinary;
 
 
@@ -152,6 +154,16 @@ public class PlayerSwordSkill : Skill
     /// 解锁技能
     /// </summary>
     public void UnLockSword() => IsLock = true;
+
+    /// <summary>
+    /// 解锁定身
+    /// </summary>
+    public void UnLockTimeStop()=>IsLockTimeStop = true;
+
+    /// <summary>
+    /// 解锁减少护甲
+    /// </summary>
+    public void UnLockVulnerability()=>IsLockSwordPower = true;
 
     /// <summary>
     /// 解锁剑为弹跳模式

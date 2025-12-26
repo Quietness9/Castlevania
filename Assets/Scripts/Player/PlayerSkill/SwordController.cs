@@ -162,8 +162,20 @@ public class SwordController : MonoBehaviour
         }
 
         //enemy.StartCoroutine("FreezeSelfCo", _swordSkill.PlayerSwordData.FreezeTime);
-        enemy.FreezeTimerForSelf(_swordSkill.PlayerSwordData.FreezeTime);
-        enemy.Attribute.TakePhysicalDamage(_player);
+
+        if (_swordSkill.IsLockTimeStop)
+        {
+            enemy.FreezeTimerForSelf(_swordSkill.PlayerSwordData.FreezeTime);
+        }
+
+        float swordRation = _swordSkill.PlayerSwordData.SwordAtkRation;
+
+        if (_swordSkill.IsLockSwordPower)
+        {
+            swordRation += _swordSkill.PlayerSwordData.SwordAtkEnhancedRation;
+        }
+
+        enemy.Attribute.TakePhysicalDamage(_player,swordRation);
 
         EquipmentItemData equipment=InventoryController.Instance.GetEquipment(EquipmentItemType.Amulet);
         if (equipment != null)

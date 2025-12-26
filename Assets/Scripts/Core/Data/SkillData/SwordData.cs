@@ -11,6 +11,10 @@ public class SwordData : ScriptableObject
     [field: SerializeField] public float FreezeTime { get; private set; }
     [field: SerializeField] public float ReturnSpeed { get; private set; }
     [field: SerializeField] public float MaxMoveTime { get; private set; }
+    [field: Range(0, 1f)]
+    [field: SerializeField] public float SwordAtkRation { get; private set; }
+    [field:Range(0,1f)]
+    [field:SerializeField] public float SwordAtkEnhancedRation {  get; private set; }
 
     [field: Header("µ¯Ìø½£")]
     [field: SerializeField] public float BounceGravity { get; private set; }

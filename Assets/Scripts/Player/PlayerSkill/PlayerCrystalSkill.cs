@@ -57,14 +57,10 @@ public class PlayerCrystalSkill : Skill
         }
 
         GameObject crystalObj = Instantiate(crystalPre,transform.position, quaternion);
+        crystalObj.SetActive(false);
+
         CrystalController crystalController = crystalObj.GetComponent<CrystalController>();
-
         crystalController.SetCrystalData(player,this);
-
-        //if (IsCanExplode && IsCanMove)
-        //{
-        //    crystalController.SetClosestEnemy(GetClosestEnemy(player.transform, PlayerCrystalData.CheckRadius));
-        //}
 
         return crystalObj;
     }
@@ -78,7 +74,8 @@ public class PlayerCrystalSkill : Skill
         if (crystalObj == null)
             return;
 
-        if(IsCanExplode && IsCanMove)
+        crystalObj.SetActive(true);
+        if (IsCanExplode && IsCanMove)
         {
             Transform closestEnemy = GetClosestEnemy(player.transform, PlayerCrystalData.CheckRadius);
             crystalObj.GetComponent<CrystalController>().SetClosestEnemy(closestEnemy);
@@ -161,7 +158,6 @@ public class PlayerCrystalSkill : Skill
         for (int i = 0; i < amount; i++)
         {
             GameObject crystalObj = CreateCrystal(player.transform);
-            crystalObj.SetActive(false);
             _crystalObj.Add(crystalObj);
         }
     }

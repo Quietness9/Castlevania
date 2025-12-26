@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c8de78aee0ecfd46ae15c3d5ade4f5b, type: 3}
   m_Name: PlayerCloneData
   m_EditorClassIdentifier: 
+  <CloneAtkRatio>k__BackingField: 0.1
+  <CloneAtkEnhancedRation>k__BackingField: 0.15
   <ColorDisappearSpeed>k__BackingField: 2
   <CloneDuration>k__BackingField: 2
   <CreateCloneDelayTime>k__BackingField: 1

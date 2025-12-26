@@ -48,7 +48,7 @@ public class CharacterAttribute : MonoBehaviour
 
     float _slowRatio;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         _character = GetComponentInParent<Character>();
 
@@ -104,13 +104,13 @@ public class CharacterAttribute : MonoBehaviour
     /// 受到物理伤害
     /// </summary>
     /// <param name="character">造成伤害的对象</param>
-    /// <param name="isUseMagic">是否使用魔法伤害</param>
-    public virtual void TakePhysicalDamage(Character character)
+    /// <param name="ratio">伤害比例</param>
+    public virtual void TakePhysicalDamage(Character character,float ratio=1)
     {
         if (IsSuccessfulEvasion())
             return;
 
-        int totalDamage = GetPhysicalDamage(character.Attribute);
+        int totalDamage = Mathf.RoundToInt(GetPhysicalDamage(character.Attribute)*ratio);
         _character.Fx.StartCoroutine("FlashFX");
 
         ReduceCurrentHealth(totalDamage);
@@ -120,12 +120,13 @@ public class CharacterAttribute : MonoBehaviour
     /// 受到魔法伤害
     /// </summary>
     /// <param name="character"></param>
-    public virtual void TakeMagicDamage(Character character)
+    /// <param name="ratio">伤害比例</param>
+    public virtual void TakeMagicDamage(Character character, float ratio = 1)
     {
         if (IsSuccessfulEvasion())
             return;
 
-        int totalDamage= GetMagicDamage(character.Attribute);
+        int totalDamage= Mathf.RoundToInt(GetMagicDamage(character.Attribute)*ratio);
         ApplyMagicEffect(character.Attribute);
         _character.Fx.StartCoroutine("FlashFX");
 

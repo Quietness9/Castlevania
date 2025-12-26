@@ -10,6 +10,10 @@ public class InventorySlotController : SlotController, IPointerDownHandler, IPoi
     
     [SerializeField] TextMeshProUGUI _itemText;
 
+    private void OnEnable()
+    {
+        UpdateSlotCountHandle();
+    }
 
     private void Start()
     {
