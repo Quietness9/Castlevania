@@ -35,6 +35,7 @@ public class PlayerParrySkill : Skill
     {
         if (IsLock&&CanUseSkill())
         {
+            InGameUIController.Instance.ParryImageCooldown();
             player.CharacterStateMachine.ChangeState(player.CounterAttackState);
         }
     }

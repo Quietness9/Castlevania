@@ -62,6 +62,7 @@ public class PlayerBlackHoleSkill : Skill
     {
         if (IsLock&&CanUseSkill())
         {
+            InGameUIController.Instance.BlackHoleImageCooldown();
             SetBlackHoleState(true, false);
             player.CharacterStateMachine.ChangeState(player.BlackHoleState);
         }

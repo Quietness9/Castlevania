@@ -8,7 +8,7 @@ public class CharacterUIController : MonoBehaviour
     [Header("ÎäÆ÷À¸UI")]
     [SerializeField] Transform _equipmentMenuSlotParent;
     [SerializeField] Transform _equipmentItemSlotParent;
-    List<GameObject> _equipmentItemSlots = new();
+    Image[] _equipmentItemSlots;
     EquipmentSlotController[] _equipmentSlotControllers;
 
     private void Awake()
@@ -18,7 +18,7 @@ public class CharacterUIController : MonoBehaviour
 
     private void OnDestroy()
     {
-        _equipmentItemSlots?.Clear();
+        _equipmentItemSlots = null;
         _equipmentSlotControllers=null;
     }
 
@@ -27,11 +27,8 @@ public class CharacterUIController : MonoBehaviour
     /// </summary>
     private void InitCharacterUI()
     {
-        for (int i = 0; i < _equipmentItemSlotParent.childCount; i++)
-        {
-            _equipmentItemSlots.Add(_equipmentItemSlotParent.GetChild(i).gameObject);
-        }
-
+        
+        _equipmentItemSlots=_equipmentItemSlotParent.GetComponentsInChildren<Image>();
         _equipmentSlotControllers = _equipmentMenuSlotParent.GetComponentsInChildren<EquipmentSlotController>();
     }
 
@@ -45,7 +42,12 @@ public class CharacterUIController : MonoBehaviour
 
             if (_equipmentSlotControllers[i].InventoryItemData!= null)
             {
-                _equipmentItemSlots[i].GetComponent<Image>().sprite = _equipmentSlotControllers[i].InventoryItemData.ItemData.ShowIcon;
+                _equipmentItemSlots[i].sprite = _equipmentSlotControllers[i].InventoryItemData.ItemData.ShowIcon;
+                if (i == _equipmentMenuSlotParent.childCount - 1)
+                {
+                    EquipmentItemData equipmentItemData= _equipmentSlotControllers[i].InventoryItemData.ItemData as EquipmentItemData;
+                    InGameUIController.Instance.SetFlaskImageData(equipmentItemData.ShowIcon, equipmentItemData.Cooldown);
+                }
             }
 
         }

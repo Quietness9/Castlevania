@@ -7,9 +7,7 @@ public class Player : Character
     [Header("可配置数据")]
     public PlayerInputReader PlayerInput;
     public PlayerMoveData MoveData;
-
-    [Header("游戏货币")]
-    public int Currency;
+    public PlayerCurrencyData CurrencyData;
 
     [Header("动画配置")]
     public float AnimationSpeed;
@@ -137,13 +135,13 @@ public class Player : Character
     /// <param name="money"></param>
     public bool HaveEnoughMoney(int money)
     {
-        if (Currency < money)
+        if (CurrencyData.GoldCoin < money)
         {
-            Debug.Log("货币不足现持有货币为" + Currency);
+            Debug.Log("货币不足现持有货币为" + CurrencyData.GoldCoin);
             return false;
         }
 
-        Currency -= money;
+        CurrencyData.ReduceGoldCoin(money);
 
         return true;
     }
@@ -187,6 +185,9 @@ public class Player : Character
         CharacterStateMachine.InitState(IdleState);
         
     }
+
+
+    #region EventHandle
 
     /// <summary>
     /// 事件订阅（键盘或鼠标）
@@ -236,7 +237,7 @@ public class Player : Character
         PlayerInput.OnCancelSwordEvent -= ChangeIdleStateHandle;
 
 
-        PlayerInput.OnUseFlaskEvent-=UseFlaskHandle;
+        PlayerInput.OnUseFlaskEvent -= UseFlaskHandle;
 
 
         if (Attribute == null)
@@ -248,7 +249,6 @@ public class Player : Character
         Attribute.OnDieEvent -= ChangDieStateHandle;
     }
 
-    #region EventHandle
 
     /// <summary>
     /// 改变方向订阅
@@ -275,6 +275,7 @@ public class Player : Character
         {
             if (InventoryController.Instance.CanUseEquipment(EquipmentItemType.Flask, equipment))
             {
+                InGameUIController.Instance.FlaskImageCooldown();
                 equipment.UseEquipmentEffect(transform);
             }
             

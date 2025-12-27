@@ -32,6 +32,19 @@ public enum EquipmentItemType
     Flask, //药品
 }
 
+//对象池类型
+public enum PoolType
+{
+    GameObject,
+    CraftListObject,
+}
+
+public enum CurrencyType
+{
+    GoldCoin,//金币
+    Soul//灵魂
+
+}
 
 public enum AttributeType
 {
@@ -52,9 +65,4 @@ public enum AttributeType
 }
 
 
-//对象池类型
-public enum PoolType
-{
-    GameObject,
-    CraftListObject,
-}
+

@@ -87,8 +87,8 @@ public class PlayerCrystalSkill : Skill
 
         if (IsLock&&CanUseSkill())
         {
-            
-            //CreateCrystal();
+
+            InGameUIController.Instance.CrystalImageCooldown();
             if (IsUseMulCrystal)
             {
                 CreateMulCrystal();

@@ -115,10 +115,10 @@ public class InventorySlotController : SlotController, IPointerDownHandler, IPoi
 
         Vector2 mousePosition = Input.mousePosition;
 
-        offsetX = 75;
+        offsetX = 90;
         if (mousePosition.x > 560)
         {
-            offsetX = -75;
+            offsetX = -90;
         }
 
         offsetY = 40;

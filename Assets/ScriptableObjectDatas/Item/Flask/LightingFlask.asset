@@ -20,7 +20,7 @@ MonoBehaviour:
   <Type>k__BackingField: 1
   <DropChance>k__BackingField: 0
   description: 
-  minDescriptionLength: 0
+  minDescriptionLength: 4
   <EquipmentType>k__BackingField: 3
   _equipmentEffects:
   - {fileID: 11400000, guid: 49b9045da2bca044ba70d1e8b443919b, type: 2}
