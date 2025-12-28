@@ -37,7 +37,7 @@ public class EquipmentSlotController : SlotController, IPointerDownHandler
         InventoryController.Instance.AddItem(InventoryItemData.ItemData);
         GlobalReferencesManager.Instance.GamePlayer.Attribute.RemoveEquipmentModifier(equipmentItemData);
 
-        itemIcon.sprite = emptySprite;
+        itemIcon.sprite = EmptySprite;
         InventoryItemData=null;
     }
 

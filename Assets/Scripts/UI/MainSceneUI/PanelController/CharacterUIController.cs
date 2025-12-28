@@ -49,6 +49,10 @@ public class CharacterUIController : MonoBehaviour
                     InGameUIController.Instance.SetFlaskImageData(equipmentItemData.ShowIcon, equipmentItemData.Cooldown);
                 }
             }
+            else
+            {
+                _equipmentItemSlots[i].sprite= _equipmentSlotControllers[i].EmptySprite;
+            }
 
         }
     }

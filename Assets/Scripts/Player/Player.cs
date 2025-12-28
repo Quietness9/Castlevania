@@ -2,7 +2,7 @@ using GameInputSystem;
 using System;
 using UnityEngine;
 
-public class Player : Character
+public class Player : Character,ISaveManager
 {
     [Header("可配置数据")]
     public PlayerInputReader PlayerInput;
@@ -216,6 +216,14 @@ public class Player : Character
         }
 
         Attribute.OnDieEvent += ChangDieStateHandle;
+
+        if (SaveAndLoadManager.Instance == null)
+        {
+            Debug.LogWarning("SaveAndLoadManager is null");
+            return;
+        }
+
+        SaveAndLoadManager.Instance.OnSaveEvent += SaveGameData;
     }
 
     /// <summary>
@@ -342,6 +350,21 @@ public class Player : Character
     }
 
     #endregion
+
+    #endregion
+
+    #region 接口实现
+
+    public void LoadGameData(GameData data)
+    {
+        CurrencyData.SetCurrency(data.GoldCoin, data.Soul);
+    }
+
+    public void SaveGameData(GameData data)
+    {
+        data.GoldCoin = CurrencyData.GoldCoin;
+        data.Soul = CurrencyData.Soul;
+    }
 
     #endregion
 }

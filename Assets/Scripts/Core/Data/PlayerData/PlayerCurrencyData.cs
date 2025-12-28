@@ -18,6 +18,17 @@ public class PlayerCurrencyData : ScriptableObject
     public event Action OnSoulUpdateEvent = delegate { };
 
     /// <summary>
+    /// 设置货币
+    /// </summary>
+    /// <param name="coin"></param>
+    /// <param name="soul"></param>
+    public void SetCurrency(int coin,int soul)
+    {
+        GoldCoin= coin;
+        Soul= soul;
+    }
+
+    /// <summary>
     /// 增加金币
     /// </summary>
     /// <param name="amount"></param>

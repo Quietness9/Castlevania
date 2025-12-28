@@ -36,6 +36,22 @@ public class CharacterHealthUI : MonoBehaviour
     }
 
     /// <summary>
+    /// 设置血量是否显示
+    /// </summary>
+    public void SetSliderActive()
+    {
+        if (_slider.IsActive())
+        {
+            _slider.gameObject.SetActive(false);
+        }
+        else
+        {
+            _slider.gameObject.SetActive(true);
+        }
+    }
+
+
+    /// <summary>
     /// 更新生命值UI
     /// </summary>
     private void UpdateHealthUIHandle()
@@ -51,4 +67,6 @@ public class CharacterHealthUI : MonoBehaviour
     {
         _rectTransform.Rotate(0, 180, 0);
     }
+
+
 }

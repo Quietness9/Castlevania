@@ -31,7 +31,7 @@ public class InventorySlotController : SlotController, IPointerDownHandler, IPoi
     {
         if (inventoryItem == null)
         {
-            itemIcon.sprite = emptySprite;
+            itemIcon.sprite = EmptySprite;
             return;
         }
 
@@ -83,7 +83,7 @@ public class InventorySlotController : SlotController, IPointerDownHandler, IPoi
 
         if (InventoryItemData.GetCount() <= 0)
         {
-            itemIcon.sprite = emptySprite;
+            itemIcon.sprite = EmptySprite;
             InventoryItemData = null;
         }
     }
@@ -94,7 +94,7 @@ public class InventorySlotController : SlotController, IPointerDownHandler, IPoi
     private void DefaultSet()
     {
         _itemText.text = "";
-        itemIcon.sprite = emptySprite;
+        itemIcon.sprite = EmptySprite;
         InventoryItemData =null;
     }
 
@@ -107,27 +107,7 @@ public class InventorySlotController : SlotController, IPointerDownHandler, IPoi
         if (InventoryItemData == null)
             return;
 
-        MenuController.Instance.ItemTip.ShowTipContent(InventoryItemData.ItemData);
-
-        //以下功能为提示跟随鼠标
-        float offsetX = 0;
-        float offsetY = 0;
-
-        Vector2 mousePosition = Input.mousePosition;
-
-        offsetX = 90;
-        if (mousePosition.x > 560)
-        {
-            offsetX = -90;
-        }
-
-        offsetY = 40;
-        if (offsetY > 600)
-        {
-            offsetY = -75;
-        }
-
-        MenuController.Instance.ItemTip.transform.position = new Vector3(mousePosition.x + offsetX, mousePosition.y + offsetY, 0);
+        MenuController.Instance.ItemTip.ShowTipContent(InventoryItemData.ItemData,true);
     }
 
     /// <summary>

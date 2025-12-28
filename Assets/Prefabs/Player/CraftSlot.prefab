@@ -303,5 +303,5 @@ MonoBehaviour:
     ItemData: {fileID: 0}
     _itemCount: 0
   itemIcon: {fileID: 2854483232422703547}
-  emptySprite: {fileID: 0}
+  EmptySprite: {fileID: 0}
   _craftNameText: {fileID: 4610148984504302835}

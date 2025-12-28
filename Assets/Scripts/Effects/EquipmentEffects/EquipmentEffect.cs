@@ -5,8 +5,9 @@ using UnityEngine;
 
 public class EquipmentEffect : ScriptableObject
 {
+    [TextArea]
+    [SerializeField] protected string description;
     [SerializeField] protected float destroyTime;
-
 
     /// <summary>
     ///  Õ∑≈Ãÿ–ß

@@ -9,11 +9,17 @@ public class ItemTipController : MonoBehaviour
     [SerializeField] TextMeshProUGUI _itemType;
     [SerializeField] TextMeshProUGUI _tipContent;
 
+    [Header("偏移调整")]
+    [SerializeField] float _xLimit = 960;
+    [SerializeField] float _yLimit = 540;
+    [SerializeField] float _xOffset = 150;
+    [SerializeField] float _yOffset = 150;
+
     /// <summary>
     /// 显示介绍
     /// </summary>
     /// <param name="itemData"></param>
-    public void ShowTipContent(ItemData itemData)
+    public void ShowTipContent(ItemData itemData,bool isAdjustPosition=false)
     {
         if(itemData == null) 
             return;
@@ -33,6 +39,11 @@ public class ItemTipController : MonoBehaviour
         {
             _tipName.fontSize = _tipName.fontSize * 0.7f;
         }
+
+        if (isAdjustPosition)
+        {
+            AdjustPosition();
+        }
         
         gameObject.SetActive(true);
     }
@@ -41,4 +52,33 @@ public class ItemTipController : MonoBehaviour
     /// 隐藏介绍
     /// </summary>
     public void HideTipContent()=>gameObject.SetActive(false);
+
+
+    /// <summary>
+    /// 调整提示位置
+    /// </summary>
+    private void AdjustPosition()
+    {
+        Vector2 mousePosition = Input.mousePosition;
+
+        //以下功能为提示跟随鼠标
+        float offsetX = 0;
+        float offsetY = 0;
+
+        Debug.Log(mousePosition);
+
+        offsetX = _xOffset;
+        if (mousePosition.x > _xLimit)
+        {
+            offsetX = -_xOffset;
+        }
+
+        offsetY = _yOffset;
+        if (offsetY > _yLimit)
+        {
+            offsetY = -_yOffset;
+        }
+
+        transform.position = new Vector3(mousePosition.x + offsetX, mousePosition.y + offsetY, transform.position.z);
+    }
 }
