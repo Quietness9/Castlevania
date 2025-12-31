@@ -8,6 +8,11 @@ using UnityEngine.UI;
 public class InGameUIController : MonoSingleton<InGameUIController>
 {
 
+    [Header("开始死亡效果")]
+    [SerializeField] FadeScene _fadeScene;
+    [SerializeField] GameObject _deathText;
+    [SerializeField] GameObject _restartGameBt;
+
     [SerializeField] Slider _playerSlider;
 
     [Header("游戏货币")]
@@ -196,7 +201,6 @@ public class InGameUIController : MonoSingleton<InGameUIController>
 
     #endregion
 
-
     #region 设置图标冷却
     /// <summary>
     /// 设置冲刺技能图片冷却
@@ -257,4 +261,21 @@ public class InGameUIController : MonoSingleton<InGameUIController>
     }
 
     #endregion
+
+    /// <summary>
+    /// 玩家死亡特效
+    /// </summary>
+    public void PlayerDeathEffect()
+    {
+        MenuController.Instance.SwitchMenu(null);
+        _fadeScene.FadeOutScene();
+    }
+
+    IEnumerator ShowDeathTextCo()
+    {
+        yield return new WaitForSeconds(1f);
+        _deathText.SetActive(true);
+        yield return new WaitForSeconds(1.5f);
+        _restartGameBt.SetActive(true);
+    }
 }

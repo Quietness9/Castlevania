@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8401100025045954263}
+  - component: {fileID: 2377249369755649118}
   - component: {fileID: 4610300494755890998}
   - component: {fileID: 6986096723567347243}
   - component: {fileID: 2396496400154993134}
-  - component: {fileID: 2377249369755649118}
   m_Layer: 5
   m_Name: Skill-SwordThrow
   m_TagString: Untagged
@@ -39,6 +39,29 @@ RectTransform:
   m_AnchoredPosition: {x: -491.5, y: 104.5}
   m_SizeDelta: {x: 75, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2377249369755649118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8443746009442719067}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e6375c6f1e6f0d4eb01c68fad380337, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UnLock: 0
+  _skillPrice: 0
+  _slotName: SwordThrow
+  _slotImage: {fileID: 6986096723567347243}
+  _skillDescription: 
+  _lockColor: {r: 0.8113208, g: 0.8113208, b: 0.8113208, a: 0.101960786}
+  _onSkillUnLockEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  _unLockSlots: []
+  _lockSlots: []
 --- !u!222 &4610300494755890998
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -121,26 +144,3 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &2377249369755649118
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8443746009442719067}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e6375c6f1e6f0d4eb01c68fad380337, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  UnLock: 0
-  _skillPrice: 0
-  _slotName: SwordThrow
-  _slotImage: {fileID: 6986096723567347243}
-  _skillDescription: 
-  _lockColor: {r: 0.8113208, g: 0.8113208, b: 0.8113208, a: 0.101960786}
-  _onSkillUnLockEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  _unLockSlots: []
-  _lockSlots: []

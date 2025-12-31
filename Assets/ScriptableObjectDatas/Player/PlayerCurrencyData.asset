@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <GoldCoin>k__BackingField: 10000
   <Soul>k__BackingField: 10
-  GoldCoinUpperLimit: 2147483647
-  SoulUpperLimit: 2147483647
+  GoldCoinUpperLimit: 999999999
+  SoulUpperLimit: 999999999

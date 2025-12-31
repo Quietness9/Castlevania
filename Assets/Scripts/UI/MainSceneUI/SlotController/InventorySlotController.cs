@@ -17,10 +17,12 @@ public class InventorySlotController : SlotController, IPointerDownHandler, IPoi
 
     private void Start()
     {
-        if(InventoryController.Instance != null)
+        if (InventoryController.Instance != null)
         {
             InventoryController.Instance.OnUpdateInventoryCount += UpdateSlotCountHandle;
         }
+
+        UpdateSlotCountHandle();
     }
 
     /// <summary>

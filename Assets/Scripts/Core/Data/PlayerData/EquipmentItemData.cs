@@ -48,7 +48,7 @@ public class EquipmentItemData : ItemData
         public int Count;
     }
 
-    int _description;
+    int _descriptionCount;
 
     /// <summary>
     /// 使用武器特效
@@ -65,7 +65,7 @@ public class EquipmentItemData : ItemData
     public override string GetDescription()
     {
         stringBuilder.Length = 0;
-        _description = 0;
+        _descriptionCount = 0;
 
         AddItemDescription(Hp, "Hp");
         AddItemDescription(Atk, "Atk");
@@ -86,9 +86,9 @@ public class EquipmentItemData : ItemData
         AddItemDescription(IceDamage, "IceDamage");
         AddItemDescription(LightingDamage, "LightDamage");
 
-        if (_description<minDescriptionLength)
+        if (_descriptionCount<minDescriptionLength)
         {
-            for(int i = 0; i < minDescriptionLength-_description; i++)
+            for(int i = 0; i < minDescriptionLength-_descriptionCount; i++)
             {
                 stringBuilder.AppendLine();
                 stringBuilder.Append("");
@@ -119,7 +119,7 @@ public class EquipmentItemData : ItemData
             }
 
             stringBuilder.Append("+ "+name+":"+value);
-            _description++;
+            _descriptionCount++;
         }
     }
 

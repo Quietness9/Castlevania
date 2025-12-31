@@ -27,6 +27,7 @@ public class MenuController : MonoSingleton<MenuController>
     private void Start()
     {
         InitMenu();
+        CharacterUI.InitCharacterUI();
     }
 
     #region ²Ëµ¥¿ØÖÆ
@@ -38,7 +39,12 @@ public class MenuController : MonoSingleton<MenuController>
     public void SwitchMenu(GameObject menu)
     {
         if (menu == null)
+        {
+            CloseAllWindow();
+            CloseMenu();
             return;
+        }
+            
 
         if (!_allMenuParent.gameObject.activeSelf && !_bg.activeSelf && !_menuHeader.activeSelf)
         {
@@ -101,7 +107,6 @@ public class MenuController : MonoSingleton<MenuController>
             if (menuObj != null)
             {
                 _allMenus.Add(menuObj);
-                menuObj.SetActive(true);
                 menuObj.SetActive(false);
             }
         }

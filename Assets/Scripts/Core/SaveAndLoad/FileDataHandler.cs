@@ -13,6 +13,8 @@ public class FileDataHandler
     string _dataSavePath = "";
     string _dataFileName = "";
 
+    string _codeWord = "GuiltyCrown";
+
     public FileDataHandler(string  dataSavePath, string dataFileName)
     {
         _dataSavePath = dataSavePath;
@@ -23,7 +25,8 @@ public class FileDataHandler
     /// 将需要保存的数据转换为Json文件保存
     /// </summary>
     /// <param name="data"></param>
-    public void SaveDataTransition(GameData data)
+    /// <param name="isEncryption"></param>
+    public void SaveDataTransition(GameData data,bool isEncryption)
     {
         string fullPath=Path.Combine(_dataSavePath, _dataFileName);
 
@@ -39,6 +42,11 @@ public class FileDataHandler
             //true: 输出格式化的 JSON 字符串，包含换行符和缩进，使其更易于人类阅读。
             //false: 输出紧凑的 JSON 字符串，没有多余的空白字符，文件体积更小。
             string dataToStore =JsonUtility.ToJson(data,true);
+
+            if (isEncryption)
+            {
+                dataToStore = EncryptionGameData(dataToStore);
+            }
 
             //FileStream: 这是 .NET 提供的一个类，用于直接操作文件，可以进行读取、写入、追加等操作。
             //FileMode.Create: 这是一个枚举值，告诉 FileStream 如何打开文件。FileMode.Create 的意思是：
@@ -67,7 +75,9 @@ public class FileDataHandler
     /// <summary>
     /// 将需要加载的数据转换为游戏数据形式
     /// </summary>
-    public GameData LoadDataTransition()
+    /// <param name="isEncryption"></param>
+    /// <returns></returns>
+    public GameData LoadDataTransition(bool isEncryption)
     {
         string fullPath=Path.Combine(_dataSavePath , _dataFileName);
         GameData loadData = null;
@@ -87,7 +97,12 @@ public class FileDataHandler
                     }
                 }
 
-                loadData=JsonUtility.FromJson<GameData>(dataToLoad);
+                if (isEncryption)
+                {
+                    dataToLoad = EncryptionGameData(dataToLoad);
+                }
+
+                loadData =JsonUtility.FromJson<GameData>(dataToLoad);
             }
             catch (Exception e)
             {
@@ -97,4 +112,33 @@ public class FileDataHandler
 
         return loadData;
     }
+
+    /// <summary>
+    /// 删除游戏数据
+    /// </summary>
+    public void DeleteGameData()
+    {
+        string fullPath = Path.Combine(_dataSavePath, _dataFileName);
+        if (File.Exists(fullPath))
+        {
+            File.Delete(fullPath);
+        }
+    }
+
+    /// <summary>
+    /// 加密数据
+    /// </summary>
+    /// <param name="data"></param>
+    /// <returns></returns>
+    private string EncryptionGameData(string data)
+    {
+        string modifiedData = "";
+        for(int i=0; i<data.Length; i++)
+        {
+            modifiedData += (char)(data[i]^_codeWord[i%_codeWord.Length]);
+        }
+
+        return modifiedData;
+    }
+
 }

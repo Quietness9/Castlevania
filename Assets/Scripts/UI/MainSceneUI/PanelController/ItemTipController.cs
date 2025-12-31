@@ -65,8 +65,6 @@ public class ItemTipController : MonoBehaviour
         float offsetX = 0;
         float offsetY = 0;
 
-        Debug.Log(mousePosition);
-
         offsetX = _xOffset;
         if (mousePosition.x > _xLimit)
         {

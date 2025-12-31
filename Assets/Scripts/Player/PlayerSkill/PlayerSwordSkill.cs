@@ -13,7 +13,7 @@ public class PlayerSwordSkill : Skill
     public SwordType SwordType=SwordType.Ordinary;
 
 
-    Transform _dotsParent;
+    [SerializeField] Transform _dotsParent;
     GameObject[] _dots;
     Vector2 _finalDir;
 

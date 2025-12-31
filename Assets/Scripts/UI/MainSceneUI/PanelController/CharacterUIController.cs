@@ -11,10 +11,8 @@ public class CharacterUIController : MonoBehaviour
     Image[] _equipmentItemSlots;
     EquipmentSlotController[] _equipmentSlotControllers;
 
-    private void Awake()
-    {
-        InitCharacterUI();
-    }
+    public static bool IsLoadEquipment=false;
+
 
     private void OnDestroy()
     {
@@ -25,11 +23,33 @@ public class CharacterUIController : MonoBehaviour
     /// <summary>
     /// 玩家UI初始化
     /// </summary>
-    private void InitCharacterUI()
+    public void InitCharacterUI()
     {
-        
         _equipmentItemSlots=_equipmentItemSlotParent.GetComponentsInChildren<Image>();
         _equipmentSlotControllers = _equipmentMenuSlotParent.GetComponentsInChildren<EquipmentSlotController>();
+
+        for(int i = 0; i < _equipmentSlotControllers.Length; i++)
+        {
+            _equipmentSlotControllers[i].InventoryItemData = null;
+        }
+    }
+
+    /// <summary>
+    /// 保存武器数据
+    /// </summary>
+    /// <returns></returns>
+    public List<int> SaveEquipmentData()
+    {
+        List<int> data = new ();
+        foreach(var eqInventory in _equipmentSlotControllers)
+        {
+            if(eqInventory.InventoryItemData!=null&&eqInventory.InventoryItemData.ItemData!=null)
+            {
+                data.Add(eqInventory.InventoryItemData.ItemData.Id);
+            }
+        }
+
+        return data;
     }
 
     /// <summary>
@@ -40,7 +60,7 @@ public class CharacterUIController : MonoBehaviour
         for (int i = 0; i < _equipmentMenuSlotParent.childCount; i++)
         {
 
-            if (_equipmentSlotControllers[i].InventoryItemData!= null)
+            if (_equipmentSlotControllers[i].InventoryItemData!= null&& _equipmentSlotControllers[i].InventoryItemData.ItemData!=null)
             {
                 _equipmentItemSlots[i].sprite = _equipmentSlotControllers[i].InventoryItemData.ItemData.ShowIcon;
                 if (i == _equipmentMenuSlotParent.childCount - 1)
@@ -94,7 +114,11 @@ public class CharacterUIController : MonoBehaviour
 
         GlobalReferencesManager.Instance.GamePlayer.Attribute.AddEquipmentModifier(equipmentItemData);
         _equipmentSlotControllers[index].SetSlotData(inventoryItem);
-        InventoryController.Instance.RemoveItem(inventoryItem.ItemData);
+        if (!IsLoadEquipment)
+        {
+            InventoryController.Instance.RemoveItem(inventoryItem.ItemData);
+        }
+        
     }
 
     

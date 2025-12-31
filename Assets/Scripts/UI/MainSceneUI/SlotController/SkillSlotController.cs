@@ -6,9 +6,10 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class SkillSlotController : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler
+public class SkillSlotController : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,ISaveManager
 {
     public bool UnLock;
+
 
     [SerializeField] int _skillPrice;
     [SerializeField] string _slotName;
@@ -41,8 +42,14 @@ public class SkillSlotController : MonoBehaviour,IPointerEnterHandler,IPointerEx
 
     private void Start()
     {
-        _slotImage.color = _lockColor;
 
+        
+
+        if (!UnLock)
+        {
+            _slotImage.color = _lockColor;
+        }
+        
     }
 
     private void OnDisable()
@@ -58,6 +65,9 @@ public class SkillSlotController : MonoBehaviour,IPointerEnterHandler,IPointerEx
         }
     }
 
+    /// <summary>
+    /// 是否解锁技能
+    /// </summary>
     private void IsUnLockSlot()
     {
         if(UnLock)
@@ -118,5 +128,31 @@ public class SkillSlotController : MonoBehaviour,IPointerEnterHandler,IPointerEx
     public void OnPointerExit(PointerEventData eventData)
     {
         MenuController.Instance.SkillTip.HideTip();
+    }
+
+    public void LoadGameData(GameData data)
+    {
+        if(data.SkillUnlock.TryGetValue(_slotName, out bool value))
+        {
+            UnLock = value;
+            if (UnLock)
+            {
+                _slotImage.color = Color.white;
+                _onSkillUnLockEvent?.Invoke();
+            }
+        }
+    }
+
+    public void SaveGameData(GameData data)
+    {
+        if(data.SkillUnlock.TryGetValue(_slotName, out bool value))
+        {
+            data.SkillUnlock.Remove(_slotName);
+            data.SkillUnlock.Add(_slotName, UnLock);
+        }
+        else
+        {
+            data.SkillUnlock.Add(_slotName, UnLock);
+        }
     }
 }

@@ -18,7 +18,7 @@ public class ItemData : ScriptableObject
     [field: SerializeField] public float DropChance { get; private set; }
 
     [TextArea]
-    [SerializeField] protected string description;
+    [SerializeField] protected string description="";
 
     [SerializeField] protected int minDescriptionLength;
 

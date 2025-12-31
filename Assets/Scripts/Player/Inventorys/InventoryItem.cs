@@ -31,4 +31,10 @@ public class InventoryItem
     /// <returns></returns>
     public int GetCount()=> _itemCount;
 
+    /// <summary>
+    /// 设置数量（当需要一个图标获得多个物品时使用）
+    /// </summary>
+    /// <param name="count"></param>
+    public void SetCount(int count)=>_itemCount=count;
+    
 }

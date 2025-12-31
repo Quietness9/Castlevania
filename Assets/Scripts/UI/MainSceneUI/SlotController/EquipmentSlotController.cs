@@ -7,12 +7,6 @@ using UnityEngine.UI;
 
 public class EquipmentSlotController : SlotController, IPointerDownHandler
 {
-
-    private void Awake()
-    {
-        InventoryItemData = null;
-    }
-
     /// <summary>
     /// 设置展示武器槽数据
     /// </summary>
@@ -40,6 +34,4 @@ public class EquipmentSlotController : SlotController, IPointerDownHandler
         itemIcon.sprite = EmptySprite;
         InventoryItemData=null;
     }
-
-    
 }

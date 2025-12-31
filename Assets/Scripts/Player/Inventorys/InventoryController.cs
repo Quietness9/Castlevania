@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Experimental.GlobalIllumination;
 using static UnityEditor.Progress;
 
-public class InventoryController : MonoSingleton<InventoryController>
+public class InventoryController : MonoSingleton<InventoryController>,ISaveManager
 {
 
     public List<InventoryItem> Items=new(); //方便查看，可以删除(全部物品)
@@ -30,6 +30,9 @@ public class InventoryController : MonoSingleton<InventoryController>
     [Header("展示UI")]
     [SerializeField] Transform _showEquipmentSlotParent;
     EquipmentSlotController[] _showEquipmentItemSlots;
+
+    [Header("加载物品")]
+    [SerializeField] List<ItemData> _itemDataBase=new ();//数据暂时使用手动拖拽方式，后面改为 Addressable Asset System方式
 
     //装备冷却计时
     float _weaponCooldownTimer;
@@ -57,6 +60,8 @@ public class InventoryController : MonoSingleton<InventoryController>
 
         // 清理其他可能的引用...
         Items?.Clear();
+        _itemDataBase?.Clear();
+
         EquipmentItemDir?.Clear();
         MaterialItemDIr?.Clear();
 
@@ -70,15 +75,12 @@ public class InventoryController : MonoSingleton<InventoryController>
     /// 初始化库存
     /// </summary>
     private void InitInventory()
-    {  
-        _equipmentItemSlots=_equipmentSlotParent.GetComponentsInChildren<InventorySlotController>();
+    {
+
+        _equipmentItemSlots =_equipmentSlotParent.GetComponentsInChildren<InventorySlotController>();
         _materialItemSlots = _materialSlotParent.GetComponentsInChildren<InventorySlotController>();
         _showEquipmentItemSlots=_showEquipmentSlotParent.GetComponentsInChildren<EquipmentSlotController>();
 
-        for(int i = 0; i < _startItemData.Count; i++)
-        {
-            AddItem(_startItemData[i]);
-        }
     }
 
     /// <summary>
@@ -162,7 +164,9 @@ public class InventoryController : MonoSingleton<InventoryController>
     /// 添加库存物品
     /// </summary>
     /// <param name="item"></param>
-    public bool AddItem(ItemData item)
+    /// <param name="count"></param>
+    /// <returns></returns>
+    public bool AddItem(ItemData item,int count=1)
     {
 
         if (ItemType.Equipment == item.Type)
@@ -173,7 +177,7 @@ public class InventoryController : MonoSingleton<InventoryController>
                 return false;
             }
 
-            return AddDirItem(item, EquipmentItemDir);
+            return AddDirItem(item, EquipmentItemDir,count);
         }
 
         if(ItemType.Material == item.Type)
@@ -184,7 +188,7 @@ public class InventoryController : MonoSingleton<InventoryController>
                 return false;
             }
 
-            return AddDirItem(item, MaterialItemDIr);
+            return AddDirItem(item, MaterialItemDIr, count);
         }
 
         Debug.Log("错误");
@@ -240,7 +244,7 @@ public class InventoryController : MonoSingleton<InventoryController>
     /// <param name="item"></param>
     /// <param name="dir"></param>
     /// <returns></returns>
-    private bool AddDirItem(ItemData item,Dictionary<int, InventoryItem> dir)
+    private bool AddDirItem(ItemData item,Dictionary<int, InventoryItem> dir,int count)
     {
         if (dir.TryGetValue(item.Id, out InventoryItem value))
         {
@@ -251,17 +255,24 @@ public class InventoryController : MonoSingleton<InventoryController>
             }
 
             value.AddCount();
+            OnUpdateInventoryCount.Invoke();
         }
         else
         {
+            
             InventoryItem inventoryItem = new InventoryItem(item);
+
+            //设置物品数量
+            if (count > 1)
+            {
+                inventoryItem.SetCount(count);
+            }
+
             Items.Add(inventoryItem);
             dir.Add(item.Id, inventoryItem);
 
             UpdateInventoryData(inventoryItem);
         }
-
-        OnUpdateInventoryCount.Invoke();
 
         return true;
     }
@@ -375,6 +386,78 @@ public class InventoryController : MonoSingleton<InventoryController>
         Debug.Log("装备效果还在冷却中" + equipment.name);
         return false;
     }
+
+    #endregion
+
+    #region 接口实现
+
+    public void LoadGameData(GameData data)
+    {
+        if (data.InventoryItems.Count <= 0)
+        {
+            for (int i = 0; i < _startItemData.Count; i++)
+            {
+                AddItem(_startItemData[i]);
+            }
+        }
+        else
+        {
+            EquipmentItemDir.Clear();
+            MaterialItemDIr.Clear();
+            Items.Clear();
+
+            // 预处理：将 List 转换为 Dictionary 用于快速查找
+            var lookupDict = new Dictionary<int, ItemData>();
+            foreach (var item in _itemDataBase)
+            {
+                // 注意：这里假设 Id 是唯一的，如果重复，后面的会覆盖前面的
+                lookupDict[item.Id] = item;
+            }
+
+            // 使用字典进行 O(1) 查找
+            foreach (var pair in data.InventoryItems) // pair.Key 是 ItemId, pair.Value 是 Amount
+            {
+                if (lookupDict.TryGetValue(pair.Key, out ItemData foundItem))
+                {
+                    AddItem(foundItem, pair.Value);
+                }
+            }
+
+            CharacterUIController.IsLoadEquipment=true;
+            foreach(var item in data.EquipmentItems)
+            {
+                if(lookupDict.TryGetValue(item,out ItemData foundItem))
+                {
+                    MenuController.Instance.CharacterUI.EquipWeapons(new InventoryItem(foundItem));
+                }
+            }
+            CharacterUIController.IsLoadEquipment = false;
+            MenuController.Instance.CharacterUI.UpdateEquipmentSlotData();
+        }
+
+    }
+
+    public void SaveGameData(GameData data)
+    {
+
+        data.InventoryItems.Clear();
+        data.EquipmentItems.Clear();
+
+        //存储装备数据
+        foreach(var equipmentItem in EquipmentItemDir)
+        {
+            data.InventoryItems.Add(equipmentItem.Key,equipmentItem.Value.GetCount());
+        }
+
+        //存储材料数据
+        foreach(var materialItem in MaterialItemDIr)
+        {
+            data.InventoryItems.Add(materialItem.Key,materialItem.Value.GetCount());
+        }
+
+        data.EquipmentItems.AddRange(MenuController.Instance.CharacterUI.SaveEquipmentData());
+    }
+
 
     #endregion
 

@@ -222,8 +222,6 @@ public class Player : Character,ISaveManager
             Debug.LogWarning("SaveAndLoadManager is null");
             return;
         }
-
-        SaveAndLoadManager.Instance.OnSaveEvent += SaveGameData;
     }
 
     /// <summary>
@@ -255,6 +253,7 @@ public class Player : Character,ISaveManager
         }
 
         Attribute.OnDieEvent -= ChangDieStateHandle;
+
     }
 
 

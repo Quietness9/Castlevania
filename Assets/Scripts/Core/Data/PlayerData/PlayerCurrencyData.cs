@@ -26,6 +26,8 @@ public class PlayerCurrencyData : ScriptableObject
     {
         GoldCoin= coin;
         Soul= soul;
+        OnGoldCoinUpdateEvent();
+        OnSoulUpdateEvent();
     }
 
     /// <summary>
