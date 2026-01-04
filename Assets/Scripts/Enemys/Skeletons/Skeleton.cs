@@ -109,5 +109,6 @@ public class Skeleton : Enemy
         Debug.Log("Skeleton Die");
         CharacterStateMachine.ChangeState(DeathState);
         ItemDrop.DropItem();
+        DropCurrency(coldCoin, soul);
     }
 }

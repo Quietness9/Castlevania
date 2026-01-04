@@ -38,6 +38,7 @@ public class CharacterAttribute : MonoBehaviour
 
     public MagicEffectType SelfMagicType { get; private set; } = MagicEffectType.None; //自身受到的魔法效果
     public bool IsDie { get; private set; }
+    public bool IsInvincible {  get; private set; }
 
     Character _character;
     Coroutine _magicCoroutine;
@@ -56,11 +57,7 @@ public class CharacterAttribute : MonoBehaviour
         
     }
 
-    protected virtual void Start() 
-    {
-        
-    }
-
+    protected virtual void Start() { }
 
     protected virtual void Update()
     {
@@ -107,7 +104,9 @@ public class CharacterAttribute : MonoBehaviour
     /// <param name="ratio">伤害比例</param>
     public virtual void TakePhysicalDamage(Character character,float ratio=1)
     {
-        if (IsSuccessfulEvasion())
+
+
+        if (IsSuccessfulEvasion()||IsInvincible)
             return;
 
         int totalDamage = Mathf.RoundToInt(GetPhysicalDamage(character.Attribute)*ratio);
@@ -123,7 +122,7 @@ public class CharacterAttribute : MonoBehaviour
     /// <param name="ratio">伤害比例</param>
     public virtual void TakeMagicDamage(Character character, float ratio = 1)
     {
-        if (IsSuccessfulEvasion())
+        if (IsSuccessfulEvasion()||IsInvincible)
             return;
 
         int totalDamage= Mathf.RoundToInt(GetMagicDamage(character.Attribute)*ratio);
@@ -313,7 +312,8 @@ public class CharacterAttribute : MonoBehaviour
     private IEnumerator IgniteEffectCo(float durationTime)
     {
         
-        StartMagicEffect("IgniteColorChange", _character.Fx.FxData.RepeatTime);
+        StartMagicEffect("IgniteColorChange", "IgniteFX", _character.Fx.FxData.RepeatTime);
+
 
         yield return new WaitForSeconds(durationTime);
 
@@ -328,7 +328,7 @@ public class CharacterAttribute : MonoBehaviour
     private IEnumerator ChillEffectCo(float durationTime)
     {
         
-        StartMagicEffect("ChillColorChange", _character.Fx.FxData.RepeatTime);
+        StartMagicEffect("ChillColorChange", "ChillFX", _character.Fx.FxData.RepeatTime);
         _character.SlowCharacterSpeed(_slowRatio);
 
         yield return new WaitForSeconds(durationTime);
@@ -365,7 +365,7 @@ public class CharacterAttribute : MonoBehaviour
     private IEnumerator ShockEffectCo(float durationTime)
     {
         
-        StartMagicEffect("ShockColorChange", _character.Fx.FxData.RepeatTime);
+        StartMagicEffect("ShockColorChange", "ShockFX", _character.Fx.FxData.RepeatTime);
 
         yield return new WaitForSeconds(durationTime);
 
@@ -393,7 +393,7 @@ public class CharacterAttribute : MonoBehaviour
     /// </summary>
     /// <param name="funName"></param>
     /// <param name="repeatTime"></param>
-    private void StartMagicEffect(string funName,float repeatTime)
+    private void StartMagicEffect(string funName,string particleName, float repeatTime)
     {
         if (_character == null || _character.Fx == null)
         {
@@ -401,6 +401,7 @@ public class CharacterAttribute : MonoBehaviour
             return;
         }
 
+        _character.Fx.SpawnMagicParticle(particleName);
         _character.Fx.InvokeRepeating(funName, 0, repeatTime);
         _character.Fx.LockColorChange();
     }
@@ -448,40 +449,6 @@ public class CharacterAttribute : MonoBehaviour
     public int GetMaxHealth()=> Hp.GetValue() + Vitality.GetValue() * 3;
 
     #endregion
-
-    /// <summary>
-    /// 减少当前生命值
-    /// </summary>
-    /// <param name="hp"></param>
-    public virtual void ReduceCurrentHealth(int amount)
-    {
-        if(CurrentHealth<=0)
-            return;
-
-        Debug.Log("造成伤害" + amount);
-        CurrentHealth -= amount;
-        CurrentHealth = Mathf.Max(CurrentHealth, 0);
-
-        OnChangeHealthEvent.Invoke();
-
-        if (CurrentHealth <= 0)
-        {
-            Die();
-        }
-    }
-
-    /// <summary>
-    /// 恢复当前生命值
-    /// </summary>
-    /// <param name="amount"></param>
-    public virtual void RecoverCurrentHealth(int amount)
-    {
-        Debug.Log("恢复血量"+amount);
-        CurrentHealth += amount;
-        CurrentHealth = Mathf.Min(CurrentHealth, GetMaxHealth());
-
-        OnChangeHealthEvent.Invoke();
-    }
 
     #region Modifier修改
 
@@ -600,7 +567,6 @@ public class CharacterAttribute : MonoBehaviour
 
     #endregion
 
-
     #region 伤害计算辅助函数
 
     /// <summary>
@@ -660,11 +626,58 @@ public class CharacterAttribute : MonoBehaviour
     #endregion
 
     /// <summary>
+    /// 减少当前生命值
+    /// </summary>
+    /// <param name="hp"></param>
+    public virtual void ReduceCurrentHealth(int amount)
+    {
+        if (CurrentHealth <= 0)
+            return;
+
+        Debug.Log("造成伤害" + amount);
+        CurrentHealth -= amount;
+        CurrentHealth = Mathf.Max(CurrentHealth, 0);
+
+        OnChangeHealthEvent.Invoke();
+
+        if (CurrentHealth <= 0)
+        {
+            Die();
+        }
+    }
+
+    /// <summary>
+    /// 恢复当前生命值
+    /// </summary>
+    /// <param name="amount"></param>
+    public virtual void RecoverCurrentHealth(int amount)
+    {
+        Debug.Log("恢复血量" + amount);
+        CurrentHealth += amount;
+        CurrentHealth = Mathf.Min(CurrentHealth, GetMaxHealth());
+
+        OnChangeHealthEvent.Invoke();
+    }
+
+    /// <summary>
     /// 角色死亡
     /// </summary>
-    private void Die()
+    public void Die()
     {
         IsDie = true;
         OnDieEvent.Invoke();
     }
+
+
+    /// <summary>
+    /// 设置无敌
+    /// </summary>
+    /// <param name="isInvincible"></param>
+    public void MakeInvincible()=>IsInvincible = true;
+    
+    /// <summary>
+    /// 取消无敌
+    /// </summary>
+    /// <param name="invincible"></param>
+    public void CancelInvincible()=>IsInvincible=false;
 }

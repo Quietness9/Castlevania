@@ -262,13 +262,18 @@ public class InGameUIController : MonoSingleton<InGameUIController>
 
     #endregion
 
+
     /// <summary>
     /// ÕÊº“À¿ÕˆÃÿ–ß
     /// </summary>
     public void PlayerDeathEffect()
     {
         MenuController.Instance.SwitchMenu(null);
+
+        _fadeScene.gameObject.SetActive(true);
         _fadeScene.FadeOutScene();
+
+        StartCoroutine(ShowDeathTextCo());
     }
 
     IEnumerator ShowDeathTextCo()
@@ -278,4 +283,6 @@ public class InGameUIController : MonoSingleton<InGameUIController>
         yield return new WaitForSeconds(1.5f);
         _restartGameBt.SetActive(true);
     }
+
+    
 }

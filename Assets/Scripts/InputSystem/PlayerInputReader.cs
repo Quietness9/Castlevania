@@ -121,6 +121,26 @@ namespace GameInputSystem
             _gameInput.UI.Enable();
         }
 
+        /// <summary>
+        /// 暂停除UI外的所有输入
+        /// </summary>
+        public void PausePlayerInput()
+        {
+            _gameInput.Player.Disable();
+            _gameInput.Skill.Disable();
+            _gameInput.GameProps.Disable();
+        }
+
+        /// <summary>
+        /// 恢复玩家被暂停的输入
+        /// </summary>
+        public void RestorePlayerInput()
+        {
+            _gameInput.Player.Enable();
+            _gameInput.Skill.Enable();
+            _gameInput.GameProps.Enable();
+        }
+
 
         #region 玩家控制
 

@@ -48,6 +48,9 @@ TagManager:
   - name: Ground
     uniqueID: 3540483827
     locked: 0
+  - name: CheckPoint
+    uniqueID: 994441047
+    locked: 0
   - name: Item
     uniqueID: 3105668197
     locked: 0
@@ -56,4 +59,7 @@ TagManager:
     locked: 0
   - name: player
     uniqueID: 1972967055
+    locked: 0
+  - name: FX
+    uniqueID: 3260205239
     locked: 0

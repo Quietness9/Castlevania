@@ -12,6 +12,7 @@ public class SkillSlotController : MonoBehaviour,IPointerEnterHandler,IPointerEx
 
 
     [SerializeField] int _skillPrice;
+    [SerializeField] int _skillSoul;
     [SerializeField] string _slotName;
     [SerializeField] Image _slotImage;
     [TextArea]
@@ -73,7 +74,7 @@ public class SkillSlotController : MonoBehaviour,IPointerEnterHandler,IPointerEx
         if(UnLock)
            return;
 
-        if (GlobalReferencesManager.Instance.GamePlayer.HaveEnoughMoney(_skillPrice) == false)
+        if (GlobalReferencesManager.Instance.GamePlayer.HaveEnoughMoney(_skillPrice,_skillSoul) == false)
             return;
 
         foreach (var slot in _unLockSlots)

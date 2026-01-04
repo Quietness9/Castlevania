@@ -22,7 +22,7 @@ public class MenuController : MonoSingleton<MenuController>
 
     [SerializeField] List<GameObject> _allMenus=new();
 
-    PlayerInputReader playerInput;
+    PlayerInputReader _playerInput;
 
     private void Start()
     {
@@ -55,11 +55,17 @@ public class MenuController : MonoSingleton<MenuController>
         {
             CloseAllWindow();
             CloseMenu();
+
+            _playerInput.RestorePlayerInput();
+            GameManager.Instance?.PauseGame(false);
         }
         else
         {
             CloseAllWindow();
             menu.SetActive(true);
+
+            _playerInput.PausePlayerInput();
+            GameManager.Instance?.PauseGame(true);
         }
         
     }
@@ -113,14 +119,14 @@ public class MenuController : MonoSingleton<MenuController>
 
         SetMenuActive(false);
 
-        playerInput =GlobalReferencesManager.Instance.GamePlayer.PlayerInput;
+        _playerInput =GlobalReferencesManager.Instance.GamePlayer.PlayerInput;
 
-        if(playerInput != null)
+        if(_playerInput != null)
         {
-            playerInput.OnCharacterUIEvent += ActiveCharacterUI;
-            playerInput.OnSkillTreeUIEvent += ActiveSkillTreeUI;
-            playerInput.OnCraftUIEvent += ActiveCraftUI;
-            playerInput.OnOptionUIEvent+=ActiveOptionUI;
+            _playerInput.OnCharacterUIEvent += ActiveCharacterUI;
+            _playerInput.OnSkillTreeUIEvent += ActiveSkillTreeUI;
+            _playerInput.OnCraftUIEvent += ActiveCraftUI;
+            _playerInput.OnOptionUIEvent+=ActiveOptionUI;
         }
         
     }
@@ -129,12 +135,12 @@ public class MenuController : MonoSingleton<MenuController>
     {
         base.OnDestroy();
 
-        if (playerInput != null)
+        if (_playerInput != null)
         {
-            playerInput.OnCharacterUIEvent -= ActiveCharacterUI;
-            playerInput.OnSkillTreeUIEvent -= ActiveSkillTreeUI;
-            playerInput.OnCraftUIEvent -= ActiveCraftUI;
-            playerInput.OnOptionUIEvent -= ActiveOptionUI;
+            _playerInput.OnCharacterUIEvent -= ActiveCharacterUI;
+            _playerInput.OnSkillTreeUIEvent -= ActiveSkillTreeUI;
+            _playerInput.OnCraftUIEvent -= ActiveCraftUI;
+            _playerInput.OnOptionUIEvent -= ActiveOptionUI;
         }
     }
 

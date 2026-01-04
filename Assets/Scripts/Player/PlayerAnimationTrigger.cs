@@ -58,9 +58,11 @@ public class PlayerAnimationTrigger : MonoBehaviour
         _player.CurrentAnimationFinish();
     }
 
+    /// <summary>
+    /// »‘Ω£
+    /// </summary>
     private void ThrowSword()
     {
         SkillManager.Instance.SwordSkill.CreateSword();
     }
-
 }

@@ -35,8 +35,9 @@ public enum EquipmentItemType
 //对象池类型
 public enum PoolType
 {
-    GameObject,
-    CraftListObject,
+    GameObject,//游戏对象
+    CraftListObject,//制作栏对象
+    ParticleObject//粒子对象
 }
 
 public enum CurrencyType

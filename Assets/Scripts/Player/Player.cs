@@ -132,16 +132,19 @@ public class Player : Character,ISaveManager
     /// <summary>
     /// 判断是否有足够的货币
     /// </summary>
-    /// <param name="money"></param>
-    public bool HaveEnoughMoney(int money)
+    /// <param name="goldCoin"></param>
+    /// <param name="soul"></param>
+    /// <returns></returns>
+    public bool HaveEnoughMoney(int goldCoin,int soul)
     {
-        if (CurrencyData.GoldCoin < money)
+        if (CurrencyData.GoldCoin < goldCoin||CurrencyData.Soul<soul)
         {
-            Debug.Log("货币不足现持有货币为" + CurrencyData.GoldCoin);
+            Debug.Log("货币不足现持有货币为" + CurrencyData.GoldCoin+"--"+CurrencyData.Soul);
             return false;
         }
 
-        CurrencyData.ReduceGoldCoin(money);
+        CurrencyData.ReduceGoldCoin(goldCoin);
+        CurrencyData.ReduceSoul(soul);
 
         return true;
     }
@@ -346,6 +349,8 @@ public class Player : Character,ISaveManager
         Debug.Log("Player Die");
         CharacterStateMachine.ChangeState(DeathState);
         ItemDrop.DropItem();
+        CurrencyData.ReduceGoldCoin(coldCoin);
+        CurrencyData.ReduceGoldCoin(soul);
     }
 
     #endregion

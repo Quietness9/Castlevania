@@ -53,6 +53,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UnLock: 0
   _skillPrice: 0
+  _skillSoul: 0
   _slotName: SwordThrow
   _slotImage: {fileID: 6986096723567347243}
   _skillDescription: 

@@ -8,14 +8,15 @@ public class CharacterFX : MonoBehaviour
     public CharacterFxData FxData;
     public bool IsStartColorChange { get; private set; }
 
-
     Material _originMat;
+    [SerializeField] GameObject _particleObj;
     SpriteRenderer _spriteRenderer;
+
+    Vector3 _particleOffset=new Vector3(0,0.5f,0);
 
     private void Start()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
-
         _originMat=_spriteRenderer.material;    
     }
 
@@ -99,11 +100,38 @@ public class CharacterFX : MonoBehaviour
     }
 
     /// <summary>
+    /// 生成魔法特效粒子
+    /// </summary>
+    /// <param name="preName"></param>
+    public void SpawnMagicParticle(string preName)
+    {
+        GameObject particlePre = GlobalReferencesManager.Instance.GetPrefab(preName);
+
+        if (particlePre != null && _particleObj == null)
+        {
+            _particleObj = ObjectPoolManager.SpawnObject(particlePre, transform.position + _particleOffset, Quaternion.identity, PoolType.ParticleObject);
+            _particleObj.transform.parent = transform;
+
+            _particleObj.GetComponent<ParticleSystem>()?.Play();
+        }
+    }
+
+
+    /// <summary>
     /// 取消颜色改变
     /// </summary>
     public void CancelColorChange()
     {
         CancelInvoke();
+
+        if (_particleObj != null)
+        {
+            _particleObj.GetComponent<ParticleSystem>()?.Stop();
+            ObjectPoolManager.ReturnObjectToPool(_particleObj, PoolType.ParticleObject);
+            _particleObj = null;
+        }
+        
+
         _spriteRenderer.color = Color.white;
     }
 
@@ -122,4 +150,7 @@ public class CharacterFX : MonoBehaviour
             _spriteRenderer.color = Color.white;
         }
     }
+
+
+    
 }

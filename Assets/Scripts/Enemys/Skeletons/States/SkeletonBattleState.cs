@@ -23,6 +23,10 @@ public class SkeletonBattleState : EntityState
             _playerTransform=GlobalReferencesManager.Instance.GamePlayer.transform;
         }
 
+        if (_playerTransform.GetComponent<PlayerAttribute>().IsDie)
+        {
+            baseStateMachine.ChangeState(_skeleton.MoveState);
+        }
 
     }
 
@@ -41,7 +45,7 @@ public class SkeletonBattleState : EntityState
         }
         else
         {
-            if (timer < 0 || Vector2.Distance(_playerTransform.position, _skeleton.transform.position) > 5)
+            if (timer < 0 || Vector2.Distance(_playerTransform.position, _skeleton.transform.position) > _skeleton.EnemyStateData.IgnoreDistance)
             {
                 baseStateMachine.ChangeState(_skeleton.IdleState);
             }

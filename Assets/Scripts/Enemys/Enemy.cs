@@ -26,6 +26,18 @@ public class Enemy : Character
         defaultMoveSpeed = EnemyStateData.MoveSpeed;
     }
 
+    /// <summary>
+    /// µôÂä»õ±Ò
+    /// </summary>
+    protected virtual void DropCurrency(int coldCoin,int soul)
+    {
+        if(GlobalReferencesManager.Instance != null)
+        {
+            GlobalReferencesManager.Instance.GamePlayer.CurrencyData.IncreaseGoldCoin(coldCoin);
+            GlobalReferencesManager.Instance.GamePlayer.CurrencyData.IncreaseSoul(soul);
+        }
+    }
+
     public override void SlowCharacterSpeed(float slowRatio)
     {
         base.SlowCharacterSpeed(slowRatio);

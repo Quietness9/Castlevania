@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb096081704780a449705179f2fd60eb, type: 3}
   m_Name: PlayerAttributeData
   m_EditorClassIdentifier: 
-  <Hp>k__BackingField: 20
+  <Hp>k__BackingField: 100
   <Atk>k__BackingField: 50
   <Agility>k__BackingField: 0
   <Vitality>k__BackingField: 0
@@ -23,7 +23,7 @@ MonoBehaviour:
   <MagicResistance>k__BackingField: 0
   <CriticalChance>k__BackingField: 0
   <CriticalDamage>k__BackingField: 0
-  <FireDamage>k__BackingField: 0
+  <FireDamage>k__BackingField: 1
   <IgniteDurationTime>k__BackingField: 4
   <IgniteDamageCooldown>k__BackingField: 1
   <IceDamage>k__BackingField: 0

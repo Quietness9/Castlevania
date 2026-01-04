@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class Character : MonoBehaviour
 {
+    [Header("»õ±ÒµôÂä")]
+    [SerializeField] protected int coldCoin;
+    [SerializeField] protected int soul;
+
     [Header("¹¥»÷¼ì²â")]
     public Transform AttackCheck;
     public float AttackCheckRadius;
@@ -26,7 +30,6 @@ public class Character : MonoBehaviour
     public float Direction = 1f;
 
     public bool IsFacingRight { get; set; }
-    public StateMachine CharacterStateMachine { get; private set; }
 
     #region ×é¼þ
 
@@ -35,6 +38,7 @@ public class Character : MonoBehaviour
     public CharacterFX Fx { get;private set; }
     public CharacterAttribute Attribute { get; private set; }
     public ItemDropController ItemDrop { get; private set; }
+    public StateMachine CharacterStateMachine { get; private set; }
 
     SpriteRenderer _sr;
 

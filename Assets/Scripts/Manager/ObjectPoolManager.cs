@@ -27,13 +27,17 @@ public class ObjectPoolManager : MonoBehaviour
     /// </summary>
     private void InitPoolParent()
     {
-        _objectParentDir.Add(PoolType.CraftListObject, _objectParent[0]);
-        _objectParentDir.Add(PoolType.GameObject, _objectParent[1]);
+        _objectParentDir.Clear();
+
+        _objectParentDir.Add(PoolType.GameObject, _objectParent[0]);
+        _objectParentDir.Add(PoolType.CraftListObject, _objectParent[1]);
+        _objectParentDir.Add(PoolType.ParticleObject, _objectParent[2]);
 
         _emptyHolder = new GameObject("Object Pools");
 
         //_gameObjectsEmpty = new GameObject("GameObject Pools");
-        _objectParent[1].transform.SetParent(_emptyHolder.transform, false);
+        _objectParent[0].transform.SetParent(_emptyHolder.transform, false);
+        _objectParent[2].transform.SetParent(_emptyHolder.transform, false);
 
 
         if (_isDontDestroyOnLoad)
