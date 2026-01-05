@@ -9,7 +9,7 @@ public class CharacterFX : MonoBehaviour
     public bool IsStartColorChange { get; private set; }
 
     Material _originMat;
-    [SerializeField] GameObject _particleObj;
+    GameObject _particleObj;
     SpriteRenderer _spriteRenderer;
 
     Vector3 _particleOffset=new Vector3(0,0.5f,0);
@@ -151,6 +151,47 @@ public class CharacterFX : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 创造击打特效
+    /// </summary>
+    /// <param name="hitFXType"></param>
+    /// <param name="target"></param>
+    public void CreateHitFX(HitFXType hitFXType,Transform target)
+    {
+        GameObject hitFXPre = GlobalReferencesManager.Instance.GetPrefab(GetHitFXPrefabName(hitFXType));
 
+        if (hitFXPre == null)
+            return;
+
+        Vector3 offset = new Vector3(Random.Range(FxData.HitFXOffsetX.x, FxData.HitFXOffsetX.y),
+            Random.Range(FxData.HitFXOffsetY.x, FxData.HitFXOffsetY.y));
+
+        float rotation=Random.Range(FxData.HitFXRotation.x, FxData.HitFXRotation.y);
+
+        GameObject hitObj=Instantiate(hitFXPre,target.position+offset,Quaternion.identity);
+
+        hitObj.transform.Rotate(new Vector3(0,0, rotation));
+
+        Destroy(hitObj,1f);
+
+    }
+
+    /// <summary>
+    /// 获得攻击特效的预制体名
+    /// </summary>
+    /// <param name="hitFXType"></param>
+    /// <returns></returns>
+    private string GetHitFXPrefabName(HitFXType hitFXType)
+    {
+        string hitFXName = "";
+
+        switch (hitFXType)
+        {
+            case HitFXType.HitFX00: hitFXName = "Hit00FX"; break;
+            case HitFXType.HitFX01: hitFXName = "Hit01FX"; break;
+        }
+
+        return hitFXName;
+    }
     
 }

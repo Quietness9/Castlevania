@@ -17,4 +17,10 @@ public class CharacterFxData : ScriptableObject
     [field: SerializeField] public Color[] IgniteColors { get; private set; }
     [field: SerializeField] public Color[] ShockColors {  get; private set; }
 
+    [field:Header("´ò»÷ÌØÐ§")]
+    [field: SerializeField] public Vector2 HitFXOffsetX {  get; private set; }
+    [field: SerializeField] public Vector2 HitFXOffsetY { get; private set; }
+    [field: SerializeField] public Vector2 HitFXRotation { get; private set; }
+
+
 }

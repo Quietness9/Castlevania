@@ -111,6 +111,7 @@ public class CharacterAttribute : MonoBehaviour
 
         int totalDamage = Mathf.RoundToInt(GetPhysicalDamage(character.Attribute)*ratio);
         _character.Fx.StartCoroutine("FlashFX");
+        _character.Fx.CreateHitFX(HitFXType.HitFX00,transform);
 
         ReduceCurrentHealth(totalDamage);
     }

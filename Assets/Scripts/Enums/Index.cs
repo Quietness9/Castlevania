@@ -47,6 +47,12 @@ public enum CurrencyType
 
 }
 
+public enum HitFXType
+{
+    HitFX00,
+    HitFX01,
+}
+
 public enum AttributeType
 {
     Hp,
