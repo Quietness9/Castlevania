@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class CharacterFX : MonoBehaviour
 {
-    
+
     public CharacterFxData FxData;
+    
     public bool IsStartColorChange { get; private set; }
 
     Material _originMat;
@@ -14,16 +15,16 @@ public class CharacterFX : MonoBehaviour
 
     Vector3 _particleOffset=new Vector3(0,0.5f,0);
 
-    private void Start()
+    protected virtual void Awake()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        _originMat=_spriteRenderer.material;    
+        _originMat = _spriteRenderer.material;
     }
 
     /// <summary>
     /// 白色闪光特效
     /// </summary>
-    private IEnumerator FlashFX()
+    protected IEnumerator FlashFX()
     {
         _spriteRenderer.material= FxData.HitMat;
 
@@ -35,7 +36,7 @@ public class CharacterFX : MonoBehaviour
     /// <summary>
     /// 反击后的红色闪光
     /// </summary>
-    private void RedColorBlink()
+    protected void RedColorBlink()
     {
 
         if (_spriteRenderer.color != Color.white)
@@ -193,5 +194,21 @@ public class CharacterFX : MonoBehaviour
 
         return hitFXName;
     }
-    
+
+    /// <summary>
+    /// 创建提示文本特效
+    /// </summary>
+    /// <param name="text"></param>
+    public void CreatePopUpTextFx(string text)
+    {
+        GameObject popUpTextPre = GlobalReferencesManager.Instance.GetPrefab("PopUpText");
+
+        if (popUpTextPre == null)
+            return;
+
+        GameObject popUpTextObj = Instantiate(popUpTextPre, transform.position + FxData.TextOffset, Quaternion.identity);
+
+        popUpTextObj.GetComponent<PopUpTextController>().SetPopUpText(FxData, text);
+    }
+
 }

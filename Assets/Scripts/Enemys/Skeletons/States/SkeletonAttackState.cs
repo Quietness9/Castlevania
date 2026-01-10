@@ -2,13 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkeletonAttackState : EntityState
+public class SkeletonAttackState : EnemyAttackState
 {
-    Skeleton _skeleton;
-
-    public SkeletonAttackState(Character character,Skeleton skeleton, StateMachine stateMachine, string animationName) : base(character, stateMachine, animationName)
+    public SkeletonAttackState(Character character,Skeleton skeleton, StateMachine stateMachine, string animationName) : base(character, skeleton, stateMachine, animationName)
     {
-        _skeleton = skeleton;
     }
 
     public override void Enter()
@@ -19,10 +16,6 @@ public class SkeletonAttackState : EntityState
     public override void Update()
     {
         base.Update();
-        if (triggerFinish)
-        {
-            baseStateMachine.ChangeState(_skeleton.BattleState);
-        }
 
     }
 

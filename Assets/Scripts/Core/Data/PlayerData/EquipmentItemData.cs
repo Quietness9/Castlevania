@@ -62,6 +62,10 @@ public class EquipmentItemData : ItemData
         }
     }
 
+    /// <summary>
+    /// »ñµÃ×´Ì¬ÃèÊö
+    /// </summary>
+    /// <returns></returns>
     public override string GetDescription()
     {
         stringBuilder.Length = 0;

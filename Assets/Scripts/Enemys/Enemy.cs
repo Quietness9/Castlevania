@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Experimental.GlobalIllumination;
 
 public class Enemy : Character
 {
@@ -11,14 +10,36 @@ public class Enemy : Character
     public float AttackLastTime { get; set; }
     public float AttackCooldown { get; set; }
 
-    [SerializeField] protected GameObject counterImage;
+    [SerializeField] protected GameObject CounterImage;
     protected bool canStunned;
 
     protected float defaultMoveSpeed;
 
+    #region 敌人通用状态
+
+    public EnemyIdleState IdleState { get; private set; }
+    public EnemyMoveState MoveState { get; private set; }
+    public EnemyAttackState AttackState { get; private set; }
+    public EnemyBattleState BattleState { get; private set; }
+    public EnemyDeathState DeathState { get; private set; }
+
+
+    #endregion
+
+
     protected override void Awake()
     {
         base.Awake();
+        IdleState = CreateIdleState();
+        MoveState = CreateMoveState();
+        AttackState = CreateAttackState();
+        BattleState = CreateBattleState();
+        DeathState = CreateDeathState();
+    }
+
+    private void OnEnable()
+    {
+        EventSubscribe();
     }
 
     protected virtual void Start()
@@ -26,16 +47,76 @@ public class Enemy : Character
         defaultMoveSpeed = EnemyStateData.MoveSpeed;
     }
 
-    /// <summary>
-    /// 掉落货币
-    /// </summary>
-    protected virtual void DropCurrency(int coldCoin,int soul)
+    private void OnDisable()
     {
-        if(GlobalReferencesManager.Instance != null)
+        EventUnsubscribe();
+    }
+
+    #region 创建状态的虚函数
+
+    protected virtual EnemyIdleState CreateIdleState() => new EnemyIdleState(this, this, CharacterStateMachine, "Idle");
+    protected virtual EnemyMoveState CreateMoveState() => new EnemyMoveState(this, this, CharacterStateMachine, "Move");
+    protected virtual EnemyAttackState CreateAttackState() => new EnemyAttackState(this, this, CharacterStateMachine, "Attack");
+    protected virtual EnemyBattleState CreateBattleState() => new EnemyBattleState(this, this, CharacterStateMachine, "Move");
+    protected virtual EnemyDeathState CreateDeathState() => new EnemyDeathState(this, this, CharacterStateMachine, "Death");
+
+    #endregion
+
+    #region 状态切换和事件订阅
+
+    /// <summary>
+    /// 事件订阅
+    /// </summary>
+    protected virtual void EventSubscribe()
+    {
+        if (Attribute == null)
+        {
+            Debug.LogWarning("Attribute is null");
+            return;
+        }
+
+        Attribute.OnDieEvent += ChangeDieStateHandle;
+    }
+
+    /// <summary>
+    /// 取消事件订阅
+    /// </summary>
+    protected virtual void EventUnsubscribe()
+    {
+        if (Attribute == null)
+        {
+            Debug.LogWarning("Attribute is null");
+            return;
+        }
+
+        Attribute.OnDieEvent -= ChangeDieStateHandle;
+    }
+
+    /// <summary>
+    /// 切换到死亡状态并掉落物品
+    /// </summary>
+    protected virtual void ChangeDieStateHandle()
+    {
+        CharacterStateMachine.ChangeState(DeathState);
+        DropItemAndCurrency(coldCoin, soul);
+    }
+
+    #endregion
+
+    /// <summary>
+    /// 掉落物品和货币
+    /// </summary>
+    /// <param name="coldCoin"></param>
+    /// <param name="soul"></param>
+    public virtual void DropItemAndCurrency(int coldCoin, int soul)
+    {
+        if (GlobalReferencesManager.Instance != null)
         {
             GlobalReferencesManager.Instance.GamePlayer.CurrencyData.IncreaseGoldCoin(coldCoin);
             GlobalReferencesManager.Instance.GamePlayer.CurrencyData.IncreaseSoul(soul);
         }
+
+        ItemDrop.DropItem();
     }
 
     public override void SlowCharacterSpeed(float slowRatio)
@@ -113,7 +194,7 @@ public class Enemy : Character
     public virtual void OpenCounterAttackWindow()
     {
         canStunned=true;
-        counterImage.SetActive(true);
+        CounterImage.SetActive(true);
     }
 
     /// <summary>
@@ -122,7 +203,7 @@ public class Enemy : Character
     public virtual void CloseCounterAttackWindow()
     {
         canStunned = false;
-        counterImage.SetActive(false);
+        CounterImage.SetActive(false);
     }
 
     #endregion
@@ -149,4 +230,5 @@ public class Enemy : Character
     /// </summary>
     /// <returns></returns>
     public RaycastHit2D IsPlayerDetected() => Physics2D.Raycast(AttackCheck.position, Vector2.right * Direction, EnemyStateData.CheckPlayerDistance, EnemyStateData.PlayerLayer);
+
 }

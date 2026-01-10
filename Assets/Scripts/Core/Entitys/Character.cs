@@ -35,7 +35,7 @@ public class Character : MonoBehaviour
 
     public Animator Animator_CT { get;private set; }
     public Rigidbody2D Rb { get;private set; }
-    public CharacterFX Fx { get;private set; }
+    public CharacterFX Fx { get; private set; }
     public CharacterAttribute Attribute { get; private set; }
     public ItemDropController ItemDrop { get; private set; }
     public StateMachine CharacterStateMachine { get; private set; }

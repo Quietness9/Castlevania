@@ -2,6 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum CurrencyType
+{
+    GoldCoin,//金币
+    Soul//灵魂
+
+}
+
+public enum HitFXType
+{
+    HitFX00,
+    HitFX01,
+}
+
+
+
 public enum SwordType
 {
     Ordinary,//普通模式
@@ -40,17 +55,11 @@ public enum PoolType
     ParticleObject//粒子对象
 }
 
-public enum CurrencyType
+public enum SlimeType
 {
-    GoldCoin,//金币
-    Soul//灵魂
-
-}
-
-public enum HitFXType
-{
-    HitFX00,
-    HitFX01,
+    Big,
+    Medium,
+    Small
 }
 
 public enum AttributeType

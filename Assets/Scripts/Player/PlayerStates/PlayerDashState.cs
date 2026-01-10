@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class PlayerDashState : PlayerState
 {
+   
     public PlayerDashState(Character character, StateMachine stateMachine, string animationName) : base(character, stateMachine, animationName)
     {
     }
@@ -28,6 +29,8 @@ public class PlayerDashState : PlayerState
         {
             player.CharacterStateMachine.ChangeState(player.IdleState);
         }
+
+        player.PlayerFx.CreateDashShadow();
     }
 }
 

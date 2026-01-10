@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ea20813fa61c98458de41ed2c5d5a25, type: 3}
+  m_Name: SlimeStateData
+  m_EditorClassIdentifier: 
+  CheckPlayerDistance: 40
+  PlayerLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  IdleTime: 4
+  MoveSpeed: 2
+  MoveTime: 3
+  BattleTime: 2
+  IgnoreDistance: 3
+  AttackCooldownOffset: {x: 1, y: 2}
+  StunnedMul: 2

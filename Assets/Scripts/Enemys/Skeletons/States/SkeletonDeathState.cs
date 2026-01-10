@@ -2,12 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkeletonDeathState : EntityState
+public class SkeletonDeathState : EnemyDeathState
 {
-    Skeleton _skeleton;
-    public SkeletonDeathState(Character character, Skeleton skeleton,StateMachine stateMachine, string animationName) : base(character, stateMachine, animationName)
+    public SkeletonDeathState(Character character,Skeleton skeleton, StateMachine stateMachine, string animationName) : base(character, skeleton, stateMachine, animationName)
     {
-        _skeleton = skeleton;
     }
 
     public override void Enter()

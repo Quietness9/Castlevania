@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName ="New Fx Data",menuName ="GameData/FxData")]
+[CreateAssetMenu(fileName ="New Fx Data",menuName ="GameData/FxData/BaseData")]
 public class CharacterFxData : ScriptableObject
 {
     [field:Header("基础信息")]
@@ -21,6 +21,12 @@ public class CharacterFxData : ScriptableObject
     [field: SerializeField] public Vector2 HitFXOffsetX {  get; private set; }
     [field: SerializeField] public Vector2 HitFXOffsetY { get; private set; }
     [field: SerializeField] public Vector2 HitFXRotation { get; private set; }
+    [field:SerializeField] public HitFXType HitFXType { get; private set; }
 
+    [field: Header("提示文本")]
+    [field: SerializeField] public float PopUpSpeed { get; private set; }
+    [field: SerializeField] public float DisappearSpeed { get; private set; }
+    [field: SerializeField] public float ColorDisappearSpeed { get; private set; }
+    [field: SerializeField] public Vector3 TextOffset { get; private set; }
 
 }

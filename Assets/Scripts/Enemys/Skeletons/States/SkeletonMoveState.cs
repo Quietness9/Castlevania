@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkeletonMoveState : SkeletonGroundState
+public class SkeletonMoveState : EnemyMoveState
 {
 
     public SkeletonMoveState(Character character,Skeleton skeleton, StateMachine stateMachine, string animationName) : base(character, skeleton, stateMachine, animationName)
@@ -12,25 +12,11 @@ public class SkeletonMoveState : SkeletonGroundState
     public override void Enter()
     {
         base.Enter();
-
-        timer=skeleton.EnemyStateData.MoveTime;
     }
 
     public override void Update()
     {
         base.Update();
-        if (timer < 0.01f&&skeleton.IsGroundCheck())
-        {
-            skeleton.TurnDirection();
-            baseStateMachine.ChangeState(skeleton.IdleState);
-        }
-
-        if (skeleton.IsWallCheck()||!skeleton.IsGroundCheck())
-        {
-            skeleton.TurnDirection();
-        }
-
-        skeleton.SetVelocity(skeleton.Direction*skeleton.EnemyStateData.MoveSpeed,skeleton.Rb.velocity.y);
     }
 
     public override void Exit() 

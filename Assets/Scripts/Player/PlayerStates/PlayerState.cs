@@ -4,7 +4,6 @@ public class PlayerState : EntityState
     public PlayerState(Character character, StateMachine stateMachine, string animationName) : base(character, stateMachine, animationName)
     {
         player = character as Player;
-
     }
 }
 

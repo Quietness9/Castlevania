@@ -40,11 +40,14 @@ public class Player : Character,ISaveManager
     //Timer
     public float LastOnGroundTime { get;set; }
 
-    //组件
+    #region 组件
     public GameObject SwordObj { get;private set; }
 
     public CapsuleCollider2D Clc2d { get; private set; }
 
+    public PlayerFx PlayerFx {  get; private set; }
+
+    #endregion
 
     #region 状态
 
@@ -78,6 +81,8 @@ public class Player : Character,ISaveManager
         DeathState = new PlayerDeathState(this, CharacterStateMachine, "Die");
 
         Clc2d = GetComponent<CapsuleCollider2D>();
+
+        PlayerFx=Fx as PlayerFx;
     }
 
     private void OnEnable()

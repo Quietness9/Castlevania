@@ -111,7 +111,7 @@ public class CharacterAttribute : MonoBehaviour
 
         int totalDamage = Mathf.RoundToInt(GetPhysicalDamage(character.Attribute)*ratio);
         _character.Fx.StartCoroutine("FlashFX");
-        _character.Fx.CreateHitFX(HitFXType.HitFX00,transform);
+        _character.Fx.CreateHitFX(_character.Fx.FxData.HitFXType,transform);
 
         ReduceCurrentHealth(totalDamage);
     }
@@ -635,7 +635,10 @@ public class CharacterAttribute : MonoBehaviour
         if (CurrentHealth <= 0)
             return;
 
-        Debug.Log("造成伤害" + amount);
+        //Debug.Log("造成伤害" + amount);
+
+        _character.Fx.CreatePopUpTextFx(""+amount);
+
         CurrentHealth -= amount;
         CurrentHealth = Mathf.Max(CurrentHealth, 0);
 

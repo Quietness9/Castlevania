@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 26bd7df32b6f4fb4981d42a1140e4efe, type: 3}
-  m_Name: SkeletonLvModifierData
+  m_Name: SkeletonLevelData
   m_EditorClassIdentifier: 
   <HpModifier>k__BackingField: 0.1
   <AtkModifier>k__BackingField: 0.2

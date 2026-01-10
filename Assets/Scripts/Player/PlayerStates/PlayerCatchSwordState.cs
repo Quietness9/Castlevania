@@ -23,6 +23,10 @@ public class PlayerCatchSwordState : PlayerState
             player.TurnDirection();
         }
 
+        player.PlayerFx.PlayDustFx();
+        player.PlayerFx.ScreenShakeFx(player.PlayerFx.PlayerFxData.ShakeSwordImpact);
+
+
         player.Rb.AddForce(new Vector2(player.SwordReturnForce * -player.Direction, player.Rb.velocity.y), ForceMode2D.Impulse);
     }
 

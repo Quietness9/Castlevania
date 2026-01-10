@@ -23,6 +23,8 @@ public class StartUIController : MonoBehaviour
 
     private void Start()
     {
+        _fadeScene.gameObject.SetActive(true);
+
         if (!SaveAndLoadManager.Instance.HaveGameData())
         {
             _continueGameBt.gameObject.SetActive(false);
