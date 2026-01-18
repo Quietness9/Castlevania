@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4420226644797089702}
   - component: {fileID: 4396739464259686134}
   - component: {fileID: 8255817304822882875}
-  - component: {fileID: 3099319005416763309}
+  - component: {fileID: 8407233525163481616}
   m_Layer: 3
   m_Name: PlayerSword
   m_TagString: Untagged
@@ -97,7 +97,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.3
---- !u!114 &3099319005416763309
+--- !u!114 &8407233525163481616
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -106,7 +106,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6495687286295062784}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7157618bd373ff84e800a7d987f82d4d, type: 3}
+  m_Script: {fileID: 11500000, guid: 2ce7f6bbba1ade94288f5de166a8778d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &7439880235895809479
@@ -181,7 +181,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1972967055
-  m_SortingLayer: 2
+  m_SortingLayer: 6
   m_SortingOrder: -1
   m_Sprite: {fileID: -2004053239, guid: f6b296ee51c42564abe9c05f1c502ecd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

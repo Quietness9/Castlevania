@@ -110,10 +110,10 @@ public class Enemy : Character
     /// <param name="soul"></param>
     public virtual void DropItemAndCurrency(int coldCoin, int soul)
     {
-        if (GlobalReferencesManager.Instance != null)
+        if (GlobalReferencesMgr.Instance != null)
         {
-            GlobalReferencesManager.Instance.GamePlayer.CurrencyData.IncreaseGoldCoin(coldCoin);
-            GlobalReferencesManager.Instance.GamePlayer.CurrencyData.IncreaseSoul(soul);
+            GlobalReferencesMgr.Instance.GamePlayer.CurrencyData.IncreaseGoldCoin(coldCoin);
+            GlobalReferencesMgr.Instance.GamePlayer.CurrencyData.IncreaseSoul(soul);
         }
 
         ItemDrop.DropItem();

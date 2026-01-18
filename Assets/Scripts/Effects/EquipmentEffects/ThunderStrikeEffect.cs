@@ -7,7 +7,7 @@ public class ThunderStrikeEffect : EquipmentEffect
 {
     public override void ReleaseEffects(Transform transform)
     {
-        GameObject thunderStrikePre=GlobalReferencesManager.Instance.GetPrefab("ThunderStrike");
+        GameObject thunderStrikePre=GlobalReferencesMgr.Instance.GetPrefab("ThunderStrike");
 
         if(thunderStrikePre==null)
             return;

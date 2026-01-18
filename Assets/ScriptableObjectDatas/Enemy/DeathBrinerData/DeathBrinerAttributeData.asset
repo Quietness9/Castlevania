@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb096081704780a449705179f2fd60eb, type: 3}
+  m_Name: DeathBrinerAttributeData
+  m_EditorClassIdentifier: 
+  <Hp>k__BackingField: 1000
+  <Atk>k__BackingField: 50
+  <Agility>k__BackingField: 0
+  <Vitality>k__BackingField: 0
+  <Strength>k__BackingField: 0
+  <Intelligence>k__BackingField: 0
+  <Armor>k__BackingField: 0
+  <Evasion>k__BackingField: 0
+  <MagicResistance>k__BackingField: 0
+  <CriticalChance>k__BackingField: 0
+  <CriticalDamage>k__BackingField: 0
+  <FireDamage>k__BackingField: 0
+  <IgniteDurationTime>k__BackingField: 0
+  <IgniteDamageCooldown>k__BackingField: 0
+  <IceDamage>k__BackingField: 0
+  <IceDurationTime>k__BackingField: 0
+  <SlowRatio>k__BackingField: 0
+  <LightingDamage>k__BackingField: 0
+  <LightingDurationTime>k__BackingField: 0

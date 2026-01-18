@@ -10,7 +10,7 @@ public class HealEffect : EquipmentEffect
 
     public override void ReleaseEffects(Transform transform)
     {
-        CharacterAttribute attribute = GlobalReferencesManager.Instance.GamePlayer.Attribute;
+        CharacterAttribute attribute = GlobalReferencesMgr.Instance.GamePlayer.Attribute;
 
         if (attribute == null)
         {

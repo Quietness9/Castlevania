@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6412025302887765139}
-  - component: {fileID: 1546864952187194001}
+  - component: {fileID: 7689575631795034739}
   m_Layer: 0
   m_Name: ShockStrike
   m_TagString: Untagged
@@ -33,7 +33,7 @@ Transform:
   - {fileID: 760966004104214350}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1546864952187194001
+--- !u!114 &7689575631795034739
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,12 +42,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 941181096036414278}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 50a3295a342d01147b409d0c469e8b24, type: 3}
+  m_Script: {fileID: 11500000, guid: 02bedc4c9009f934ea6660827c5a6710, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _delay: 0.5
-  _increaseScale: {x: 2, y: 2, z: 0}
-  _animationOffset: {x: 0, y: 0.5, z: 0}
+  _increaseScale: {x: 2, y: 2, z: 2}
+  _animationOffset: {x: 0, y: 1, z: 0}
 --- !u!1 &5648225381763434460
 GameObject:
   m_ObjectHideFlags: 0
@@ -120,7 +120,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1271605423
-  m_SortingLayer: 4
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: 1548086973, guid: 96aeec0df8d9a9c41b6ad67ce63a900a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

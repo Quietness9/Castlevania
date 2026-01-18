@@ -49,7 +49,7 @@ public class PlayerCrystalSkill : Skill
     /// </summary>
     public GameObject CreateCrystal(Transform transform,Quaternion quaternion=default)
     {
-        GameObject crystalPre = GlobalReferencesManager.Instance.GetPrefab("Crystal");
+        GameObject crystalPre = GlobalReferencesMgr.Instance.GetPrefab("Crystal");
         if (crystalPre == null)
         {
             Debug.LogWarning("Ô¤ÖÆÌåÎªnull");
@@ -59,7 +59,7 @@ public class PlayerCrystalSkill : Skill
         GameObject crystalObj = Instantiate(crystalPre,transform.position, quaternion);
         crystalObj.SetActive(false);
 
-        CrystalController crystalController = crystalObj.GetComponent<CrystalController>();
+        CrystalCtr crystalController = crystalObj.GetComponent<CrystalCtr>();
         crystalController.SetCrystalData(player,this);
 
         return crystalObj;
@@ -78,7 +78,7 @@ public class PlayerCrystalSkill : Skill
         if (IsCanExplode && IsCanMove)
         {
             Transform closestEnemy = GetClosestEnemy(player.transform, PlayerCrystalData.CheckRadius);
-            crystalObj.GetComponent<CrystalController>().SetClosestEnemy(closestEnemy);
+            crystalObj.GetComponent<CrystalCtr>().SetClosestEnemy(closestEnemy);
         }
     }
 
@@ -88,7 +88,7 @@ public class PlayerCrystalSkill : Skill
         if (IsLock&&CanUseSkill())
         {
 
-            InGameUIController.Instance.CrystalImageCooldown();
+            InGameUICtr.Instance.CrystalImageCooldown();
             if (IsUseMulCrystal)
             {
                 CreateMulCrystal();
@@ -124,7 +124,7 @@ public class PlayerCrystalSkill : Skill
                 GameObject crystalObj = GetCanUseCrystal();
                 crystalObj.transform.position = player.transform.position;
                 crystalObj.SetActive(true);
-                crystalObj.GetComponent<CrystalController>().SetClosestEnemy(enemyTransform);
+                crystalObj.GetComponent<CrystalCtr>().SetClosestEnemy(enemyTransform);
             }
 
         }

@@ -25,7 +25,7 @@ public class EnemyGroundState : EntityState
     {
         base.Update();
 
-        if (enemy.IsPlayerDetected() || Vector2.Distance(enemy.transform.position, GlobalReferencesManager.Instance.GamePlayer.transform.position) < enemy.EnemyStateData.IgnoreDistance)
+        if (enemy.IsPlayerDetected() || Vector2.Distance(enemy.transform.position, GlobalReferencesMgr.Instance.GamePlayer.transform.position) < enemy.EnemyStateData.IgnoreDistance)
         {
             baseStateMachine.ChangeState(enemy.BattleState);
         }

@@ -10,14 +10,14 @@ public class PlayerDashState : PlayerState
     public override void Enter()
     {
         base.Enter();
-        SkillManager.Instance.CloneSkill.CreateCloneOnDashStart(player.transform);
+        SkillMgr.Instance.CloneSkill.CreateCloneOnDashStart(player.transform);
         player.Attribute.MakeInvincible();
     }
 
     public override void Exit()
     {
         base.Exit();
-        SkillManager.Instance.CloneSkill.CreateCloneOnDashEnd(player.transform);
+        SkillMgr.Instance.CloneSkill.CreateCloneOnDashEnd(player.transform);
         player.Attribute.CancelInvincible();
     }
 

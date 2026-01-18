@@ -106,11 +106,11 @@ public class CharacterFX : MonoBehaviour
     /// <param name="preName"></param>
     public void SpawnMagicParticle(string preName)
     {
-        GameObject particlePre = GlobalReferencesManager.Instance.GetPrefab(preName);
+        GameObject particlePre = GlobalReferencesMgr.Instance.GetPrefab(preName);
 
         if (particlePre != null && _particleObj == null)
         {
-            _particleObj = ObjectPoolManager.SpawnObject(particlePre, transform.position + _particleOffset, Quaternion.identity, PoolType.ParticleObject);
+            _particleObj = ObjectPoolMgr.SpawnObject(particlePre, transform.position + _particleOffset, Quaternion.identity, PoolType.ParticleObject);
             _particleObj.transform.parent = transform;
 
             _particleObj.GetComponent<ParticleSystem>()?.Play();
@@ -128,7 +128,7 @@ public class CharacterFX : MonoBehaviour
         if (_particleObj != null)
         {
             _particleObj.GetComponent<ParticleSystem>()?.Stop();
-            ObjectPoolManager.ReturnObjectToPool(_particleObj, PoolType.ParticleObject);
+            ObjectPoolMgr.ReturnObjectToPool(_particleObj, PoolType.ParticleObject);
             _particleObj = null;
         }
         
@@ -159,7 +159,7 @@ public class CharacterFX : MonoBehaviour
     /// <param name="target"></param>
     public void CreateHitFX(HitFXType hitFXType,Transform target)
     {
-        GameObject hitFXPre = GlobalReferencesManager.Instance.GetPrefab(GetHitFXPrefabName(hitFXType));
+        GameObject hitFXPre = GlobalReferencesMgr.Instance.GetPrefab(GetHitFXPrefabName(hitFXType));
 
         if (hitFXPre == null)
             return;
@@ -201,14 +201,14 @@ public class CharacterFX : MonoBehaviour
     /// <param name="text"></param>
     public void CreatePopUpTextFx(string text)
     {
-        GameObject popUpTextPre = GlobalReferencesManager.Instance.GetPrefab("PopUpText");
+        GameObject popUpTextPre = GlobalReferencesMgr.Instance.GetPrefab("PopUpText");
 
         if (popUpTextPre == null)
             return;
 
         GameObject popUpTextObj = Instantiate(popUpTextPre, transform.position + FxData.TextOffset, Quaternion.identity);
 
-        popUpTextObj.GetComponent<PopUpTextController>().SetPopUpText(FxData, text);
+        popUpTextObj.GetComponent<PopUpTextCtr>().SetPopUpText(FxData, text);
     }
 
 }

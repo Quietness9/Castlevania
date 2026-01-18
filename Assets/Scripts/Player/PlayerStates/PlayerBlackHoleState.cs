@@ -19,7 +19,7 @@ public class PlayerBlackHoleState : PlayerState
         player.Rb.gravityScale = 0;
         _isCreateBlackHole=true;
 
-        _blackHoleSkill = SkillManager.Instance.BlackSkill;
+        _blackHoleSkill = SkillMgr.Instance.BlackSkill;
         timer = _blackHoleSkill.PlayerBlackHoleData.FlyTime;
     }
 

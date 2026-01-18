@@ -14,14 +14,14 @@ public class PlayerAimSwordState : PlayerState
     public override void Enter()
     {
         base.Enter();
-        SkillManager.Instance.SwordSkill.ActiveDots();
+        SkillMgr.Instance.SwordSkill.ActiveDots();
         player.SetVelocityZero();
     }
 
     public override void Exit()
     {
         base.Exit();
-        SkillManager.Instance.SwordSkill.HideDots();
+        SkillMgr.Instance.SwordSkill.HideDots();
     }
 
     public override void Update()

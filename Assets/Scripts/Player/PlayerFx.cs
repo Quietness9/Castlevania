@@ -48,13 +48,13 @@ public class PlayerFx : CharacterFX
         if(_shadowCooldownTimer>0)
             return;
 
-        GameObject dashShadowPre=GlobalReferencesManager.Instance.GetPrefab("DashShadow");
+        GameObject dashShadowPre=GlobalReferencesMgr.Instance.GetPrefab("DashShadow");
 
         if (dashShadowPre == null)
             return;
 
         GameObject dashShadowObj=Instantiate(dashShadowPre,transform.position,transform.rotation);
-        dashShadowObj.GetComponent<DashShadowController>().SetDashShadow(PlayerFxData.ColorLooseRate);
+        dashShadowObj.GetComponent<DashShadowCtr>().SetDashShadow(PlayerFxData.ColorLooseRate);
         _shadowCooldownTimer = PlayerFxData.ShadowCooldown;
 
     }

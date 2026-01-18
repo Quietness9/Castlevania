@@ -19,7 +19,7 @@ public class EnemyBattleState : EntityState
 
         if (playerTransform == null)
         {
-            playerTransform = GlobalReferencesManager.Instance.GamePlayer.transform;
+            playerTransform = GlobalReferencesMgr.Instance.GamePlayer.transform;
         }
 
         if (enemy.IsPlayerDetected() == false)

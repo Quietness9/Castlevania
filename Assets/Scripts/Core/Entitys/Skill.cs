@@ -15,7 +15,7 @@ public class Skill : MonoBehaviour
 
     protected virtual void Start() 
     {
-        player = GlobalReferencesManager.Instance.GamePlayer;
+        player = GlobalReferencesMgr.Instance.GamePlayer;
         
     }
 

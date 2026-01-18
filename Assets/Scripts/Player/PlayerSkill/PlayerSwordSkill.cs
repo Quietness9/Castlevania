@@ -47,7 +47,7 @@ public class PlayerSwordSkill : Skill
     /// </summary>
     public void CreateSword()
     {
-        GameObject swordPre = GlobalReferencesManager.Instance.GetPrefab("PlayerSword");
+        GameObject swordPre = GlobalReferencesMgr.Instance.GetPrefab("PlayerSword");
         if (swordPre == null)
             return;
 
@@ -59,7 +59,7 @@ public class PlayerSwordSkill : Skill
             return;
         }
 
-        if(swordObj.TryGetComponent(out SwordController newSword))
+        if(swordObj.TryGetComponent(out SwordCtr newSword))
         {
             newSword.SetSwordData(PlayerSwordData.SwordForce * _finalDir,player,this);
             player.GetNewSword(swordObj);
@@ -117,7 +117,7 @@ public class PlayerSwordSkill : Skill
     /// </summary>
     private void CreateDots()
     {
-        GameObject dotPrefab = GlobalReferencesManager.Instance.GetPrefab("SwordDot");
+        GameObject dotPrefab = GlobalReferencesMgr.Instance.GetPrefab("SwordDot");
 
         if (dotPrefab==null)
             return;

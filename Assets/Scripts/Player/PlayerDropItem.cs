@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerDropItem : ItemDropController
+public class PlayerDropItem : ItemDropCtr
 {
     public override void DropItem()
     {
         InventoryController inventoryController = InventoryController.Instance;
 
-        GameObject dropItemPre = GlobalReferencesManager.Instance.GetPrefab("Item");
+        GameObject dropItemPre = GlobalReferencesMgr.Instance.GetPrefab("Item");
 
        
 

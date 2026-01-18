@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2620556201767007394}
-  - component: {fileID: 3251406765119240066}
   - component: {fileID: 3683618297337140342}
   - component: {fileID: 8280861607668945419}
+  - component: {fileID: 3696460304034297911}
   m_Layer: 0
   m_Name: IceAndFire
   m_TagString: Untagged
@@ -35,18 +35,6 @@ Transform:
   - {fileID: 1078422058131418601}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3251406765119240066
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6010570431545800133}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 401f120622617704c93b859ad16587c3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!58 &3683618297337140342
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -109,6 +97,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &3696460304034297911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6010570431545800133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3127899fd57f8249a00c6205a02dc4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8298409302890557771
 GameObject:
   m_ObjectHideFlags: 0
@@ -181,7 +181,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1972967055
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: 0a691d592ecfd4142af58dfcd8c242b0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

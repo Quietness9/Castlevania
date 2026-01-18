@@ -37,7 +37,7 @@ public class Character : MonoBehaviour
     public Rigidbody2D Rb { get;private set; }
     public CharacterFX Fx { get; private set; }
     public CharacterAttribute Attribute { get; private set; }
-    public ItemDropController ItemDrop { get; private set; }
+    public ItemDropCtr ItemDrop { get; private set; }
     public StateMachine CharacterStateMachine { get; private set; }
 
     SpriteRenderer _sr;
@@ -50,7 +50,7 @@ public class Character : MonoBehaviour
     {
         Rb = GetComponent<Rigidbody2D>();
         Fx = GetComponentInChildren<CharacterFX>();
-        ItemDrop = GetComponent<ItemDropController>();
+        ItemDrop = GetComponent<ItemDropCtr>();
         Attribute = GetComponent<CharacterAttribute>();
         _sr = GetComponentInChildren<SpriteRenderer>();
         Animator_CT = GetComponentInChildren<Animator>();

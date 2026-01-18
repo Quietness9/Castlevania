@@ -343,12 +343,12 @@ public class CharacterAttribute : MonoBehaviour
     /// </summary>
     private void TakeShockDamage(CharacterAttribute attackTarget)
     {
-        GameObject shockPre = GlobalReferencesManager.Instance.GetPrefab("ShockStrike");
+        GameObject shockPre = GlobalReferencesMgr.Instance.GetPrefab("ShockStrike");
         if (shockPre == null)
             return;
 
         GameObject shockObj = Instantiate(shockPre, transform.position, Quaternion.identity);
-        shockObj.GetComponent<ShockStrikeController>().ShockEffect();
+        shockObj.GetComponent<ShockStrikeCtr>().ShockEffect();
 
         int shockDamage = Mathf.RoundToInt(attackTarget.LightingDamage.GetValue() * 0.2f);
 

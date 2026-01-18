@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2070326604754336820}
   - component: {fileID: 2660686330760649729}
   - component: {fileID: 734278110895383861}
-  - component: {fileID: 3584600151036716404}
+  - component: {fileID: 3815364089459781549}
   m_Layer: 8
   m_Name: Skeleton
   m_TagString: Untagged
@@ -126,6 +126,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcc69920a2e04734abcf9ad272a724c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  coldCoin: 100
+  soul: 10
   AttackCheck: {fileID: 3902694221408073283}
   AttackCheckRadius: 0.8
   groundCheckPoint: {fileID: 1057345444100530699}
@@ -138,11 +140,11 @@ MonoBehaviour:
   wallLayer:
     serializedVersion: 2
     m_Bits: 64
-  KnockbackForce: {x: 0, y: 0}
-  KnockDuration: 0
+  KnockbackForce: {x: 3, y: 1.5}
+  KnockDuration: 0.5
   Direction: 1
   EnemyStateData: {fileID: 11400000, guid: 76e63d7923a14ff41a6877d014ea2a4a, type: 2}
-  counterImage: {fileID: 7052800714962962075}
+  CounterImage: {fileID: 7052800714962962075}
 --- !u!114 &734278110895383861
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,7 +203,7 @@ MonoBehaviour:
     _modifier: 
   _level: 5
   _modifierData: {fileID: 11400000, guid: 6e04ac5d4ea12c64ebce45fa118c8e6b, type: 2}
---- !u!114 &3584600151036716404
+--- !u!114 &3815364089459781549
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -210,13 +212,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 2568641398723005995}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f21eede3f588a4429a1c2e642927c91, type: 3}
+  m_Script: {fileID: 11500000, guid: 8eb38d710db0e7c40ac67330acca9c51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _dropAmount: 3
   _dropItemData:
   - {fileID: 11400000, guid: 089ff1bc6e2184e488a283007f64aae2, type: 2}
-  - {fileID: 11400000, guid: 45468878df9d26d4e92739048a120935, type: 2}
+  - {fileID: 11400000, guid: df13fd04cf4c1d34c86f5aa22757d69e, type: 2}
   - {fileID: 11400000, guid: d445db76f53c2a446a4947cd3b0bd3a4, type: 2}
 --- !u!1 &2656677583921412502
 GameObject:
@@ -508,7 +510,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1271605423
-  m_SortingLayer: 4
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: -85727878, guid: 687df074731fbf744b668d2275dbb675, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -679,7 +681,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1271605423
-  m_SortingLayer: 4
+  m_SortingLayer: 5
   m_SortingOrder: -1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0.9924528, g: 0, b: 0, a: 0.7411765}

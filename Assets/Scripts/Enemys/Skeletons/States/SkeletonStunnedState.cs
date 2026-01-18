@@ -14,7 +14,7 @@ public class SkeletonStunnedState : EntityState
         base.Enter();
         if (_player == null)
         {
-            _player = GlobalReferencesManager.Instance.GamePlayer;
+            _player = GlobalReferencesMgr.Instance.GamePlayer;
         }
 
         _skeleton.Fx.InvokeRepeating("RedColorBlink", 0, _skeleton.Fx.FxData.RepeatTime);

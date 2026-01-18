@@ -113,7 +113,7 @@ public class Slime : Enemy
         SlimeType slimeType = _slimeType;
         Vector3 scale=Vector3.one;
 
-        GameObject slimePre = GlobalReferencesManager.Instance.GetPrefab("Slime");
+        GameObject slimePre = GlobalReferencesMgr.Instance.GetPrefab("Slime");
 
         if (slimePre == null)
             return;

@@ -14,12 +14,12 @@ public class PlayerCloneSkill : Skill
     public bool IsCreateDuplicateClone;
 
     GameObject _clonePlayer;
-    SkillManager _skillManager;
+    SkillMgr _skillManager;
 
     protected override void Start()
     {
         base.Start();
-        _skillManager = SkillManager.Instance;
+        _skillManager = SkillMgr.Instance;
     }
 
     /// <summary>
@@ -30,7 +30,7 @@ public class PlayerCloneSkill : Skill
         if(!IsLock)
             return;
 
-        GameObject clonePre = GlobalReferencesManager.Instance.GetPrefab("PlayerClone");
+        GameObject clonePre = GlobalReferencesMgr.Instance.GetPrefab("PlayerClone");
         if (clonePre == null)
             return;
 

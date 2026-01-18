@@ -24,12 +24,12 @@ public class InventoryController : MonoSingleton<InventoryController>,ISaveManag
     [Header("库存UI")]
     [SerializeField] Transform _equipmentSlotParent;
     [SerializeField] Transform _materialSlotParent;
-    InventorySlotController[] _equipmentItemSlots;
-    InventorySlotController[] _materialItemSlots;
+    InventorySlotCtr[] _equipmentItemSlots;
+    InventorySlotCtr[] _materialItemSlots;
 
     [Header("展示UI")]
     [SerializeField] Transform _showEquipmentSlotParent;
-    EquipmentSlotController[] _showEquipmentItemSlots;
+    EquipmentSlotCtr[] _showEquipmentItemSlots;
 
     [Header("加载物品")]
     [SerializeField] List<ItemData> _itemDataBase=new ();//数据暂时使用手动拖拽方式，后面改为 Addressable Asset System方式
@@ -77,9 +77,9 @@ public class InventoryController : MonoSingleton<InventoryController>,ISaveManag
     private void InitInventory()
     {
 
-        _equipmentItemSlots =_equipmentSlotParent.GetComponentsInChildren<InventorySlotController>();
-        _materialItemSlots = _materialSlotParent.GetComponentsInChildren<InventorySlotController>();
-        _showEquipmentItemSlots=_showEquipmentSlotParent.GetComponentsInChildren<EquipmentSlotController>();
+        _equipmentItemSlots =_equipmentSlotParent.GetComponentsInChildren<InventorySlotCtr>();
+        _materialItemSlots = _materialSlotParent.GetComponentsInChildren<InventorySlotCtr>();
+        _showEquipmentItemSlots=_showEquipmentSlotParent.GetComponentsInChildren<EquipmentSlotCtr>();
 
     }
 
@@ -145,7 +145,7 @@ public class InventoryController : MonoSingleton<InventoryController>,ISaveManag
     /// <summary>
     /// 整理材料库存UI槽数据
     /// </summary>
-    public void OrganizeInventoryData(Dictionary<int,InventoryItem> dir, InventorySlotController[] slots)
+    public void OrganizeInventoryData(Dictionary<int,InventoryItem> dir, InventorySlotCtr[] slots)
     {
         int index = 0;
         foreach(var item  in dir)
@@ -423,16 +423,16 @@ public class InventoryController : MonoSingleton<InventoryController>,ISaveManag
                 }
             }
 
-            CharacterUIController.IsLoadEquipment=true;
+            CharacterUICtr.IsLoadEquipment=true;
             foreach(var item in data.EquipmentItems)
             {
                 if(lookupDict.TryGetValue(item,out ItemData foundItem))
                 {
-                    MenuController.Instance.CharacterUI.EquipWeapons(new InventoryItem(foundItem));
+                    MenuCtr.Instance.CharacterUI.EquipWeapons(new InventoryItem(foundItem));
                 }
             }
-            CharacterUIController.IsLoadEquipment = false;
-            MenuController.Instance.CharacterUI.UpdateEquipmentSlotData();
+            CharacterUICtr.IsLoadEquipment = false;
+            MenuCtr.Instance.CharacterUI.UpdateEquipmentSlotData();
         }
 
     }
@@ -455,7 +455,7 @@ public class InventoryController : MonoSingleton<InventoryController>,ISaveManag
             data.InventoryItems.Add(materialItem.Key,materialItem.Value.GetCount());
         }
 
-        data.EquipmentItems.AddRange(MenuController.Instance.CharacterUI.SaveEquipmentData());
+        data.EquipmentItems.AddRange(MenuCtr.Instance.CharacterUI.SaveEquipmentData());
     }
 
 

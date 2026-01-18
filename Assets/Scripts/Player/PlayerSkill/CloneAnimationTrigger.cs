@@ -97,7 +97,7 @@ public class CloneAnimationTrigger : MonoBehaviour
 
                 if (_cloneSkill.IsCreateDuplicateClone&&(Random.Range(0,10)> _cloneSkill.PlayerCloneData.DutCreateCloneProbability))
                 {
-                    SkillManager.Instance.CloneSkill.CreateClonePlayer(enemy.transform,
+                    SkillMgr.Instance.CloneSkill.CreateClonePlayer(enemy.transform,
                         new Vector2(_cloneSkill.PlayerCloneData.DutCreateCloneOffset.x*_faceDir, _cloneSkill.PlayerCloneData.DutCreateCloneOffset.y));
                 }
             }

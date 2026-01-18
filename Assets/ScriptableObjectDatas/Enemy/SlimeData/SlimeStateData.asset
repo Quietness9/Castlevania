@@ -22,4 +22,4 @@ MonoBehaviour:
   BattleTime: 2
   IgnoreDistance: 3
   AttackCooldownOffset: {x: 1, y: 2}
-  StunnedMul: 2
+  StunnedMul: 0.5

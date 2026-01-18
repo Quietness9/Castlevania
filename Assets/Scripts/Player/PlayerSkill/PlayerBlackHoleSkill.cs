@@ -38,13 +38,13 @@ public class PlayerBlackHoleSkill : Skill
     public void CreateBlackHole()
     {
 
-        GameObject blackHolePre = GlobalReferencesManager.Instance.GetPrefab("BlackHole");
+        GameObject blackHolePre = GlobalReferencesMgr.Instance.GetPrefab("BlackHole");
         if (blackHolePre == null)
             return;
 
         GameObject blackHoleObj = Instantiate(blackHolePre,player.transform.position,Quaternion.identity);
 
-        blackHoleObj.GetComponent<BlackHoleController>().SetBlackHoleData(player,this);
+        blackHoleObj.GetComponent<BlackHoleCtr>().SetBlackHoleData(player,this);
     }
 
     /// <summary>
@@ -62,7 +62,7 @@ public class PlayerBlackHoleSkill : Skill
     {
         if (IsLock&&CanUseSkill())
         {
-            InGameUIController.Instance.BlackHoleImageCooldown();
+            InGameUICtr.Instance.BlackHoleImageCooldown();
             SetBlackHoleState(true, false);
             player.CharacterStateMachine.ChangeState(player.BlackHoleState);
         }

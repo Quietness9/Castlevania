@@ -11,7 +11,7 @@ public class PlayerDeathState : PlayerState
     public override void Enter()
     {
         base.Enter();
-        InGameUIController.Instance.PlayerDeathEffect();
+        InGameUICtr.Instance.PlayerDeathEffect();
     }
 
     public override void Exit()

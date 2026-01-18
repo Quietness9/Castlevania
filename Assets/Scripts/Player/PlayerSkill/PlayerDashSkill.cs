@@ -31,7 +31,7 @@ public class PlayerDashSkill : Skill
     {
         if (IsLock&&CanUseSkill())
         {
-            InGameUIController.Instance.DashImageCooldown();
+            InGameUICtr.Instance.DashImageCooldown();
             player.CharacterStateMachine.ChangeState(player.DashState);
             player.Rb.AddForce(Vector2.right * player.Direction * player.MoveData.DashForce, ForceMode2D.Impulse);
         }

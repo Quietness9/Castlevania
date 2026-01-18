@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4829538522989029864}
-  - component: {fileID: 9207985896139166760}
+  - component: {fileID: 414886575279912970}
   m_Layer: 0
   m_Name: SaveAndLoadManager
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9207985896139166760
+--- !u!114 &414886575279912970
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,33 +41,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 5399194087769518354}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bfed0eb016b9d3149a89350f8e98da55, type: 3}
+  m_Script: {fileID: 11500000, guid: 1d10c217874b26346bc5ef2cf81cb105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _fileName: data.alexdev
-  _isEncryption: 0
-  _unActiveSaveManagers:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  _fileName: 
+  _isEncryption: 1

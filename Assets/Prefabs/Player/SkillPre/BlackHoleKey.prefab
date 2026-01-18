@@ -209,7 +209,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1271605423
-  m_SortingLayer: 4
+  m_SortingLayer: 5
   m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
@@ -231,7 +231,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9007114776809138409}
-  - component: {fileID: 8035638249866860404}
+  - component: {fileID: 7796716582472721453}
   m_Layer: 0
   m_Name: BlackHoleKey
   m_TagString: Untagged
@@ -255,7 +255,7 @@ Transform:
   - {fileID: 6285083857358411603}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8035638249866860404
+--- !u!114 &7796716582472721453
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -264,7 +264,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6564238351677858423}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7924522cec982749b06e99ef2a84f27, type: 3}
+  m_Script: {fileID: 11500000, guid: edbf7b633f86a2e4cb11fa02a5e20573, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &7150747429441307720

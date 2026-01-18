@@ -32,8 +32,8 @@ public class PlayerCounterAttackState : PlayerState
             {
                 timer = 4f;
                 player.Animator_CT.SetBool("SuccessfulCounterAttack", true);
-                SkillManager.Instance.ParrySkill.RecoverHp();
-                SkillManager.Instance.CloneSkill.CreateCloneOnCounterAttack(enemy.transform, -player.Direction * player.CounterAttackOffset);
+                SkillMgr.Instance.ParrySkill.RecoverHp();
+                SkillMgr.Instance.CloneSkill.CreateCloneOnCounterAttack(enemy.transform, -player.Direction * player.CounterAttackOffset);
             }
         }
 

@@ -9,14 +9,14 @@ public class IceAndFireEffect : EquipmentEffect
     [SerializeField] Vector2 _force;
     [Range(0,1f)]
     [SerializeField] float _triggerProbability;
-    float _direction=>GlobalReferencesManager.Instance.GamePlayer.Direction;
+    float _direction=>GlobalReferencesMgr.Instance.GamePlayer.Direction;
 
     public override void ReleaseEffects(Transform transform)
     {
         if (Random.value > _triggerProbability)
             return;
 
-        GameObject iceAndFirePre=GlobalReferencesManager.Instance.GetPrefab("IceAndFire");
+        GameObject iceAndFirePre=GlobalReferencesMgr.Instance.GetPrefab("IceAndFire");
 
         if(iceAndFirePre==null)
             return;
@@ -28,7 +28,7 @@ public class IceAndFireEffect : EquipmentEffect
             iceAndFireObj.transform.Rotate(0, 180, 0);
         }
 
-        iceAndFireObj.GetComponent<IceAndFireController>().SetForce(new Vector2(_force.x * _direction, _force.y));
+        iceAndFireObj.GetComponent<IceAndFireCtr>().SetForce(new Vector2(_force.x * _direction, _force.y));
 
         Destroy(iceAndFireObj, destroyTime);
     }

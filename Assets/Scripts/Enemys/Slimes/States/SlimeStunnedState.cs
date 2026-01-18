@@ -19,7 +19,7 @@ public class SlimeStunnedState : EntityState
 
         if (_player == null)
         {
-            _player = GlobalReferencesManager.Instance.GamePlayer;
+            _player = GlobalReferencesMgr.Instance.GamePlayer;
         }
 
         _slime.Fx.InvokeRepeating("RedColorBlink", 0, _slime.Fx.FxData.RepeatTime);

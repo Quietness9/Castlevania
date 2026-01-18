@@ -93,7 +93,7 @@ public class Player : Character,ISaveManager
     private void Start()
     {
         InitPlayer();
-        GlobalReferencesManager.Instance.GamePlayer = this;
+        GlobalReferencesMgr.Instance.GamePlayer = this;
     }
 
     private void Update()
@@ -225,7 +225,7 @@ public class Player : Character,ISaveManager
 
         Attribute.OnDieEvent += ChangDieStateHandle;
 
-        if (SaveAndLoadManager.Instance == null)
+        if (SaveAndLoadMgr.Instance == null)
         {
             Debug.LogWarning("SaveAndLoadManager is null");
             return;
@@ -290,7 +290,7 @@ public class Player : Character,ISaveManager
         {
             if (InventoryController.Instance.CanUseEquipment(EquipmentItemType.Flask, equipment))
             {
-                InGameUIController.Instance.FlaskImageCooldown();
+                InGameUICtr.Instance.FlaskImageCooldown();
                 equipment.UseEquipmentEffect(transform);
             }
             
@@ -324,7 +324,7 @@ public class Player : Character,ISaveManager
     /// </summary>
     private void ChangeAimSwordStateHandle()
     {
-        if(SkillManager.Instance.SwordSkill.IsLock==false)
+        if(SkillMgr.Instance.SwordSkill.IsLock==false)
             return;
 
         if (!SwordObj)
@@ -333,7 +333,7 @@ public class Player : Character,ISaveManager
         }
         else
         {
-            SwordObj.GetComponent<SwordController>().ReturnSword();
+            SwordObj.GetComponent<SwordCtr>().ReturnSword();
         }
         
     }
