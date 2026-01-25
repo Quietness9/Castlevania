@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Experimental.GlobalIllumination;
 using static UnityEditor.Progress;
 
-public class InventoryController : MonoSingleton<InventoryController>,ISaveManager
+public class InventoryController : MonoSingleton<InventoryController>
 {
 
     public List<InventoryItem> Items=new(); //方便查看，可以删除(全部物品)
@@ -40,8 +40,11 @@ public class InventoryController : MonoSingleton<InventoryController>,ISaveManag
     float _amuletCooldownTimer;
     float _flaskCooldownTimer;
 
-    private void Start()
+    protected override void Awake()
     {
+        base.Awake();
+        GameEventMgr.OnSaveGame += SaveGameData;
+        GameEventMgr.OnLoadGame += LoadGameData;
         InitInventory();
     }
 
@@ -68,6 +71,9 @@ public class InventoryController : MonoSingleton<InventoryController>,ISaveManag
         _equipmentItemSlots = null;
         _materialItemSlots= null;
         _showEquipmentItemSlots= null;
+
+        GameEventMgr.OnSaveGame -= SaveGameData;
+        GameEventMgr.OnLoadGame -= LoadGameData;
 
     }
 
@@ -389,7 +395,7 @@ public class InventoryController : MonoSingleton<InventoryController>,ISaveManag
 
     #endregion
 
-    #region 接口实现
+    #region 数据保存
 
     public void LoadGameData(GameData data)
     {

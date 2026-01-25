@@ -6,7 +6,7 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class SkillSlotCtr : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,ISaveManager
+public class SkillSlotCtr : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler
 {
     public bool UnLock;
 
@@ -43,9 +43,6 @@ public class SkillSlotCtr : MonoBehaviour,IPointerEnterHandler,IPointerExitHandl
 
     private void Start()
     {
-
-        
-
         if (!UnLock)
         {
             _slotImage.color = _lockColor;
@@ -64,6 +61,9 @@ public class SkillSlotCtr : MonoBehaviour,IPointerEnterHandler,IPointerExitHandl
         {
             _onSkillUnLockEvent.RemoveAllListeners();
         }
+
+        GameEventMgr.OnSaveGame -= SaveGameData;
+        GameEventMgr.OnLoadGame -= LoadGameData;
     }
 
     /// <summary>
@@ -98,6 +98,15 @@ public class SkillSlotCtr : MonoBehaviour,IPointerEnterHandler,IPointerExitHandl
         UnLock = true;
         _slotImage.color = Color.white;
         _onSkillUnLockEvent?.Invoke();
+    }
+
+    /// <summary>
+    /// ¶©ÔÄÊÂ¼þ
+    /// </summary>
+    public void EventSubscribe()
+    {
+        GameEventMgr.OnSaveGame += SaveGameData;
+        GameEventMgr.OnLoadGame += LoadGameData;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -136,6 +145,7 @@ public class SkillSlotCtr : MonoBehaviour,IPointerEnterHandler,IPointerExitHandl
         if(data.SkillUnlock.TryGetValue(_slotName, out bool value))
         {
             UnLock = value;
+            Debug.Log("Load GameData:"+_slotName+" UnLock:"+UnLock);
             if (UnLock)
             {
                 _slotImage.color = Color.white;

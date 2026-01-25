@@ -6,6 +6,8 @@ using UnityEngine;
 public class GameEventMgr
 {
     //Êý¾Ý±£´æ
-    public static event Action OnSaveGame;
-    public static event Action OnLoadGame;
+    public static  Action<GameData> OnSaveGame;
+    public static  Action<GameData> OnLoadGame;
+
+    
 }

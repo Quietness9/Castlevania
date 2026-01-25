@@ -44,5 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d10c217874b26346bc5ef2cf81cb105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _fileName: 
-  _isEncryption: 1
+  _fileName: data.alexdev
+  _isEncryption: 0

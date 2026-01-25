@@ -3,17 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameMgr : MonoSingleton<GameMgr>,ISaveManager
+public class GameMgr : MonoSingleton<GameMgr>
 {
     public CheckPointCtr ActiveCheckPoint;
 
     [SerializeField] CheckPointCtr[] _allCheckPoints;
 
+    protected override void Awake()
+    {
+        base.Awake();
+        GameEventMgr.OnSaveGame+=SaveGameData;
+        GameEventMgr.OnLoadGame+=LoadGameData;
+    }
 
     private void Start()
     {
         _allCheckPoints=FindObjectsOfType<CheckPointCtr>();
     }
+
+    protected override void OnDestroy()
+    {
+        base.OnDestroy();
+        GameEventMgr.OnSaveGame -= SaveGameData;
+        GameEventMgr.OnLoadGame -= LoadGameData;
+    }
+
     /// <summary>
     /// 重新开始游戏
     /// </summary>
@@ -73,6 +87,11 @@ public class GameMgr : MonoSingleton<GameMgr>,ISaveManager
         {
             data.CheckPoints.Add(item.CheckPointId,item.IsActive);
         }
-        data.LastCheckPointId = ActiveCheckPoint.CheckPointId;
+
+        if (ActiveCheckPoint != null)
+        {
+            data.LastCheckPointId = ActiveCheckPoint.CheckPointId;
+        }
+        
     }
 }

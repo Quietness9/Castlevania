@@ -17,10 +17,12 @@ public class MenuCtr : MonoSingleton<MenuCtr>
 
 
     [SerializeField] Transform _allMenuParent;
+    [SerializeField] Transform _headerParent;
+    [SerializeField] Transform _SkillSlotParent;
     [SerializeField] GameObject _bg;
     [SerializeField] GameObject _menuHeader;
 
-    [SerializeField] List<GameObject> _allMenus=new();
+    List<GameObject> _allMenus=new();
 
     PlayerInputReader _playerInput;
 
@@ -117,10 +119,30 @@ public class MenuCtr : MonoSingleton<MenuCtr>
             }
         }
 
+        //初始化菜单按钮
+        for(int i = 0; i < _headerParent.childCount; i++)
+        {
+            int currentIndex = i;
+            Button button=_headerParent.GetChild(i).GetComponent<Button>();
+            if (button != null)
+            {
+                button.onClick.AddListener(() => SwitchMenu(_allMenus[currentIndex]));
+            }
+        }
+
         SetMenuActive(false);
 
-        _playerInput =GlobalReferencesMgr.Instance.GamePlayer.PlayerInput;
+        //初始化技能槽位
+        for (int i = 0; i < _SkillSlotParent.childCount; i++)
+        {
+            SkillSlotCtr skillSlotCtr=_SkillSlotParent.GetChild(i).GetComponent<SkillSlotCtr>();
+            if (skillSlotCtr != null)
+            {
+                skillSlotCtr.EventSubscribe();
+            }
+        }
 
+        _playerInput =GlobalReferencesMgr.Instance.GamePlayer.PlayerInput;
         if(_playerInput != null)
         {
             _playerInput.OnCharacterUIEvent += ActiveCharacterUI;

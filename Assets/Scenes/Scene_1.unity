@@ -10712,7 +10712,7 @@ PrefabInstance:
     - target: {fileID: 2377249369755649118, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
       propertyPath: _onSkillUnLockEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2105689810}
     - target: {fileID: 2377249369755649118, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
       propertyPath: _onSkillUnLockEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -10735,7 +10735,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2377249369755649118, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
       propertyPath: _onSkillUnLockEvent.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: InGameUIController, Assembly-CSharp
+      value: InGameUICtr, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 2377249369755649118, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
       propertyPath: _onSkillUnLockEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -10743,6 +10743,34 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2377249369755649118, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
       propertyPath: _onSkillUnLockEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 2396496400154993134, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2396496400154993134, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2396496400154993134, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2105689810}
+    - target: {fileID: 2396496400154993134, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2396496400154993134, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetBlackHoleImageData
+      objectReference: {fileID: 0}
+    - target: {fileID: 2396496400154993134, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: InGameUICtr, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2396496400154993134, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 6986096723567347243, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
@@ -15140,7 +15168,7 @@ GameObject:
   - component: {fileID: 1179333078}
   - component: {fileID: 1179333077}
   m_Layer: 5
-  m_Name: BG
+  m_Name: SkillBG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16025,7 +16053,7 @@ PrefabInstance:
     - target: {fileID: 2377249369755649118, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
       propertyPath: _onSkillUnLockEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2105689810}
     - target: {fileID: 2377249369755649118, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
       propertyPath: _onSkillUnLockEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -16048,7 +16076,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2377249369755649118, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
       propertyPath: _onSkillUnLockEvent.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: InGameUIController, Assembly-CSharp
+      value: InGameUICtr, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 2377249369755649118, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
       propertyPath: _onSkillUnLockEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -16573,9 +16601,10 @@ MonoBehaviour:
   CharacterUI: {fileID: 232877529}
   CraftUI: {fileID: 533555256}
   _allMenuParent: {fileID: 1506485619}
+  _headerParent: {fileID: 1845247372}
+  _SkillSlotParent: {fileID: 1179333076}
   _bg: {fileID: 1486884952}
   _menuHeader: {fileID: 1845247371}
-  _allMenus: []
 --- !u!1 &1275526191
 GameObject:
   m_ObjectHideFlags: 0
@@ -19984,19 +20013,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1526127375}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: MenuController, Assembly-CSharp
-        m_MethodName: SwitchMenu
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 232877527}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1526127375
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21197,7 +21214,7 @@ PrefabInstance:
     - target: {fileID: 2377249369755649118, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
       propertyPath: _onSkillUnLockEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2105689810}
     - target: {fileID: 2377249369755649118, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
       propertyPath: _onSkillUnLockEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -21220,7 +21237,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2377249369755649118, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
       propertyPath: _onSkillUnLockEvent.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: InGameUIController, Assembly-CSharp
+      value: InGameUICtr, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 2377249369755649118, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
       propertyPath: _onSkillUnLockEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -21916,7 +21933,7 @@ PrefabInstance:
     - target: {fileID: 2377249369755649118, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
       propertyPath: _onSkillUnLockEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2105689810}
     - target: {fileID: 2377249369755649118, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
       propertyPath: _onSkillUnLockEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -21939,7 +21956,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2377249369755649118, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
       propertyPath: _onSkillUnLockEvent.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: InGameUIController, Assembly-CSharp
+      value: InGameUICtr, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 2377249369755649118, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
       propertyPath: _onSkillUnLockEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -22180,7 +22197,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1683565582
 Transform:
   m_ObjectHideFlags: 0
@@ -32585,7 +32602,11 @@ MonoBehaviour:
   _crystalImage: {fileID: 458311270}
   _parryImage: {fileID: 1589900358}
   _flaskImage: {fileID: 1982663387}
-  _skillSprites: []
+  _skillSprites:
+  - {fileID: -547730515, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
+  - {fileID: -354984904, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
+  - {fileID: 1534190214, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
+  - {fileID: -185407324, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
 --- !u!114 &2120625084 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2377249369755649118, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}

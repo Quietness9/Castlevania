@@ -21,11 +21,8 @@ public class SaveAndLoadMgr : MonoSingleton<SaveAndLoadMgr>
     {
         isDontDestroy=true;
         base.Awake();
-    }
 
-    private void Start()
-    {
-        _fileDataHandler=new FileDataHandler(Application.persistentDataPath, _fileName);
+        _fileDataHandler = new FileDataHandler(Application.persistentDataPath, _fileName);
 
         // 3. 订阅场景加载完成事件
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -34,7 +31,6 @@ public class SaveAndLoadMgr : MonoSingleton<SaveAndLoadMgr>
     protected override void OnDestroy()
     {
         base.OnDestroy();
-        _saveManagers?.Clear();
     }
 
     /// <summary>
@@ -50,14 +46,8 @@ public class SaveAndLoadMgr : MonoSingleton<SaveAndLoadMgr>
     /// </summary>
     public void SaveGameAllData()
     {
-        if (_saveManagers == null)
-            return;
-
         Debug.Log("保存游戏数据");
-        foreach (var item in _saveManagers)
-        {
-            item.SaveGameData(_gameData);
-        }
+        GameEventMgr.OnSaveGame?.Invoke(_gameData);
 
 
         _fileDataHandler.SaveDataTransition(_gameData,_isEncryption);
@@ -68,9 +58,6 @@ public class SaveAndLoadMgr : MonoSingleton<SaveAndLoadMgr>
     /// </summary>
     public void LoadGameAllData()
     {
-        if (_saveManagers == null)
-            return;
-
         _gameData = _fileDataHandler.LoadDataTransition(_isEncryption);
 
         if( _gameData == null)
@@ -79,10 +66,7 @@ public class SaveAndLoadMgr : MonoSingleton<SaveAndLoadMgr>
         }
 
         Debug.Log("加载游戏数据");
-        foreach(var item in _saveManagers)
-        {
-            item.LoadGameData(_gameData);
-        }
+        GameEventMgr.OnLoadGame?.Invoke(_gameData);
 
     }
 
@@ -120,11 +104,11 @@ public class SaveAndLoadMgr : MonoSingleton<SaveAndLoadMgr>
     /// 获得处于活跃状态全部需要保存数据的脚本
     /// </summary>
     /// <returns></returns>
-    private List<ISaveManager> FindAllSaveManager()
-    {
-        IEnumerable<ISaveManager> saveManagers = FindObjectsOfType<MonoBehaviour>().OfType<ISaveManager>();
-        return new List<ISaveManager>(saveManagers);
-    }
+    //private List<ISaveManager> FindAllSaveManager()
+    //{
+    //    IEnumerable<ISaveManager> saveManagers = FindObjectsOfType<MonoBehaviour>().OfType<ISaveManager>();
+    //    return new List<ISaveManager>(saveManagers);
+    //}
 
     /// <summary>
     /// 场景加载完后的回调
@@ -135,8 +119,7 @@ public class SaveAndLoadMgr : MonoSingleton<SaveAndLoadMgr>
     {
         Debug.Log($"Scene '{scene.name}' loaded. Mode: {mode}");
 
-        _saveManagers = FindAllSaveManager();
-        Invoke("LoadGameAllData", 0.5f);
+        Invoke("LoadGameAllData", 0.1f);
     }
 
 }

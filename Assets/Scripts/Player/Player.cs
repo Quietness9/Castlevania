@@ -2,7 +2,7 @@ using GameInputSystem;
 using System;
 using UnityEngine;
 
-public class Player : Character,ISaveManager
+public class Player : Character
 {
     [Header("可配置数据")]
     public PlayerInputReader PlayerInput;
@@ -82,9 +82,11 @@ public class Player : Character,ISaveManager
 
         Clc2d = GetComponent<CapsuleCollider2D>();
 
-        PlayerFx=Fx as PlayerFx;
-    }
+        PlayerFx = Fx as PlayerFx;
 
+        GameEventMgr.OnSaveGame += SaveGameData;
+        GameEventMgr.OnLoadGame += LoadGameData;
+    }
     private void OnEnable()
     {       
         EventSubscribe();
@@ -114,6 +116,12 @@ public class Player : Character,ISaveManager
     private void OnDisable()
     {
         EventUnsubscribe();
+    }
+
+    private void OnDestroy()
+    {
+        GameEventMgr.OnSaveGame -= SaveGameData;
+        GameEventMgr.OnLoadGame -= LoadGameData;
     }
 
     public override void SlowCharacterSpeed(float slowRatio)
@@ -362,7 +370,7 @@ public class Player : Character,ISaveManager
 
     #endregion
 
-    #region 接口实现
+    #region 游戏保存
 
     public void LoadGameData(GameData data)
     {

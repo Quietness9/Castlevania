@@ -28,6 +28,9 @@ public class FileDataHandler
     /// <param name="isEncryption"></param>
     public void SaveDataTransition(GameData data,bool isEncryption)
     {
+        if (string.IsNullOrEmpty(_dataSavePath) || string.IsNullOrEmpty(_dataFileName))
+            return;
+
         string fullPath=Path.Combine(_dataSavePath, _dataFileName);
 
         try
@@ -79,6 +82,9 @@ public class FileDataHandler
     /// <returns></returns>
     public GameData LoadDataTransition(bool isEncryption)
     {
+        if (string.IsNullOrEmpty(_dataSavePath) || string.IsNullOrEmpty(_dataFileName))
+            return null;
+
         string fullPath=Path.Combine(_dataSavePath , _dataFileName);
         GameData loadData = null;
 
