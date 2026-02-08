@@ -12,12 +12,14 @@ public class CharacterFX : MonoBehaviour
     Material _originMat;
     GameObject _particleObj;
     SpriteRenderer _spriteRenderer;
+    CharacterHealthUI _healthUI;
 
     Vector3 _particleOffset=new Vector3(0,0.5f,0);
 
     protected virtual void Awake()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
+        _healthUI = GetComponentInChildren<CharacterHealthUI>();
         _originMat = _spriteRenderer.material;
     }
 
@@ -144,12 +146,15 @@ public class CharacterFX : MonoBehaviour
     {
         if (isTransparent)
         {
+            _healthUI.gameObject.SetActive(false);
             _spriteRenderer.color = Color.clear;
         }
         else
         {
+            _healthUI.gameObject.SetActive(true);
             _spriteRenderer.color = Color.white;
         }
+        
     }
 
     /// <summary>

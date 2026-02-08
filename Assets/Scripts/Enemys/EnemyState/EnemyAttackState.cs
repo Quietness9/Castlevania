@@ -24,6 +24,14 @@ public class EnemyAttackState : EntityState
     public override void Update()
     {
         base.Update();
+        AttackChangeState();
+    }
+
+    /// <summary>
+    /// 从攻击状态转为其他状态
+    /// </summary>
+    protected virtual void AttackChangeState()
+    {
         if (triggerFinish)
         {
             baseStateMachine.ChangeState(enemy.BattleState);

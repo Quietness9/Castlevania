@@ -16,13 +16,17 @@ public class CharacterHealthUI : MonoBehaviour
         _slider=GetComponentInChildren<Slider>();
     }
 
-    private void Start()
+    private void OnEnable()
     {
         if (_character != null)
         {
             _character.OnFlipEvent += AvoidHealthUIFlipHandle;
             _character.Attribute.OnChangeHealthEvent += UpdateHealthUIHandle;
         }
+    }
+
+    private void Start()
+    {
         UpdateHealthUIHandle();
     }
 

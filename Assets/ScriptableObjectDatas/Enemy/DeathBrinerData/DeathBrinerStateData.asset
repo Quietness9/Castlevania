@@ -20,6 +20,6 @@ MonoBehaviour:
   MoveSpeed: 4
   MoveTime: 3
   BattleTime: 6
-  IgnoreDistance: 2
+  IgnoreDistance: 10
   AttackCooldownOffset: {x: 1, y: 2}
   StunnedMul: 0.8

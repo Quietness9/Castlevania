@@ -677,11 +677,7 @@ public class CharacterAttribute : MonoBehaviour
     /// 设置无敌
     /// </summary>
     /// <param name="isInvincible"></param>
-    public void MakeInvincible()=>IsInvincible = true;
+    public void SetInvincible(bool isInvincible)=>IsInvincible = isInvincible;
     
-    /// <summary>
-    /// 取消无敌
-    /// </summary>
-    /// <param name="invincible"></param>
-    public void CancelInvincible()=>IsInvincible=false;
+    
 }

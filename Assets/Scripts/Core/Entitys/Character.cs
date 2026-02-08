@@ -29,7 +29,10 @@ public class Character : MonoBehaviour
 
     public float Direction = 1f;
 
-    public bool IsFacingRight { get; set; }
+    public bool IsFacingRight 
+    { get=>Direction>=0;
+      set=>Direction=value?1f:-1f; 
+    }
 
     #region ×é¼þ
 

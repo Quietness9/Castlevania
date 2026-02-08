@@ -5,11 +5,11 @@ using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class EnemyAnimationTrigger : MonoBehaviour
 {
-    Enemy _enemy;
+    protected Enemy enemy;
 
     private void Awake()
     {
-        _enemy= GetComponentInParent<Enemy>();
+        enemy= GetComponentInParent<Enemy>();
     }
 
     /// <summary>
@@ -17,7 +17,7 @@ public class EnemyAnimationTrigger : MonoBehaviour
     /// </summary>
     private void AnimationFinish()
     {
-        _enemy.CurrentAnimationFinish();
+        enemy.CurrentAnimationFinish();
     }
 
     /// <summary>
@@ -25,27 +25,15 @@ public class EnemyAnimationTrigger : MonoBehaviour
     /// </summary>
     private void AttackAnimationFinish()
     {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(_enemy.AttackCheck.position, _enemy.AttackCheckRadius);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(enemy.AttackCheck.position, enemy.AttackCheckRadius);
 
         foreach (Collider2D hit in colliders)
         {
             
             if (hit.TryGetComponent(out Player player))
             {
-                player.Attribute.TakePhysicalDamage(_enemy);
-                player.DamageEffect(_enemy);
-
-                //EnemyStat _target = hit.GetComponent<EnemyStat>();
-                //if (_target != null)
-                //{
-                //    player.stats.TakePhysicalDamage(_target);
-                //}
-
-                //ItemDateEquipment weaponData = InventoryController.instance.GetUseEquipment(EquipmentType.Weapon);
-                //if (weaponData != null)
-                //{
-                //    weaponData.Effect(_target.transform);
-                //}
+                player.Attribute.TakePhysicalDamage(enemy);
+                player.DamageEffect(enemy);
             }
         }
     }
@@ -53,15 +41,15 @@ public class EnemyAnimationTrigger : MonoBehaviour
     /// <summary>
     /// 死亡时销毁
     /// </summary>
-    private void DestroySelf() => Destroy(_enemy.gameObject);
+    private void DestroySelf() => Destroy(enemy.gameObject);
 
     /// <summary>
     /// 打开反击窗口
     /// </summary>
-    private void OpenCounterWindow()=>_enemy.OpenCounterAttackWindow();
+    private void OpenCounterWindow()=>enemy.OpenCounterAttackWindow();
 
     /// <summary>
     /// 关闭反击窗口
     /// </summary>
-    private void CloseCounterWindow()=>_enemy.CloseCounterAttackWindow();
+    private void CloseCounterWindow()=>enemy.CloseCounterAttackWindow();
 }
