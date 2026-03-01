@@ -38,10 +38,10 @@ public class GameMgr : MonoSingleton<GameMgr>
     }
 
     /// <summary>
-    /// ‘›Õ£”Œœ∑
+    ///  «∑Ò‘›Õ£”Œœ∑
     /// </summary>
     /// <param name="isPause"></param>
-    public void PauseGame(bool isPause)
+    public void IsPauseGame(bool isPause)
     {
         if (isPause)
         {

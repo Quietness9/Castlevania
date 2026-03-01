@@ -38,7 +38,7 @@ public class CharacterAttribute : MonoBehaviour
 
     public MagicEffectType SelfMagicType { get; private set; } = MagicEffectType.None; //自身受到的魔法效果
     public bool IsDie { get; private set; }
-    public bool IsInvincible {  get; private set; }
+    public bool IsInvincible {  get; private set; }//是否处于无敌状态
 
     Character _character;
     Coroutine _magicCoroutine;

@@ -192,7 +192,7 @@ public class Player : Character
     /// </summary>
     private void InitPlayer()
     {
-        Direction = 1;
+        //Direction = 1;
         IsFacingRight = true;
         _defaultMoveSpeed = MoveData.MaxMoveSpeed;
         _defaultJumpForce =MoveData.JumpForce;

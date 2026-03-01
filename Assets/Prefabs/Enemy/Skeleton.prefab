@@ -142,7 +142,6 @@ MonoBehaviour:
     m_Bits: 64
   KnockbackForce: {x: 3, y: 1.5}
   KnockDuration: 0.5
-  Direction: 1
   EnemyStateData: {fileID: 11400000, guid: 76e63d7923a14ff41a6877d014ea2a4a, type: 2}
   CounterImage: {fileID: 7052800714962962075}
 --- !u!114 &734278110895383861
@@ -373,7 +372,7 @@ RectTransform:
   m_Father: {fileID: 7857696918004916378}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0.75, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -548,6 +547,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FxData: {fileID: 11400000, guid: d44f11e74b8bd1c4f87e7893a1b5ce59, type: 2}
+  HealthUI: {fileID: 772120851018607376}
 --- !u!1 &5430334755406660126
 GameObject:
   m_ObjectHideFlags: 0

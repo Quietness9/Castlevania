@@ -14,7 +14,7 @@ public class SlimeGroundState : EntityState
     public override void Update()
     {
         base.Update();
-        if (slime.IsPlayerDetected() && Vector2.Distance(slime.transform.position, GlobalReferencesMgr.Instance.GamePlayer.transform.position) < slime.EnemyStateData.IgnoreDistance)
+        if (slime.IsPlayerDetected())
         {
             baseStateMachine.ChangeState(slime.BattleState);
         }

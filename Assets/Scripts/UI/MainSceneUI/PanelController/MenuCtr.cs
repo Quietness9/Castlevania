@@ -59,7 +59,7 @@ public class MenuCtr : MonoSingleton<MenuCtr>
             CloseMenu();
 
             _playerInput.RestorePlayerInput();
-            GameMgr.Instance?.PauseGame(false);
+            GameMgr.Instance?.IsPauseGame(false);
         }
         else
         {
@@ -67,7 +67,7 @@ public class MenuCtr : MonoSingleton<MenuCtr>
             menu.SetActive(true);
 
             _playerInput.PausePlayerInput();
-            GameMgr.Instance?.PauseGame(true);
+            GameMgr.Instance?.IsPauseGame(true);
         }
         
     }

@@ -5,15 +5,16 @@ using UnityEngine;
 public class Enemy : Character
 {
     public EnemyStateData EnemyStateData;
-
-    //攻击
-    public float AttackLastTime { get; set; }
-    public float AttackCooldown { get; set; }
+    public Transform PlayerCheck;
 
     [SerializeField] protected GameObject CounterImage;
     protected bool canStunned;
 
     protected float defaultMoveSpeed;
+
+    //攻击
+    float _attackLastTime;
+    float _attackCooldown;
 
     #region 敌人通用状态
 
@@ -103,21 +104,7 @@ public class Enemy : Character
 
     #endregion
 
-    /// <summary>
-    /// 掉落物品和货币
-    /// </summary>
-    /// <param name="coldCoin"></param>
-    /// <param name="soul"></param>
-    public virtual void DropItemAndCurrency(int coldCoin, int soul)
-    {
-        if (GlobalReferencesMgr.Instance != null)
-        {
-            GlobalReferencesMgr.Instance.GamePlayer.CurrencyData.IncreaseGoldCoin(coldCoin);
-            GlobalReferencesMgr.Instance.GamePlayer.CurrencyData.IncreaseSoul(soul);
-        }
-
-        ItemDrop.DropItem();
-    }
+    #region 冰冻效果控制
 
     public override void SlowCharacterSpeed(float slowRatio)
     {
@@ -170,6 +157,9 @@ public class Enemy : Character
         IsFreezeSelf(false);
     }
 
+    #endregion
+
+    #region 反击窗口控制
 
     /// <summary>
     /// 是可以转换反击状态
@@ -185,8 +175,6 @@ public class Enemy : Character
         
         return false;
     }
-
-    #region 反击窗口
 
     /// <summary>
     /// 开启反击窗口
@@ -209,6 +197,22 @@ public class Enemy : Character
     #endregion
 
     /// <summary>
+    /// 掉落物品和货币
+    /// </summary>
+    /// <param name="coldCoin"></param>
+    /// <param name="soul"></param>
+    public virtual void DropItemAndCurrency(int coldCoin, int soul)
+    {
+        if (GlobalReferencesMgr.Instance != null)
+        {
+            GlobalReferencesMgr.Instance.GamePlayer.CurrencyData.IncreaseGoldCoin(coldCoin);
+            GlobalReferencesMgr.Instance.GamePlayer.CurrencyData.IncreaseSoul(soul);
+        }
+
+        ItemDrop.DropItem();
+    }
+
+    /// <summary>
     /// 设置移动速度
     /// </summary>
     /// <param name="xVelocity"></param>
@@ -226,9 +230,27 @@ public class Enemy : Character
     }
 
     /// <summary>
+    /// 判断是否可以攻击
+    /// </summary>
+    /// <returns></returns>
+    public bool CanAttack()
+    {
+        if (Time.time > _attackLastTime + _attackCooldown)
+        {
+            _attackCooldown = Random.Range(EnemyStateData.AttackCooldownOffset.x,
+                EnemyStateData.AttackCooldownOffset.y);
+
+            _attackLastTime = Time.time;
+            return true;
+        }
+
+        return false;
+    }
+
+    /// <summary>
     /// 检测玩家
     /// </summary>
     /// <returns></returns>
-    public RaycastHit2D IsPlayerDetected() => Physics2D.Raycast(AttackCheck.position, Vector2.right * Direction, EnemyStateData.CheckPlayerDistance, EnemyStateData.PlayerLayer);
+    public RaycastHit2D IsPlayerDetected() => Physics2D.Raycast(PlayerCheck.position, Vector2.right * Direction, EnemyStateData.CheckPlayerDistance, EnemyStateData.PlayerLayer);
 
 }

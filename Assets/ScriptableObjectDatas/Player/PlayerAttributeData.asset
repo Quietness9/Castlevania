@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb096081704780a449705179f2fd60eb, type: 3}
   m_Name: PlayerAttributeData
   m_EditorClassIdentifier: 
-  <Hp>k__BackingField: 100
+  <Hp>k__BackingField: 10000
   <Atk>k__BackingField: 50
   <Agility>k__BackingField: 0
   <Vitality>k__BackingField: 0

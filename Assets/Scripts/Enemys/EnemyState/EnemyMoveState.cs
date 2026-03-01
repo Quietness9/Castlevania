@@ -12,6 +12,7 @@ public class EnemyMoveState : EnemyGroundState
     {
         base.Enter();
         timer = enemy.EnemyStateData.MoveTime;
+        
     }
 
     public override void Exit()
@@ -22,6 +23,7 @@ public class EnemyMoveState : EnemyGroundState
     public override void Update()
     {
         base.Update();
+
 
         if (timer < 0.01f && enemy.IsGroundCheck())
         {

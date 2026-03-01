@@ -2434,6 +2434,37 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8401100025045954263, guid: e0bba3a7e29cec144a27f691f74137a4, type: 3}
   m_PrefabInstance: {fileID: 195755541}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &221879329
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 221879330}
+  m_Layer: 8
+  m_Name: PlayerCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &221879330
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 221879329}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.86, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7607741706552450741}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &228842765
 GameObject:
   m_ObjectHideFlags: 0
@@ -3224,6 +3255,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FxData: {fileID: 11400000, guid: dc53a1382f9fcd44eae8ed9f8854ef36, type: 2}
+  HealthUI: {fileID: 0}
   _dustFx: {fileID: 1864843506}
 --- !u!1 &303722896
 GameObject:
@@ -3360,7 +3392,6 @@ MonoBehaviour:
     m_Bits: 64
   KnockbackForce: {x: 2, y: 1}
   KnockDuration: 0.5
-  Direction: 1
   PlayerInput: {fileID: 11400000, guid: 1e783fb5bc69c374faaedbe3c0174f33, type: 2}
   MoveData: {fileID: 11400000, guid: 65881bb98d1358946865eda90565ac4c, type: 2}
   CurrencyData: {fileID: 11400000, guid: 0f921839df4f69c4c8ce18590cefd251, type: 2}
@@ -14397,6 +14428,7 @@ MonoBehaviour:
   - {fileID: 529973930149761122, guid: b3357cde38413b349a96738464b1463c, type: 3}
   - {fileID: 3610745687743687223, guid: af1345325a8e87946a80300e18139875, type: 3}
   - {fileID: 5410718995514484772, guid: 5294fb59bef8b7e43a693b0d98598800, type: 3}
+  - {fileID: 1535504203821787587, guid: 8c00b27d04a40104492e6ce379a9e758, type: 3}
 --- !u!1 &1092505169
 GameObject:
   m_ObjectHideFlags: 0
@@ -33624,10 +33656,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Skeleton
       objectReference: {fileID: 0}
-    - target: {fileID: 2568641398723005995, guid: 54b12b05272d93a419beb678b610b4fe, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4580157200488326758, guid: 54b12b05272d93a419beb678b610b4fe, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.6
@@ -33667,14 +33695,6 @@ PrefabInstance:
     - target: {fileID: 4580157200488326758, guid: 54b12b05272d93a419beb678b610b4fe, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8935157236833773696, guid: 54b12b05272d93a419beb678b610b4fe, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 8935157236833773696, guid: 54b12b05272d93a419beb678b610b4fe, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -34214,6 +34234,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FxData: {fileID: 11400000, guid: d44f11e74b8bd1c4f87e7893a1b5ce59, type: 2}
+  HealthUI: {fileID: 140320007256098155}
 --- !u!1 &7526364061708091483
 GameObject:
   m_ObjectHideFlags: 0
@@ -34331,6 +34352,7 @@ Transform:
   - {fileID: 1982142820768239072}
   - {fileID: 5566201485014001685}
   - {fileID: 3234282878061976429}
+  - {fileID: 221879330}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!224 &8117539064526477666
@@ -34688,8 +34710,8 @@ MonoBehaviour:
     m_Bits: 64
   KnockbackForce: {x: 4, y: 2}
   KnockDuration: 0.2
-  Direction: 1
   EnemyStateData: {fileID: 11400000, guid: 0eb52cdd9bf50e94791df9f3f7eb0a47, type: 2}
+  PlayerCheck: {fileID: 221879330}
   CounterImage: {fileID: 8801972717002351906}
   Data: {fileID: 11400000, guid: 0686791a25e3f4e45aebea41e563ef75, type: 2}
   _moveArea: {fileID: 1600813100}

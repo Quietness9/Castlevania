@@ -4,9 +4,14 @@ using UnityEngine;
 
 public class DeathBriner : Enemy
 {
-    public BoxCollider2D Bd2d { get; private set; }
     public DeathBrinerData Data;
+    public BoxCollider2D Bd2d { get; private set; }
+    public float LastTimeCast { get; set; }
+
     [SerializeField] BoxCollider2D _moveArea;
+
+    private Transform _player;
+
 
     #region 状态
 
@@ -43,7 +48,9 @@ public class DeathBriner : Enemy
     private void InitDeathBriner()
     {
         IsFacingRight = false;
-        CharacterStateMachine.InitState(IdleState);
+        LastTimeCast = 0;
+        _player=GlobalReferencesMgr.Instance.GamePlayer.transform;
+        CharacterStateMachine.InitState(MoveState);
     }
 
     #region 死亡布林创建状态
@@ -64,13 +71,29 @@ public class DeathBriner : Enemy
     /// <returns></returns>
     public bool IsCanSpellCast()
     {
-        if(Time.time > Data.LastTimeCast + Data.SpellCastCooldown)
+        if(Time.time > LastTimeCast + Data.SpellStateCooldown)
         {
-            Data.LastTimeCast = Time.time;
             return true;
         }
 
         return false;
+    }
+
+    /// <summary>
+    /// 创建鬼手
+    /// </summary>
+    public void CreateSpellCast()
+    {
+        GameObject spellCastPre = GlobalReferencesMgr.Instance.GetPrefab("DeathBrinerSpellCast");
+        if(spellCastPre == null)
+        {
+            Debug.LogError("找不到死亡布林的鬼手预制体");
+            return;
+        }
+
+        Vector3 spellCastPos = _player.position + Data.CreateSpellOffset;
+        GameObject spellCast = Instantiate(spellCastPre, spellCastPos, Quaternion.identity);
+        spellCast.GetComponent<SpellCastCtr>().SetSpellCastData(this);
     }
 
     /// <summary>

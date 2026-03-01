@@ -26,6 +26,7 @@ public class DeathBrinerTeleportState : EntityState
 
         if (triggerFinish)
         {
+            
             if (_deathBriner.IsCanSpellCast())
             {
                 baseStateMachine.ChangeState(_deathBriner.SpellCastState);

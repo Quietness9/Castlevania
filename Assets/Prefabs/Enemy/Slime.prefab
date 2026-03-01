@@ -328,6 +328,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FxData: {fileID: 11400000, guid: d44f11e74b8bd1c4f87e7893a1b5ce59, type: 2}
+  HealthUI: {fileID: 1636980663177916557}
 --- !u!1 &4604447643227498307
 GameObject:
   m_ObjectHideFlags: 0
@@ -842,7 +843,6 @@ MonoBehaviour:
     m_Bits: 64
   KnockbackForce: {x: 4, y: 2.5}
   KnockDuration: 0.5
-  Direction: -1
   EnemyStateData: {fileID: 11400000, guid: 6f256ab2967285942afda72539dc1947, type: 2}
   CounterImage: {fileID: 7882388955064996036}
   _slimeType: 0

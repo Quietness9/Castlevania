@@ -13,6 +13,10 @@ MonoBehaviour:
   m_Name: DeathBriner Data
   m_EditorClassIdentifier: 
   <SurroundCheck>k__BackingField: {x: 2.7, y: 3.85}
-  <ChanceTeleportRatio>k__BackingField: {x: 5, y: 8}
+  <IncreaseTeleportRatio>k__BackingField: {x: 5, y: 8}
   <DefaultChanceTeleport>k__BackingField: 20
   <TeleportLimit>k__BackingField: 30
+  <SpellStateCooldown>k__BackingField: 10
+  <SpellAttackCooldown>k__BackingField: 2
+  <SpellAttackCount>k__BackingField: 3
+  <CreateSpellOffset>k__BackingField: {x: 0, y: 2, z: 0}

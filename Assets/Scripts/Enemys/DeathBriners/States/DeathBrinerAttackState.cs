@@ -40,7 +40,15 @@ public class DeathBrinerAttackState : EnemyAttackState
             }
             else
             {
-                baseStateMachine.ChangeState(_deathBriner.BattleState);
+                if(enemy.IsPlayerDetected().distance < enemy.AttackCheckRadius && enemy.CanAttack())
+                {
+                    baseStateMachine.ChangeState(_deathBriner.AttackState);
+                }
+                else
+                {
+                    baseStateMachine.ChangeState(_deathBriner.BattleState);
+                }
+                
             }
         }
     }

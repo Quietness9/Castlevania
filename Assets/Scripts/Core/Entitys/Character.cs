@@ -27,12 +27,13 @@ public class Character : MonoBehaviour
     public float KnockDuration;
     protected bool isKnock;
 
-    public float Direction = 1f;
-
-    public bool IsFacingRight 
-    { get=>Direction>=0;
-      set=>Direction=value?1f:-1f; 
+    public float Direction
+    {
+        get => IsFacingRight? 1 : -1;
     }
+
+    public bool IsFacingRight { get; set; }
+    
 
     #region ×é¼þ
 
@@ -125,7 +126,7 @@ public class Character : MonoBehaviour
 
         transform.Rotate(0, 180, 0);
 
-        Direction *= -1;
+        //Direction *= -1;
         IsFacingRight = !IsFacingRight;
 
         OnFlipEvent.Invoke();

@@ -5,20 +5,20 @@ using UnityEngine;
 public class DeathBrinerAnimationTrigger : EnemyAnimationTrigger
 {
     /// <summary>
-    /// 设置无敌和透明
+    /// 设置无敌
     /// </summary>
     private void MakeTransparent()
     {
-        enemy.Fx.CharacterTransparent(true);
         enemy.Attribute.SetInvincible(true);
     }
 
     /// <summary>
-    /// 取消无敌和透明
+    /// 取消无敌
     /// </summary>
     private void MakeUnTransparent()
     {
-        enemy.Fx.CharacterTransparent(false);
         enemy.Attribute.SetInvincible(false);
     }
+
+
 }

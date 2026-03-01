@@ -43,10 +43,11 @@ public class EnemyBattleState : EntityState
     {
         base.Update();
 
+        
         if (enemy.IsPlayerDetected())
         {
             timer = enemy.EnemyStateData.BattleTime;
-            if (enemy.IsPlayerDetected().distance < enemy.AttackCheckRadius && CanAttack())
+            if (enemy.IsPlayerDetected().distance < enemy.AttackCheckRadius && enemy.CanAttack())
             {
                 baseStateMachine.ChangeState(enemy.AttackState);
             }
@@ -57,6 +58,11 @@ public class EnemyBattleState : EntityState
             if (timer < 0 || Vector2.Distance(playerTransform.position, enemy.transform.position) > enemy.EnemyStateData.IgnoreDistance)
             {
                 baseStateMachine.ChangeState(enemy.IdleState);
+            }
+
+            if(Vector2.Distance(playerTransform.position, enemy.transform.position) < enemy.EnemyStateData.IgnoreDistance)
+            {
+                enemy.TurnDirection();
             }
         }
 
@@ -80,21 +86,4 @@ public class EnemyBattleState : EntityState
         }
     }
 
-    /// <summary>
-    /// ÅÐ¶ÏÊÇ·ñ¿ÉÒÔ¹¥»÷
-    /// </summary>
-    /// <returns></returns>
-    private bool CanAttack()
-    {
-        if (Time.time > enemy.AttackLastTime + enemy.AttackCooldown)
-        {
-            enemy.AttackCooldown = Random.Range(enemy.EnemyStateData.AttackCooldownOffset.x,
-                enemy.EnemyStateData.AttackCooldownOffset.y);
-
-            enemy.AttackLastTime = Time.time;
-            return true;
-        }
-
-        return false;
-    }
 }
