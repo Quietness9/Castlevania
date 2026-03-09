@@ -18,7 +18,6 @@ public class CharacterFX : MonoBehaviour
     protected virtual void Awake()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        //HealthUI = GetComponentInChildren<CharacterHealthUI>();
         _originMat = _spriteRenderer.material;
     }
 

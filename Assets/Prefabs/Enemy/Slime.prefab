@@ -360,6 +360,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 9138117789225970515}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4903493191987084347
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4070545750545445749}
+  m_Layer: 8
+  m_Name: PlayerCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4070545750545445749
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4903493191987084347}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9138117789225970515}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5857505120327552686
 GameObject:
   m_ObjectHideFlags: 0
@@ -741,6 +772,7 @@ Transform:
   - {fileID: 920072516246779910}
   - {fileID: 6519562660550581747}
   - {fileID: 4298481698850827915}
+  - {fileID: 4070545750545445749}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &7552354648548446512
@@ -844,6 +876,7 @@ MonoBehaviour:
   KnockbackForce: {x: 4, y: 2.5}
   KnockDuration: 0.5
   EnemyStateData: {fileID: 11400000, guid: 6f256ab2967285942afda72539dc1947, type: 2}
+  PlayerCheck: {fileID: 4070545750545445749}
   CounterImage: {fileID: 7882388955064996036}
   _slimeType: 0
   _slimeCreateAmount: 2

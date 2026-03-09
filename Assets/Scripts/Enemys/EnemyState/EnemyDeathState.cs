@@ -14,6 +14,7 @@ public class EnemyDeathState : EntityState
     public override void Enter()
     {
         base.Enter();
+        enemy.SetVelocityZero();
     }
 
     public override void Exit()

@@ -7,7 +7,7 @@ public class DeathBrinerAnimationTrigger : EnemyAnimationTrigger
     /// <summary>
     /// 设置无敌
     /// </summary>
-    private void MakeTransparent()
+    private void MakeInvisible()
     {
         enemy.Attribute.SetInvincible(true);
     }
@@ -15,7 +15,7 @@ public class DeathBrinerAnimationTrigger : EnemyAnimationTrigger
     /// <summary>
     /// 取消无敌
     /// </summary>
-    private void MakeUnTransparent()
+    private void MakeUninvisible()
     {
         enemy.Attribute.SetInvincible(false);
     }
